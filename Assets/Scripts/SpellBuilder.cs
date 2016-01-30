@@ -11,7 +11,6 @@ public class SpellBuilder : MonoBehaviour {
 			new Element (ElementType.Earth, 20, 40)
 		};
 		var volcano = new Spell ("volcano", elements);
-		volcano.PrintElements ();
 	}
 	
 	// Update is called once per frame

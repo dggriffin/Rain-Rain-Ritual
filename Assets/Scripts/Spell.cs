@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Spell {
 	private string name;
 	private IDictionary<ElementType, Element> elements =  new Dictionary<ElementType, Element>();
+	private GameObject metroObject; //TODO delete later
 
 	public Spell(string name, IList<Element> elements){
 		this.name = name;
@@ -12,9 +13,23 @@ public class Spell {
 		foreach (var element in elements) {
 			this.elements.Add (element.Type, element);
 		}
+
+		ListenToEvents ();
 	}
 
-	public void Increment(ElementType elementType){		
+	private void ListenToEvents() {
+		//TODO: change this to listen to the beat event
+		metroObject = GameObject.Find("Metronome");
+		metroObject.GetComponent<Metronome>().OnTick += IncrementWrapper;
+	}
+
+	//TODO remove once we get beat event
+	private void IncrementWrapper(Metronome metro) {
+		Increment (ElementType.Fire);
+		PrintElements ();
+	}
+
+	private void Increment(ElementType elementType){		
 		var element = getElement(elementType);
 		element.Increment();
 	}
@@ -24,6 +39,7 @@ public class Spell {
 	}
 
 	public void PrintElements () {
+		Debug.Log(string.Format("Spell: {0}", this.name));
 		foreach (var element in elements) {
 			element.Value.Print ();
 		}
