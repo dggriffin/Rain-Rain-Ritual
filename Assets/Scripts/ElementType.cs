@@ -5,5 +5,6 @@ public enum ElementType {
 	Fire,
 	Water,
 	Earth,
-	Wind
+	Wind,
+	OffBeat
 }

@@ -21,39 +21,16 @@ public class Spell {
 		//INPUTHANDLER EXAMPLE
 		inputHandler = GameObject.Find ("InputHandler");
 
-		inputHandler.GetComponent<InputHandler> ().FireEvent += FireWrapper;
-		inputHandler.GetComponent<InputHandler> ().WaterEvent += WaterWrapper;
-		inputHandler.GetComponent<InputHandler> ().AirEvent += WindWrapper;
-		inputHandler.GetComponent<InputHandler> ().EarthEvent += EarthWrapper;
-		//inputHandler.GetComponent<InputHandler> ().OffBeatEvent += IncrementWrapper;
-	}
-
-	private void EarthWrapper(InputHandler handler) {
-		Increment (ElementType.Earth);
-		PrintElements ();
-	}
-
-	private void WindWrapper(InputHandler handler) {
-		Increment (ElementType.Wind);
-		PrintElements ();
-	}
-
-	private void FireWrapper(InputHandler handler) {
-		Increment (ElementType.Fire);
-		PrintElements ();
+		inputHandler.GetComponent<InputHandler> ().ElementEvent += Increment;
 	}
 		
-	private void WaterWrapper(InputHandler handler) {
-		Increment (ElementType.Water);
-		PrintElements ();
-	}
-
 	private void Increment(ElementType elementType){		
 		var element = getElement(elementType);
 		if (element == null) {
 			return;
 		}
 		element.Increment();
+		PrintElements ();
 	}
 
 	private Element getElement(ElementType elementType){
