@@ -5,13 +5,20 @@ using System.Collections.Generic;
 public class Spell {
 	private string name;
 	private IDictionary<ElementType, Element> elements =  new Dictionary<ElementType, Element>();
-	private GameObject inputHandler, metronome;
+
+	private GameObject inputHandler;
+	private GameObject metronome;
+
 	private int numTicksToWin;
 	private int maxTicksForSpell;
 	private int numTicksInRange = 0;
 	private int numTicksElapsed = 0;
 
-	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell){
+	private AudioSource winSound = null;
+	private AudioSource loseSound = null;
+
+	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell,
+		AudioSource winSound = null, AudioSource loseSound = null){
 		this.name = name;
 		this.elements = new Dictionary<ElementType, Element>();
 		foreach (var element in elements) {
@@ -19,6 +26,9 @@ public class Spell {
 		}
 		this.numTicksToWin = numTicksToWin;
 		this.maxTicksForSpell = maxTicksForSpell;
+
+		this.winSound = winSound;
+		this.loseSound = loseSound;
 
 		ListenToEvents ();
 	}
@@ -51,6 +61,10 @@ public class Spell {
 	}
 
 	private void RangeCheck() {
+		if (numTicksElapsed > maxTicksForSpell) {
+			return;
+		}
+
 		numTicksElapsed++;
 
 		if (allElementsInRange()) {
@@ -61,10 +75,16 @@ public class Spell {
 
 		if (numTicksInRange == numTicksToWin) {
 			Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
+			if (winSound != null) {
+				winSound.Play ();
+			}
 		}
 
 		if (numTicksElapsed > maxTicksForSpell) {
 			Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
+			if (loseSound != null) {
+				loseSound.Play ();
+			}
 		}
 	}
 

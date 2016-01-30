@@ -10,7 +10,12 @@ public class SpellBuilder : MonoBehaviour {
 			new Element (ElementType.Fire, 8, 10),
 			new Element (ElementType.Earth, 2, 4)
 		};
-		var volcano = new Spell ("volcano", elements, 3, 10);
+
+		var audioSources = GetComponents<AudioSource>();
+		print (audioSources [0].clip.name);
+		var angryCow = audioSources [0];
+
+		var volcano = new Spell ("volcano", elements, 3, 5, angryCow, angryCow);
 	}
 	
 	// Update is called once per frame
