@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{A152AEF5-C126-B6B3-B24F-3D7371E1559D}") = "Rain Rain Ritual", "Assembly-CSharp.csproj", "{12891125-AE2D-876F-FFDC-E28A42813D9D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12891125-AE2D-876F-FFDC-E28A42813D9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12891125-AE2D-876F-FFDC-E28A42813D9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12891125-AE2D-876F-FFDC-E28A42813D9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12891125-AE2D-876F-FFDC-E28A42813D9D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
