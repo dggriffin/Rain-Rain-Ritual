@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public delegate void MetronomeEvent(Metronome metronome);
+public delegate void MetronomeEvent();
 
 public class Metronome : MonoBehaviour {
 	public int Base;
@@ -41,9 +41,9 @@ public class Metronome : MonoBehaviour {
 		for (; ; )
 		{
 			if (CurrentStep == 1 && OnNewMeasure != null)
-				OnNewMeasure(this);
+				OnNewMeasure();
 			if (OnTick != null)
-				OnTick(this);
+				OnTick();
 			nextTime += interval;
 			yield return new WaitForSeconds(nextTime - Time.time);
 			CurrentStep++;

@@ -19,11 +19,11 @@ public class Element {
 	}
 		
 	public void Increment(){
-		count++;
+		this.count++;
 	}
 
 	public void Decay(){
-		count--;
+		this.count--;
 	}
 
 	public bool IsInRange(){

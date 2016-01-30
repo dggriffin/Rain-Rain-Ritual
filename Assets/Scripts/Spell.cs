@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class Spell {
 	private string name;
 	private IDictionary<ElementType, Element> elements =  new Dictionary<ElementType, Element>();
-	private GameObject inputHandler;
+	private GameObject inputHandler, metronome;
+//	private int c = 0;
 
 	public Spell(string name, IList<Element> elements){
 		this.name = name;
@@ -18,10 +19,11 @@ public class Spell {
 	}
 
 	private void ListenToEvents() {
-		//INPUTHANDLER EXAMPLE
 		inputHandler = GameObject.Find ("InputHandler");
-
 		inputHandler.GetComponent<InputHandler> ().ElementEvent += Increment;
+
+		metronome = GameObject.Find ("Metronome");
+		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
 		
 	private void Increment(ElementType elementType){		
@@ -30,6 +32,14 @@ public class Spell {
 			return;
 		}
 		element.Increment();
+		PrintElements ();
+	}
+
+	private void Decay(){
+		foreach (var element in elements) {
+			element.Value.Decay ();
+		}
+		Debug.Log ("Decaying");
 		PrintElements ();
 	}
 

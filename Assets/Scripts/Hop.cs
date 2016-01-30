@@ -53,7 +53,7 @@ public class Hop : MonoBehaviour {
 		print ("OFFBEAT");
 	}
 
-	void Talk(Metronome metro) {
+	void Talk() {
 		//print ("wee");
 		Vector3 movement = new Vector3 (0.0f, 0.8f, 0.0f);
 
@@ -61,12 +61,12 @@ public class Hop : MonoBehaviour {
 		audioPlay.Play();
 	}
 
-	void Color (Metronome metro) {
+	void Color () {
 		GameObject.Find ("Sphere").GetComponent<Renderer> ().material.color = UnityEngine.Color.red;
 
 	}
 
-	void White (Metronome metro) {
+	void White () {
 		GameObject.Find ("Sphere").GetComponent<Renderer> ().material.color = UnityEngine.Color.white;
 		//print ("measure");
 	}
