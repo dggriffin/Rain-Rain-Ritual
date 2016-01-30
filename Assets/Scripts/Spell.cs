@@ -38,6 +38,7 @@ public class Spell {
 			return;
 		}
 		element.Increment();
+        incrementElement(element);
 		PrintElements ();
 	}
 
@@ -85,4 +86,9 @@ public class Spell {
 			element.Value.Print ();
 		}
 	}
+
+    private void incrementElement(Element element)
+    {
+        GameObject.Find("Fire").GetComponent<Pulse>().fadeIn();
+    }
 }
