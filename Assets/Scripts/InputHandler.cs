@@ -31,7 +31,7 @@ public class InputHandler : MonoBehaviour {
 		}
 	}
 
-	void Store (Metronome metronome) {
+	void Store () {
 		lastBeat = System.DateTime.Now;
 		//print (lastBeat);
 	}
