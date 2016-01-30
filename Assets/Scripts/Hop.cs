@@ -6,17 +6,30 @@ public class Hop : MonoBehaviour {
 
 	private Rigidbody rb;
 
-	private AudioSource audio;
+	private AudioSource audioPlay;
 
 	private GameObject metroObject;
+
+	private GameObject inputHandler;
+
 	void Start () {
 		metroObject = GameObject.Find("Metronome");
+
 		rb = GameObject.Find("Sphere").AddComponent<Rigidbody>();
 		metroObject.GetComponent<Metronome>().OnTick += Talk;
 		metroObject.GetComponent<Metronome> ().OnNewMeasure += White;
 
-		audio = GetComponent<AudioSource>();
+		audioPlay = GetComponent<AudioSource>();
 
+
+		//INPUTHANDLER EXAMPLE
+		inputHandler = GameObject.Find ("InputHandler");
+
+		inputHandler.GetComponent<InputHandler> ().FireEvent += Fire;
+		inputHandler.GetComponent<InputHandler> ().WaterEvent += Water;
+		inputHandler.GetComponent<InputHandler> ().AirEvent += Air;
+		inputHandler.GetComponent<InputHandler> ().EarthEvent += Earth;
+		inputHandler.GetComponent<InputHandler> ().OffBeatEvent += OffBeat;
 	}
 
 	// Update is called once per frame
@@ -24,11 +37,28 @@ public class Hop : MonoBehaviour {
 		
 	}
 
+	void Fire(InputHandler handler) {
+		print ("fireee");
+	}
+	void Water(InputHandler handler) {
+		print ("Wateeer");
+	}
+	void Air(InputHandler handler) {
+		print ("Aiiirr");
+	}
+	void Earth(InputHandler handler) {
+		print ("Eaaarth");
+	}
+	void OffBeat(InputHandler handler) {
+		print ("OFFBEAT");
+	}
+
 	void Talk(Metronome metro) {
-		print ("wee");
-		Vector3 movement = new Vector3 (0.0f, -0.8f, 0.0f);
+		//print ("wee");
+		Vector3 movement = new Vector3 (0.0f, 0.8f, 0.0f);
+
 		rb.AddForce (movement);
-		audio.Play();
+		audioPlay.Play();
 	}
 
 	void Color (Metronome metro) {
@@ -38,6 +68,6 @@ public class Hop : MonoBehaviour {
 
 	void White (Metronome metro) {
 		GameObject.Find ("Sphere").GetComponent<Renderer> ().material.color = UnityEngine.Color.white;
-		print ("measure");
+		//print ("measure");
 	}
 }
