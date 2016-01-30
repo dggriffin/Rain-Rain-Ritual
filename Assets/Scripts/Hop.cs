@@ -22,14 +22,14 @@ public class Hop : MonoBehaviour {
 		audioPlay = GetComponent<AudioSource>();
 
 
-		//INPUTHANDLER EXAMPLE
-		inputHandler = GameObject.Find ("InputHandler");
-
-		inputHandler.GetComponent<InputHandler> ().FireEvent += Fire;
-		inputHandler.GetComponent<InputHandler> ().WaterEvent += Water;
-		inputHandler.GetComponent<InputHandler> ().AirEvent += Air;
-		inputHandler.GetComponent<InputHandler> ().EarthEvent += Earth;
-		inputHandler.GetComponent<InputHandler> ().OffBeatEvent += OffBeat;
+//		//INPUTHANDLER EXAMPLE
+//		inputHandler = GameObject.Find ("InputHandler");
+//
+//		inputHandler.GetComponent<InputHandler> ().FireEvent += Fire;
+//		inputHandler.GetComponent<InputHandler> ().WaterEvent += Water;
+//		inputHandler.GetComponent<InputHandler> ().AirEvent += Air;
+//		inputHandler.GetComponent<InputHandler> ().EarthEvent += Earth;
+//		inputHandler.GetComponent<InputHandler> ().OffBeatEvent += OffBeat;
 	}
 
 	// Update is called once per frame

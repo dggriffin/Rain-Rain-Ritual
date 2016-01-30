@@ -9,13 +9,9 @@ public class InputHandler : MonoBehaviour {
 
 	public Metronome metronome;
 
-	public delegate void InputEvent(InputHandler input);
+	public delegate void InputEvent(ElementType element);
 
-	public event InputEvent FireEvent;
-	public event InputEvent WaterEvent;
-	public event InputEvent EarthEvent;
-	public event InputEvent AirEvent;
-	public event InputEvent OffBeatEvent;
+	public event InputEvent ElementEvent;
 
 	void Start () {
 		metronome = GameObject.Find ("Metronome").GetComponent<Metronome> ();
@@ -25,21 +21,13 @@ public class InputHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown("w") && VerifyBeat ()) {
-			if (FireEvent != null) {
-				FireEvent (this);
-			}
+			ElementEvent (ElementType.Fire);
 		} else if (Input.GetKeyDown ("s") && VerifyBeat ()) {
-			if (WaterEvent != null) {
-				WaterEvent (this);
-			}
+			ElementEvent (ElementType.Water);
 		} else if (Input.GetKeyDown("a") && VerifyBeat ()) {
-			if (AirEvent != null) {
-				AirEvent (this);
-			}
+			ElementEvent (ElementType.Wind);
 		} else if (Input.GetKeyDown ("d") && VerifyBeat ()) {
-			if (EarthEvent != null) {
-				EarthEvent (this);
-			}
+			ElementEvent (ElementType.Earth);
 		}
 	}
 
@@ -55,10 +43,9 @@ public class InputHandler : MonoBehaviour {
 			//print ("onBeat" + System.Math.Round((inputTime - lastBeat).TotalMilliseconds));
 			return true;
 		} else {
-			//print ("offBeat");
-			if (OffBeatEvent != null) {
-				OffBeatEvent (this);
-			}
+			print("offBeat");
+			ElementEvent (ElementType.OffBeat);
+
 			return false;
 		}
 	}
