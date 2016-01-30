@@ -13,6 +13,10 @@ public class Element {
 		this.minCount = minCount;
 		this.maxCount = maxCount;
 	}
+
+	public ElementType Type {
+		get { return this.type; }
+	}
 		
 	public void Increment(){
 		count++;
@@ -24,5 +28,9 @@ public class Element {
 
 	public bool IsInRange(){
 		return (count <= maxCount && count >= minCount);
+	}
+
+	public void Print() {
+		Debug.Log (string.Format("{0}: {1}", type, count));
 	}
 }
