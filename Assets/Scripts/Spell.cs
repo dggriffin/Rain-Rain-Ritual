@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Spell {
 	private string name;
 	private IDictionary<ElementType, Element> elements =  new Dictionary<ElementType, Element>();
-	private GameObject metroObject; //TODO delete later
+	private GameObject inputHandler;
 
 	public Spell(string name, IList<Element> elements){
 		this.name = name;
@@ -18,24 +18,46 @@ public class Spell {
 	}
 
 	private void ListenToEvents() {
-		//TODO: change this to listen to the beat event
-		metroObject = GameObject.Find("Metronome");
-		metroObject.GetComponent<Metronome>().OnTick += IncrementWrapper;
+		//INPUTHANDLER EXAMPLE
+		inputHandler = GameObject.Find ("InputHandler");
+
+		inputHandler.GetComponent<InputHandler> ().FireEvent += FireWrapper;
+		inputHandler.GetComponent<InputHandler> ().WaterEvent += WaterWrapper;
+		inputHandler.GetComponent<InputHandler> ().AirEvent += WindWrapper;
+		inputHandler.GetComponent<InputHandler> ().EarthEvent += EarthWrapper;
+		//inputHandler.GetComponent<InputHandler> ().OffBeatEvent += IncrementWrapper;
 	}
 
-	//TODO remove once we get beat event
-	private void IncrementWrapper(Metronome metro) {
+	private void EarthWrapper(InputHandler handler) {
+		Increment (ElementType.Earth);
+		PrintElements ();
+	}
+
+	private void WindWrapper(InputHandler handler) {
+		Increment (ElementType.Wind);
+		PrintElements ();
+	}
+
+	private void FireWrapper(InputHandler handler) {
 		Increment (ElementType.Fire);
+		PrintElements ();
+	}
+		
+	private void WaterWrapper(InputHandler handler) {
+		Increment (ElementType.Water);
 		PrintElements ();
 	}
 
 	private void Increment(ElementType elementType){		
 		var element = getElement(elementType);
+		if (element == null) {
+			return;
+		}
 		element.Increment();
 	}
 
 	private Element getElement(ElementType elementType){
-		return elements [elementType];
+		return elements.ContainsKey(elementType) ? elements [elementType] : null;
 	}
 
 	public void PrintElements () {
