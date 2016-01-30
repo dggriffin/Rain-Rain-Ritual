@@ -10,10 +10,13 @@ public class CharacterBehavior : MonoBehaviour {
 	void Start () {
 		animator = GameObject.Find ("Character").GetComponentInChildren<Animator>();
 		inputHandler = GameObject.Find ("InputHandler").GetComponent<InputHandler> ();
-		inputHandler.ElementEvent += ToeCurl;
-
+		ListenToEvents ();
 	}
-	
+
+	void ListenToEvents () {
+		inputHandler.ElementEvent += ToeCurl;
+	}
+ 	
 	// Update is called once per frame
 	void Update () {
 		
