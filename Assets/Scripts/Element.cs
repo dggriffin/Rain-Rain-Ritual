@@ -6,7 +6,7 @@ public class Element {
 	private ElementType type;
 	private int minCount;
 	private int maxCount;
-	private int count;
+	private int count = 0;
 
 	public Element(ElementType type, int minCount, int maxCount){
 		this.type = type;
@@ -23,7 +23,9 @@ public class Element {
 	}
 
 	public void Decay(){
-		this.count--;
+		if (this.count > 0) {
+			this.count--;
+		}
 	}
 
 	public bool IsInRange(){

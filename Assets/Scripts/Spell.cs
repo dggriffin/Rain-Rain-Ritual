@@ -6,14 +6,19 @@ public class Spell {
 	private string name;
 	private IDictionary<ElementType, Element> elements =  new Dictionary<ElementType, Element>();
 	private GameObject inputHandler, metronome;
-//	private int c = 0;
+	private int numTicksToWin;
+	private int maxTicksForSpell;
+	private int numTicksInRange = 0;
+	private int numTicksElapsed = 0;
 
-	public Spell(string name, IList<Element> elements){
+	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell){
 		this.name = name;
 		this.elements = new Dictionary<ElementType, Element>();
 		foreach (var element in elements) {
 			this.elements.Add (element.Type, element);
 		}
+		this.numTicksToWin = numTicksToWin;
+		this.maxTicksForSpell = maxTicksForSpell;
 
 		ListenToEvents ();
 	}
@@ -23,6 +28,7 @@ public class Spell {
 		inputHandler.GetComponent<InputHandler> ().ElementEvent += Increment;
 
 		metronome = GameObject.Find ("Metronome");
+		metronome.GetComponent<Metronome>().OnTick += RangeCheck;
 		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
 		
@@ -39,8 +45,34 @@ public class Spell {
 		foreach (var element in elements) {
 			element.Value.Decay ();
 		}
-		Debug.Log ("Decaying");
-		PrintElements ();
+		//Debug.Log ("Decaying");
+		//PrintElements ();
+	}
+
+	private void RangeCheck() {
+		numTicksElapsed++;
+
+		if (allElementsInRange()) {
+			numTicksInRange++;
+		} else {
+			numTicksInRange = 0;
+		}
+
+		if (numTicksInRange == numTicksToWin) {
+			Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
+		}
+
+		if (numTicksElapsed > maxTicksForSpell) {
+			Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
+		}
+	}
+
+	private bool allElementsInRange() {
+		bool allInRange = true;
+		foreach (var element in elements) {
+			allInRange = allInRange && element.Value.IsInRange();
+		}
+		return allInRange;
 	}
 
 	private Element getElement(ElementType elementType){
