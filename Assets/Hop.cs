@@ -6,7 +6,7 @@ public class Hop : MonoBehaviour {
 
 	private Rigidbody rb;
 
-	private AudioSource audio;
+	private AudioSource audioPlay;
 
 	private GameObject metroObject;
 	void Start () {
@@ -15,7 +15,7 @@ public class Hop : MonoBehaviour {
 		metroObject.GetComponent<Metronome>().OnTick += Talk;
 		metroObject.GetComponent<Metronome> ().OnNewMeasure += White;
 
-		audio = GetComponent<AudioSource>();
+		audioPlay = GetComponent<AudioSource>();
 
 	}
 
@@ -25,10 +25,10 @@ public class Hop : MonoBehaviour {
 	}
 
 	void Talk(Metronome metro) {
-		print ("wee");
+		//print ("wee");
 		Vector3 movement = new Vector3 (0.0f, 0.8f, 0.0f);
 		rb.AddForce (movement);
-		audio.Play();
+		audioPlay.Play();
 	}
 
 	void Color (Metronome metro) {
@@ -38,6 +38,6 @@ public class Hop : MonoBehaviour {
 
 	void White (Metronome metro) {
 		GameObject.Find ("Sphere").GetComponent<Renderer> ().material.color = UnityEngine.Color.white;
-		print ("measure");
+		//print ("measure");
 	}
 }
