@@ -11,11 +11,17 @@ public class SpellBuilder : MonoBehaviour {
 			new Element (ElementType.Earth, 2, 4)
 		};
 
-		var audioSources = GetComponents<AudioSource>();
-		print (audioSources [0].clip.name);
-		var angryCow = audioSources [0];
+		var audioSources = GetAudioSourceDictionary();
+		var volcano = new Spell ("volcano", elements, 3, 5, audioSources["volcanoeruption"], audioSources["volcanorumble"]);
+	}
 
-		var volcano = new Spell ("volcano", elements, 3, 5, angryCow, angryCow);
+	private IDictionary<string, AudioSource> GetAudioSourceDictionary() {
+		var audioSources = GetComponents<AudioSource>();
+		var dict = new Dictionary<string, AudioSource> ();
+		foreach (var audioSource in audioSources) {
+			dict.Add (audioSource.clip.name, audioSource);
+		}
+		return dict;
 	}
 	
 	// Update is called once per frame
