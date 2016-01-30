@@ -56,6 +56,7 @@ public class Hop : MonoBehaviour {
 	void Talk(Metronome metro) {
 		//print ("wee");
 		Vector3 movement = new Vector3 (0.0f, 0.8f, 0.0f);
+
 		rb.AddForce (movement);
 		audioPlay.Play();
 	}

@@ -20,7 +20,7 @@ public class Controller : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		var spellBuilder = new SpellBuilder ();
 	}
 	
 	// Update is called once per frame
