@@ -13,6 +13,11 @@ public class InputHandler : MonoBehaviour {
 
 	public event InputEvent ElementEvent;
 
+	public GameObject firePrefab;
+	public GameObject waterPrefab;
+	public GameObject windPrefab;
+	public GameObject earthPrefab;
+
 	void Start () {
 		metronome = GameObject.Find ("Metronome").GetComponent<Metronome> ();
 		metronome.OnTick += Store;
@@ -22,12 +27,16 @@ public class InputHandler : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown("w") && VerifyBeat ()) {
 			ElementEvent (ElementType.Fire);
+			Instantiate (firePrefab, gameObject.transform.position, gameObject.transform.rotation);
 		} else if (Input.GetKeyDown ("s") && VerifyBeat ()) {
 			ElementEvent (ElementType.Water);
+			Instantiate (waterPrefab, gameObject.transform.position, gameObject.transform.rotation);
 		} else if (Input.GetKeyDown("a") && VerifyBeat ()) {
 			ElementEvent (ElementType.Wind);
+			Instantiate (windPrefab, gameObject.transform.position, gameObject.transform.rotation);
 		} else if (Input.GetKeyDown ("d") && VerifyBeat ()) {
 			ElementEvent (ElementType.Earth);
+			Instantiate (earthPrefab, gameObject.transform.position, gameObject.transform.rotation);
 		}
 	}
 
