@@ -15,7 +15,7 @@ public class SpellBuilder : MonoBehaviour {
 			new Element (ElementType.Wind, 5,10)
 		};
 
-		var volcano = new Spell ("volcano", elements, 2, 5,
+		var volcano = new Spell ("volcano", elements, 20, 100,
 			audioDict.GetSound("volcanoeruption"), audioDict.GetSound("cloudfailure"));
 	}
 }
