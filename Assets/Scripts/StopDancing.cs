@@ -1,18 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class StopDancing : MonoBehaviour {
 
 	public GameObject[] dancers;
+	//Supply a list of all the background dancers in the Unity editor
 	AudioSource thisSource;
-	Animator[] dancerMotion;
+	List<Animator> dancerMotion = new List<Animator>();
 
 	// Use this for initialization
+	//This script is meant to be attached to the object that is playing the theme music.
 	void Start () {
-		System.Array.Resize (ref dancerMotion, dancers.GetLength(0));
+		Animator[] thisMotion;
 		thisSource = gameObject.GetComponent<AudioSource> ();
-		for (int k = 0; k <= 3; k++) {
-			dancerMotion[k] = dancers[k].GetComponent<Animator>();
+		foreach (GameObject go in dancers){
+			thisMotion = go.GetComponents<Animator> ();
+			dancerMotion.AddRange (thisMotion);
 		}
 	}
 
@@ -25,8 +29,8 @@ public class StopDancing : MonoBehaviour {
 
 	void StopMusic(){
 		thisSource.Stop ();
-		for (int k = 0; k <= 3; k++) {
-			dancerMotion [k].enabled = false;
+		foreach (Animator a in dancerMotion) {
+			a.enabled = false;
 		}
 	}
 }
