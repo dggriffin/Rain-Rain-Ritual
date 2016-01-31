@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class InputHandler : MonoBehaviour {
@@ -20,9 +21,12 @@ public class InputHandler : MonoBehaviour {
 
 	int offbeats = 1;
 
+	Button theCloseButton;
+
 	void Start () {
 		metronome = GameObject.Find ("Metronome").GetComponent<Metronome> ();
 		metronome.OnTick += Store;
+		theCloseButton = GameObject.FindObjectOfType<Button> (); //Assumes the close spell box button is the only one in the scene, safe assumption for now.
 	}
 	
 	// Update is called once per frame
@@ -55,6 +59,10 @@ public class InputHandler : MonoBehaviour {
 				ElementEvent (ElementType.Earth);
 				StartCoroutine (GameObject.Find ("EarthRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
+		}
+
+		if (Input.GetButton ("CloseSpellBox")) {
+			theCloseButton.onClick.Invoke ();
 		}
 	}
 

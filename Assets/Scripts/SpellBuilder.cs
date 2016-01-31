@@ -8,7 +8,7 @@ public class SpellBuilder : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		StartSpell ();
+		//StartSpell ();
 	}
 
 	public void StartSpell(){
