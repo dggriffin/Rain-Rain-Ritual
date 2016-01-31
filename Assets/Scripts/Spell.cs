@@ -20,6 +20,7 @@ public class Spell {
 	private GameObject rain = null;
 	private GameObject dryGround = null;
 	private GameObject wetGround = null;
+	private GameObject cloud = null;
 
 	private GameObject theme = null;
 
@@ -51,6 +52,7 @@ public class Spell {
 			wetGround.SetActive (false);
 		}
 
+		this.cloud = GameObject.Find ("Cloud");
 
 		this.theme = GameObject.Find ("ThemeSource");
 
@@ -99,7 +101,9 @@ public class Spell {
 			numTicksInRange = 0;
 		}
 
-		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().growResult (((float)numTicksInRange/(float)numTicksToWin)/2f);
+		if (this.cloud != null) {
+			this.cloud.GetComponent<CloudBehavior> ().growResult (((float)numTicksInRange / (float)numTicksToWin) / 2f);
+		}
 
 		if (numTicksInRange == numTicksToWin) {
 			win ();
@@ -130,7 +134,7 @@ public class Spell {
 		}
 
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
-		resetGame ();
+		endGame ();
 	}
 
 	private void lose() {
@@ -154,7 +158,7 @@ public class Spell {
 		//theme.SendMessage ("StopMusic");
 		
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
-		resetGame ();
+		endGame ();
 	}
 
 	private bool allElementsInRange() {
@@ -215,12 +219,20 @@ public class Spell {
         }
     }
 
-	private void resetGame(){
-		numTicksInRange = 0;
-		numTicksElapsed = 0;
+	private void endGame(){
+		//for when we were reseting the game:
+		//numTicksInRange = 0;
+		//numTicksElapsed = 0;
+
+		//TODO: stop dancing
+		//TODO: stop music
 
 		foreach (var element in elements) {
 			element.Value.count = 0;
+		}
+
+		if (this.cloud != null) {
+			this.cloud.SetActive (false);
 		}
 	}
 
