@@ -17,6 +17,8 @@ public class Spell {
 	private AudioSource winSound = null;
 	private AudioSource loseSound = null;
 
+	private GameObject rain = null;
+
 	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell,
 		AudioSource winSound = null, AudioSource loseSound = null){
 		this.name = name;
@@ -29,6 +31,11 @@ public class Spell {
 
 		this.winSound = winSound;
 		this.loseSound = loseSound;
+
+		this.rain = GameObject.Find("VFX_Rain");
+		if (rain != null) {
+			rain.SetActive (false); // no rain at the beginning of the spell
+		}
 
 		ListenToEvents ();
 	}
@@ -83,6 +90,9 @@ public class Spell {
 			if (winSound != null) {
 				winSound.Play ();
 //				GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
+				if (rain != null) {
+					rain.SetActive (true);
+				}
 			}
 		}
 
@@ -98,6 +108,10 @@ public class Spell {
 			Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
 			if (loseSound != null) {
 				loseSound.Play ();
+			}
+				
+			if (rain != null) {
+				rain.SetActive (false);
 			}
 		}
 	}
