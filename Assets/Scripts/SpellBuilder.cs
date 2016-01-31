@@ -13,7 +13,7 @@ public class SpellBuilder : MonoBehaviour {
 			new Element (ElementType.Earth, 0,0)
 		};
 			
-		var volcano = new Spell ("volcano", elements, 2, 40,
-			audioDict.GetSound("volcanoeruption"), audioDict.GetSound("volcanorumble"));
+		var volcano = new Spell ("volcano", elements, 2, 5,
+			audioDict.GetSound("volcanoeruption"), audioDict.GetSound("cloudfailure"));
 	}
 }
