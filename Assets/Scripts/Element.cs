@@ -4,9 +4,9 @@ using System.Collections;
 public class Element {
 
 	private ElementType type;
-	private int minCount;
-	private int maxCount;
-	private int count = 0;
+    public int minCount;
+    public int maxCount;
+	public int count = 0;
 
 	public Element(ElementType type, int minCount, int maxCount){
 		this.type = type;

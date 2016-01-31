@@ -25,16 +25,16 @@ public class InputHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown("w") && VerifyBeat ()) {
+		if (Input.GetButtonDown("Fire") && VerifyBeat ()) {
 			ElementEvent (ElementType.Fire);
 			Instantiate (firePrefab, gameObject.transform.position, gameObject.transform.rotation);
-		} else if (Input.GetKeyDown ("s") && VerifyBeat ()) {
+		} else if (Input.GetButtonDown ("Water") && VerifyBeat ()) {
 			ElementEvent (ElementType.Water);
 			Instantiate (waterPrefab, gameObject.transform.position, gameObject.transform.rotation);
-		} else if (Input.GetKeyDown("a") && VerifyBeat ()) {
+		} else if (Input.GetButtonDown("Wind") && VerifyBeat ()) {
 			ElementEvent (ElementType.Wind);
 			Instantiate (windPrefab, gameObject.transform.position, gameObject.transform.rotation);
-		} else if (Input.GetKeyDown ("d") && VerifyBeat ()) {
+		} else if (Input.GetButtonDown ("Earth") && VerifyBeat ()) {
 			ElementEvent (ElementType.Earth);
 			Instantiate (earthPrefab, gameObject.transform.position, gameObject.transform.rotation);
 		}
