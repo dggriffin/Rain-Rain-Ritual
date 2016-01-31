@@ -174,7 +174,9 @@ public class Spell {
 		}
 
 		//theme.SendMessage ("StopMusic");
-		loseBox.SetActive(true);
+		if (loseBox != null) {
+			loseBox.SetActive (true);
+		}
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
 		endGame ();
 	}
