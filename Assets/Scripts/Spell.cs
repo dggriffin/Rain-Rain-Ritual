@@ -189,6 +189,10 @@ public class Spell {
         else if (element.Type.Equals(ElementType.Earth))
         {
             GameObject.Find("Earth").GetComponent<Pulse>().fadeIn(element);
+            Transform transform = GameObject.Find("EarthCircle").GetComponent<Transform>();
+            Vector3 scale = transform.localScale;
+            scale.Set(scale.x + .001f, scale.y + .001f, scale.z + .001f);
+            transform.localScale = scale;
         }
         else if (element.Type.Equals(ElementType.Wind))
         {

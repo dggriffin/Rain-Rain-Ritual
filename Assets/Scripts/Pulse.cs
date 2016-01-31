@@ -4,6 +4,8 @@ using System.Collections;
 public class Pulse : MonoBehaviour {
 
     public float alpha = 0f;
+
+    private bool shake;
         
 
 	// Use this for initialization
@@ -27,15 +29,31 @@ public class Pulse : MonoBehaviour {
             //Color.Lerp(oldColor, newColor, Time.fixedDeltaTime);
             mat.SetColor("_Color", Color.Lerp(oldColor, newColor, Time.fixedDeltaTime));
         }
+        if(shake)
+        {
+            Transform transform = gameObject.GetComponent<Transform>();
+            Vector3 position = transform.localPosition;
+            position = Random.insideUnitCircle *.1f;
+            transform.localPosition = position;       
+        }
     }
 
     public void fadeIn(Element element)
     {
         float elementCount = element.count;
-        float elementMinCount = element.minCount;
+        float elementMinCount = element.minCount;   
+        
+        if(element.minCount < 1)
+        {
+            elementMinCount = 1;
+        }  
 
         alpha = elementCount / elementMinCount;
-        
+
+        if(elementCount > element.maxCount)
+        {
+            shake = true;
+        }        
     }
 
     public void fadeOut(Element element)
@@ -43,6 +61,6 @@ public class Pulse : MonoBehaviour {
         float elementCount = element.count;
         float elementMinCount = element.minCount;
 
-        alpha = elementCount / elementMinCount;      
+        alpha = elementCount / elementMinCount;
     }
 }
