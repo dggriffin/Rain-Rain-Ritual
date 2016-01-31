@@ -67,21 +67,21 @@ public class Spell {
 		metronome.GetComponent<Metronome>().OnTick += RangeCheck;
 		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
-		
+
 	private void Increment(ElementType elementType){
 		var element = getElement(elementType);
 		if (element == null) {
 			return;
 		}
 		element.Increment();
-        incrementElement(element);
-//		PrintElements ();
+		incrementElement(element);
+		//		PrintElements ();
 	}
 
 	private void Decay(){
 		foreach (var element in elements) {
-			element.Value.Decay ();
-            decrementElement(element.Value);
+			decrementElement(element.Value);
+			element.Value.Decay ();            
 		}
 		//Debug.Log ("Decaying");
 		//PrintElements ();
@@ -156,7 +156,7 @@ public class Spell {
 		}
 
 		//theme.SendMessage ("StopMusic");
-		
+
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
 		endGame ();
 	}
@@ -180,48 +180,88 @@ public class Spell {
 		}
 	}
 
-    private void incrementElement(Element element)
-    {
-        if (element.Type.Equals(ElementType.Fire))
-        {
-            GameObject.Find("Fire").GetComponent<Pulse>().fadeIn(element);
-        }
-        else if (element.Type.Equals(ElementType.Earth))
-        {
-            GameObject.Find("Earth").GetComponent<Pulse>().fadeIn(element);
-            Transform transform = GameObject.Find("EarthCircle").GetComponent<Transform>();
-            Vector3 scale = transform.localScale;
-            scale.Set(scale.x + .001f, scale.y + .001f, scale.z + .001f);
-            transform.localScale = scale;
-        }
-        else if (element.Type.Equals(ElementType.Wind))
-        {
-            GameObject.Find("Wind").GetComponent<Pulse>().fadeIn(element);
-        }
-        else if (element.Type.Equals(ElementType.Water))
-        {
-            GameObject.Find("Water").GetComponent<Pulse>().fadeIn(element);
-        }
-    }
-    private void decrementElement(Element element)
-    {
-        if (element.Type.Equals(ElementType.Fire))
-        {
-            GameObject.Find("Fire").GetComponent<Pulse>().fadeOut(element);
-        }
-        else if (element.Type.Equals(ElementType.Earth))
-        {
-            GameObject.Find("Earth").GetComponent<Pulse>().fadeOut(element);
-        }
-        else if (element.Type.Equals(ElementType.Wind))
-        {    
-            GameObject.Find("Wind").GetComponent<Pulse>().fadeOut(element);
-        }
-        else if (element.Type.Equals(ElementType.Water))
-        {
-            GameObject.Find("Water").GetComponent<Pulse>().fadeOut(element);
-        }
-    }
+	private void incrementElement(Element element)
+	{
+		if (element.Type.Equals(ElementType.Fire))
+		{
+			GameObject.Find("Fire").GetComponent<Pulse>().fadeIn(element);
+			Transform transform = GameObject.Find("FireCircle").GetComponent<Transform>();
+			Vector3 scale = scaleElement(element, transform.localScale, false);
+			transform.localScale = scale;
+		}
+		else if (element.Type.Equals(ElementType.Earth))
+		{
+			GameObject.Find("Earth").GetComponent<Pulse>().fadeIn(element);
+			Transform transform = GameObject.Find("EarthCircle").GetComponent<Transform>();
+			Vector3 scale = scaleElement(element, transform.localScale, false);
+			transform.localScale = scale;
+		}
+		else if (element.Type.Equals(ElementType.Wind))
+		{
+			GameObject.Find("Wind").GetComponent<Pulse>().fadeIn(element);
+			Transform transform = GameObject.Find("WindCircle").GetComponent<Transform>();
+			Vector3 scale = scaleElement(element, transform.localScale, false);
+			transform.localScale = scale;
+		}
+		else if (element.Type.Equals(ElementType.Water))
+		{
+			GameObject.Find("Water").GetComponent<Pulse>().fadeIn(element);
+			Transform transform = GameObject.Find("WaterCircle").GetComponent<Transform>();
+			Vector3 scale = scaleElement(element, transform.localScale, false);
+			transform.localScale = scale;
+		}
+	}
+	private void decrementElement(Element element)
+	{
+		if (element.Type.Equals(ElementType.Fire) && element.count != 0)
+		{
+			GameObject.Find("Fire").GetComponent<Pulse>().fadeOut(element);
+			Transform transform = GameObject.Find("FireCircle").GetComponent<Transform>();
+			Vector3 scale = scaleElement(element, transform.localScale, true);
+			transform.localScale = scale;
+		}
+		else if (element.Type.Equals(ElementType.Earth) && element.count != 0)
+		{
+			GameObject.Find("Earth").GetComponent<Pulse>().fadeOut(element);          
+			Transform transform = GameObject.Find("EarthCircle").GetComponent<Transform>();
+			Vector3 scale = scaleElement(element, transform.localScale, true);
+			transform.localScale = scale;
+		}
+		else if (element.Type.Equals(ElementType.Wind) && element.count != 0)
+		{    
+			GameObject.Find("Wind").GetComponent<Pulse>().fadeOut(element);
+			Transform transform = GameObject.Find("WindCircle").GetComponent<Transform>();
+			Vector3 scale = scaleElement(element, transform.localScale, true);
+			transform.localScale = scale;
+		}
+		else if (element.Type.Equals(ElementType.Water) && element.count != 0)
+		{
+			GameObject.Find("Water").GetComponent<Pulse>().fadeOut(element);
+			Transform transform = GameObject.Find("WaterCircle").GetComponent<Transform>();
+			Vector3 scale = scaleElement(element, transform.localScale, true);
+			transform.localScale = scale;
+		}
+	}
+
+	private Vector3 scaleElement(Element element, Vector3 scale, bool shrink)
+	{
+		Vector3 newScale = scale;
+
+
+		float minCount = element.minCount;
+		float changeFactor = (.035f / minCount);
+
+		if (!shrink)
+		{
+			newScale.Set(scale.x + changeFactor, scale.y, scale.z + changeFactor);
+		}
+		else
+		{
+			newScale.Set(scale.x - changeFactor, scale.y, scale.z - changeFactor);
+		}
+
+		return newScale;       
+	}
 
 	private void endGame(){
 		//for when we were reseting the game:
