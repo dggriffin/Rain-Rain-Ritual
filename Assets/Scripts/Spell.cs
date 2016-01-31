@@ -67,21 +67,21 @@ public class Spell {
 		metronome.GetComponent<Metronome>().OnTick += RangeCheck;
 		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
-		
+
 	private void Increment(ElementType elementType){
 		var element = getElement(elementType);
 		if (element == null) {
 			return;
 		}
 		element.Increment();
-        incrementElement(element);
-//		PrintElements ();
+		incrementElement(element);
+		//		PrintElements ();
 	}
 
 	private void Decay(){
 		foreach (var element in elements) {
             decrementElement(element.Value);
-            element.Value.Decay ();            
+            element.Value.Decay (); 
 		}
 		//Debug.Log ("Decaying");
 		//PrintElements ();
@@ -156,7 +156,7 @@ public class Spell {
 		}
 
 		//theme.SendMessage ("StopMusic");
-		
+
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
 		endGame ();
 	}
