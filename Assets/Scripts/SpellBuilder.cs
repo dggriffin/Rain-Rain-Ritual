@@ -12,7 +12,7 @@ public class SpellBuilder : MonoBehaviour {
 		};
 
 		var audioSources = GetAudioSourceDictionary();
-		var volcano = new Spell ("volcano", elements, 3, 5, audioSources["volcanoeruption"], audioSources["volcanorumble"]);
+		var volcano = new Spell ("volcano", elements, 10, 10000, audioSources["volcanoeruption"], audioSources["volcanorumble"]);
 	}
 
 	private IDictionary<string, AudioSource> GetAudioSourceDictionary() {
