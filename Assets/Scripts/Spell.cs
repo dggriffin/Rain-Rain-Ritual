@@ -48,13 +48,13 @@ public class Spell {
 			return;
 		}
 		element.Increment();
-		growResult ();
+//		growResult ();
         incrementElement(element);
 		PrintElements ();
 	}
 
 	private void Decay(){
-		growResult ();
+//		growResult ();
 		foreach (var element in elements) {
 			element.Value.Decay ();
             decrementElement(element.Value);
