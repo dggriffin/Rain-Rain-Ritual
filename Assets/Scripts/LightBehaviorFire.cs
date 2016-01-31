@@ -32,7 +32,7 @@ public class LightBehaviorFire : MonoBehaviour {
 	}
 
 	private float CalculateChange(){
-		changedValue = -Mathf.Sin (timePassed * 4 * Mathf.PI) * 0.08f + 0.95f;
+		changedValue = -Mathf.Sin (timePassed * 3 * Mathf.PI) * 0.1f + 0.95f;
 		return changedValue;
 	}
 }
