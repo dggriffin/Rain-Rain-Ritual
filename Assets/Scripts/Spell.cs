@@ -48,13 +48,11 @@ public class Spell {
 			return;
 		}
 		element.Increment();
-//		growResult ();
         incrementElement(element);
-		PrintElements ();
+//		PrintElements ();
 	}
 
 	private void Decay(){
-//		growResult ();
 		foreach (var element in elements) {
 			element.Value.Decay ();
             decrementElement(element.Value);
@@ -70,34 +68,30 @@ public class Spell {
 
 		numTicksElapsed++;
 		if (allElementsInRange ()) {
+			Debug.Log ("*************************");
 			numTicksInRange++;
 
 		} else {
 			numTicksInRange = 0;
 		}
 
-		growResult ();
+		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().growResult (((float)numTicksInRange/(float)numTicksToWin)/2f);
 
 		if (numTicksInRange == numTicksToWin) {
 			Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
 			if (winSound != null) {
 				winSound.Play ();
-//				GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
+				GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
+				resetGame ();
 			}
 		}
-
-//		// TODO: CLEAN THIS UP:::
-//		// RESET THE GAME
-//		if (numTicksInRange > numTicksToWin + 5) {
-//			GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().resetResult();
-//			numTicksInRange = 0;
-//			numTicksElapsed = 0;
-//		}
 
 		if (numTicksElapsed > maxTicksForSpell) {
 			Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
 			if (loseSound != null) {
 				loseSound.Play ();
+				GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
+				resetGame ();
 			}
 		}
 	}
@@ -160,10 +154,13 @@ public class Spell {
         }
     }
 
-	private void growResult()
-	{
-		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().growResult (numTicksInRange/numTicksToWin);
-	}
+	private void resetGame(){
+		numTicksInRange = 0;
+		numTicksElapsed = 0;
 
+		foreach (var element in elements) {
+			element.Value.count = 0;
+		}
+	}
 
 }
