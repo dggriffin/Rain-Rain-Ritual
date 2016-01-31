@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: e67369c189f3a4631bb2d37858cca1e3
+timeCreated: 1454201905
+=======
 guid: 797240621232f4dfd896e85fcc07d7bb
 timeCreated: 1454208143
+>>>>>>> 9f07e95e966daf9b16481e2261fc379dc3f5eb8d
 licenseType: Free
 MovieImporter:
   serializedVersion: 1

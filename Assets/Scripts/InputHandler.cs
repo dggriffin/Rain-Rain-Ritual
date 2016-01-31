@@ -27,21 +27,27 @@ public class InputHandler : MonoBehaviour {
 	void Update () {
 		if (Input.GetButtonDown ("Fire")) {
 			Instantiate (firePrefab, gameObject.transform.position, gameObject.transform.rotation);
+			StartCoroutine (GameObject.Find ("FireRipple").GetComponent<RippleEffect> ().Ripple ());
 			if (VerifyBeat ()) {
 				ElementEvent (ElementType.Fire);
 			}
 		} else if (Input.GetButtonDown ("Water")){ 
 			Instantiate (waterPrefab, gameObject.transform.position, gameObject.transform.rotation);
+			StartCoroutine (GameObject.Find ("WaterRipple").GetComponent<RippleEffect> ().Ripple ());
+
 			if (VerifyBeat()){
 				ElementEvent(ElementType.Water);
 			}
 		} else if (Input.GetButtonDown("Wind")) {
 			Instantiate (windPrefab, gameObject.transform.position, gameObject.transform.rotation);
+			 StartCoroutine (GameObject.Find ("WindRipple").GetComponent<RippleEffect> ().Ripple ());
 			if (VerifyBeat()){
 				ElementEvent (ElementType.Wind);
 			}
 		} else if (Input.GetButtonDown ("Earth")) {
 			Instantiate (earthPrefab, gameObject.transform.position, gameObject.transform.rotation);
+			StartCoroutine (GameObject.Find ("EarthRipple").GetComponent<RippleEffect> ().Ripple ());
+
 			if (VerifyBeat ()) {
 				ElementEvent (ElementType.Earth);
 			}
