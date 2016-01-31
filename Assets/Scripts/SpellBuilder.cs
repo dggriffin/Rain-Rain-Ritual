@@ -8,6 +8,10 @@ public class SpellBuilder : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		StartSpell ();
+	}
+
+	public void StartSpell(){
 		var elements = new List<Element> () {
 			new Element (ElementType.Fire, 10, 100),
 			new Element (ElementType.Earth, 5,10),
