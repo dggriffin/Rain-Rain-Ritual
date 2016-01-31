@@ -42,17 +42,19 @@ public class Spell {
 		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
 		
-	private void Increment(ElementType elementType){		
+	private void Increment(ElementType elementType){
 		var element = getElement(elementType);
 		if (element == null) {
 			return;
 		}
 		element.Increment();
+		growResult ();
         incrementElement(element);
 		PrintElements ();
 	}
 
 	private void Decay(){
+		growResult ();
 		foreach (var element in elements) {
 			element.Value.Decay ();
 		}
@@ -66,19 +68,30 @@ public class Spell {
 		}
 
 		numTicksElapsed++;
-
-		if (allElementsInRange()) {
+		if (allElementsInRange ()) {
 			numTicksInRange++;
+
 		} else {
 			numTicksInRange = 0;
 		}
+
+		growResult ();
 
 		if (numTicksInRange == numTicksToWin) {
 			Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
 			if (winSound != null) {
 				winSound.Play ();
+//				GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
 			}
 		}
+
+//		// TODO: CLEAN THIS UP:::
+//		// RESET THE GAME
+//		if (numTicksInRange > numTicksToWin + 5) {
+//			GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().resetResult();
+//			numTicksInRange = 0;
+//			numTicksElapsed = 0;
+//		}
 
 		if (numTicksElapsed > maxTicksForSpell) {
 			Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
@@ -111,4 +124,11 @@ public class Spell {
     {
         GameObject.Find("Fire").GetComponent<Pulse>().fadeIn();
     }
+
+	private void growResult()
+	{
+		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().growResult (numTicksInRange/numTicksToWin);
+	}
+
+
 }

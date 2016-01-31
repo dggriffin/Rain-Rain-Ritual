@@ -7,12 +7,12 @@ public class SpellBuilder : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		var elements = new List<Element> () {
-			new Element (ElementType.Fire, 8, 10),
-			new Element (ElementType.Earth, 2, 4)
+			new Element (ElementType.Fire, 10, 100),
+			new Element (ElementType.Earth, 0,0)
 		};
 
 		var audioSources = GetAudioSourceDictionary();
-		var volcano = new Spell ("volcano", elements, 3, 5, audioSources["volcanoeruption"], audioSources["volcanorumble"]);
+		var volcano = new Spell ("volcano", elements, 3, 30, audioSources["volcanoeruption"], audioSources["volcanorumble"]);
 	}
 
 	private IDictionary<string, AudioSource> GetAudioSourceDictionary() {
