@@ -15,8 +15,8 @@ public class SpellBuilder : MonoBehaviour {
 		var elements = new List<Element> () {
 			new Element (ElementType.Fire, 0, 5),
 			new Element (ElementType.Earth, 0, 5),
-			new Element (ElementType.Water, 0, 20),
-			new Element (ElementType.Wind, 0, 10)
+			new Element (ElementType.Water, 5, 30),
+			new Element (ElementType.Wind, 5, 15)
 		};
 
 		var rain = new Spell ("rain", elements, 20, 100,
