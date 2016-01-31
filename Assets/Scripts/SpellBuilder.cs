@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class SpellBuilder : MonoBehaviour {
+
+	public AudioDictionary audioDict; //set in the UI
 
 	// Use this for initialization
 	void Start () {
@@ -11,21 +13,7 @@ public class SpellBuilder : MonoBehaviour {
 			new Element (ElementType.Earth, 2, 4)
 		};
 
-		var audioSources = GetAudioSourceDictionary();
-		var volcano = new Spell ("volcano", elements, 3, 5, audioSources["volcanoeruption"], audioSources["volcanorumble"]);
-	}
-
-	private IDictionary<string, AudioSource> GetAudioSourceDictionary() {
-		var audioSources = GetComponents<AudioSource>();
-		var dict = new Dictionary<string, AudioSource> ();
-		foreach (var audioSource in audioSources) {
-			dict.Add (audioSource.clip.name, audioSource);
-		}
-		return dict;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		var volcano = new Spell ("volcano", elements, 10, 10000,
+			audioDict.GetSound("volcanoeruption"), audioDict.GetSound("volcanorumble"));
 	}
 }
