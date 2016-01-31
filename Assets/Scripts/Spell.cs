@@ -17,6 +17,12 @@ public class Spell {
 	private AudioSource winSound = null;
 	private AudioSource loseSound = null;
 
+	private GameObject rain = null;
+	private GameObject dryGround = null;
+	private GameObject wetGround = null;
+
+	private GameObject theme = null;
+
 	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell,
 		AudioSource winSound = null, AudioSource loseSound = null){
 		this.name = name;
@@ -30,6 +36,24 @@ public class Spell {
 		this.winSound = winSound;
 		this.loseSound = loseSound;
 
+		this.rain = GameObject.Find("VFX_Rain");
+		if (rain != null) {
+			rain.SetActive (false); // no rain at the beginning of the spell
+		}
+
+		this.dryGround = GameObject.Find ("DryGround");
+		if (dryGround != null) {
+			dryGround.SetActive (true);
+		}
+
+		this.wetGround = GameObject.Find ("WetGround");
+		if (wetGround != null) {
+			wetGround.SetActive (false);
+		}
+
+
+		this.theme = GameObject.Find ("ThemeSource");
+
 		ListenToEvents ();
 	}
 
@@ -42,14 +66,14 @@ public class Spell {
 		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
 		
-	private void Increment(ElementType elementType){		
+	private void Increment(ElementType elementType){
 		var element = getElement(elementType);
 		if (element == null) {
 			return;
 		}
 		element.Increment();
         incrementElement(element);
-		PrintElements ();
+//		PrintElements ();
 	}
 
 	private void Decay(){
@@ -67,26 +91,70 @@ public class Spell {
 		}
 
 		numTicksElapsed++;
-
-		if (allElementsInRange()) {
+		if (allElementsInRange ()) {
+			Debug.Log ("*************************");
 			numTicksInRange++;
+
 		} else {
 			numTicksInRange = 0;
 		}
 
+		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().growResult (((float)numTicksInRange/(float)numTicksToWin)/2f);
+
 		if (numTicksInRange == numTicksToWin) {
-			Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
-			if (winSound != null) {
-				winSound.Play ();
-			}
+			win ();
+			return;
 		}
 
 		if (numTicksElapsed > maxTicksForSpell) {
-			Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
-			if (loseSound != null) {
-				loseSound.Play ();
-			}
+			lose ();
+			return;
 		}
+	}
+
+	private void win() {
+		Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
+		if (winSound != null) {
+			winSound.Play ();
+		}
+		if (rain != null) {
+			rain.SetActive (true);
+		}
+
+		if (dryGround != null) {
+			dryGround.SetActive (false);
+		}
+
+		if (wetGround != null) {
+			wetGround.SetActive (true);
+		}
+
+		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
+		resetGame ();
+	}
+
+	private void lose() {
+		Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
+		if (loseSound != null) {
+			loseSound.Play ();
+		}
+
+		if (rain != null) {
+			rain.SetActive (false);
+		}
+
+		if (dryGround != null) {
+			dryGround.SetActive (true);
+		}
+
+		if (wetGround != null) {
+			wetGround.SetActive (false);
+		}
+
+		//theme.SendMessage ("StopMusic");
+		
+		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
+		resetGame ();
 	}
 
 	private bool allElementsInRange() {
@@ -146,4 +214,14 @@ public class Spell {
             GameObject.Find("Water").GetComponent<Pulse>().fadeOut(element);
         }
     }
+
+	private void resetGame(){
+		numTicksInRange = 0;
+		numTicksElapsed = 0;
+
+		foreach (var element in elements) {
+			element.Value.count = 0;
+		}
+	}
+
 }
