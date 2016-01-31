@@ -20,6 +20,7 @@ public class Spell {
 	private GameObject rain = null;
 	private GameObject dryGround = null;
 	private GameObject wetGround = null;
+	private GameObject cloud = null;
 
 	private GameObject theme = null;
 
@@ -51,6 +52,7 @@ public class Spell {
 			wetGround.SetActive (false);
 		}
 
+		this.cloud = GameObject.Find ("Cloud");
 
 		this.theme = GameObject.Find ("ThemeSource");
 
@@ -65,21 +67,21 @@ public class Spell {
 		metronome.GetComponent<Metronome>().OnTick += RangeCheck;
 		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
-		
+
 	private void Increment(ElementType elementType){
 		var element = getElement(elementType);
 		if (element == null) {
 			return;
 		}
 		element.Increment();
-        incrementElement(element);
-//		PrintElements ();
+		incrementElement(element);
+		//		PrintElements ();
 	}
 
 	private void Decay(){
 		foreach (var element in elements) {
 			element.Value.Decay ();
-            decrementElement(element.Value);
+			decrementElement(element.Value);
 		}
 		//Debug.Log ("Decaying");
 		//PrintElements ();
@@ -99,7 +101,9 @@ public class Spell {
 			numTicksInRange = 0;
 		}
 
-		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().growResult (((float)numTicksInRange/(float)numTicksToWin)/2f);
+		if (this.cloud != null) {
+			this.cloud.GetComponent<CloudBehavior> ().growResult (((float)numTicksInRange / (float)numTicksToWin) / 2f);
+		}
 
 		if (numTicksInRange == numTicksToWin) {
 			win ();
@@ -130,7 +134,7 @@ public class Spell {
 		}
 
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
-		resetGame ();
+		endGame ();
 	}
 
 	private void lose() {
@@ -152,9 +156,9 @@ public class Spell {
 		}
 
 		//theme.SendMessage ("StopMusic");
-		
+
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
-		resetGame ();
+		endGame ();
 	}
 
 	private bool allElementsInRange() {
@@ -176,51 +180,59 @@ public class Spell {
 		}
 	}
 
-    private void incrementElement(Element element)
-    {
-        if (element.Type.Equals(ElementType.Fire))
-        {
-            GameObject.Find("Fire").GetComponent<Pulse>().fadeIn(element);
-        }
-        else if (element.Type.Equals(ElementType.Earth))
-        {
-            GameObject.Find("Earth").GetComponent<Pulse>().fadeIn(element);
-        }
-        else if (element.Type.Equals(ElementType.Wind))
-        {
-            GameObject.Find("Wind").GetComponent<Pulse>().fadeIn(element);
-        }
-        else if (element.Type.Equals(ElementType.Water))
-        {
-            GameObject.Find("Water").GetComponent<Pulse>().fadeIn(element);
-        }
-    }
-    private void decrementElement(Element element)
-    {
-        if (element.Type.Equals(ElementType.Fire))
-        {
-            GameObject.Find("Fire").GetComponent<Pulse>().fadeOut(element);
-        }
-        else if (element.Type.Equals(ElementType.Earth))
-        {
-            GameObject.Find("Earth").GetComponent<Pulse>().fadeOut(element);
-        }
-        else if (element.Type.Equals(ElementType.Wind))
-        {    
-            GameObject.Find("Wind").GetComponent<Pulse>().fadeOut(element);
-        }
-        else if (element.Type.Equals(ElementType.Water))
-        {
-            GameObject.Find("Water").GetComponent<Pulse>().fadeOut(element);
-        }
-    }
+	private void incrementElement(Element element)
+	{
+		if (element.Type.Equals(ElementType.Fire))
+		{
+			GameObject.Find("Fire").GetComponent<Pulse>().fadeIn(element);
+		}
+		else if (element.Type.Equals(ElementType.Earth))
+		{
+			GameObject.Find("Earth").GetComponent<Pulse>().fadeIn(element);
+		}
+		else if (element.Type.Equals(ElementType.Wind))
+		{
+			GameObject.Find("Wind").GetComponent<Pulse>().fadeIn(element);
+		}
+		else if (element.Type.Equals(ElementType.Water))
+		{
+			GameObject.Find("Water").GetComponent<Pulse>().fadeIn(element);
+		}
+	}
+	private void decrementElement(Element element)
+	{
+		if (element.Type.Equals(ElementType.Fire))
+		{
+			GameObject.Find("Fire").GetComponent<Pulse>().fadeOut(element);
+		}
+		else if (element.Type.Equals(ElementType.Earth))
+		{
+			GameObject.Find("Earth").GetComponent<Pulse>().fadeOut(element);
+		}
+		else if (element.Type.Equals(ElementType.Wind))
+		{    
+			GameObject.Find("Wind").GetComponent<Pulse>().fadeOut(element);
+		}
+		else if (element.Type.Equals(ElementType.Water))
+		{
+			GameObject.Find("Water").GetComponent<Pulse>().fadeOut(element);
+		}
+	}
 
-	private void resetGame(){
-		numTicksInRange = 0;
-		numTicksElapsed = 0;
+	private void endGame(){
+		//for when we were reseting the game:
+		//numTicksInRange = 0;
+		//numTicksElapsed = 0;
+
+		//TODO: stop dancing
+		//TODO: stop music
 
 		foreach (var element in elements) {
 			element.Value.count = 0;
+		}
+
+		if (this.cloud != null) {
+			this.cloud.SetActive (false);
 		}
 	}
 
