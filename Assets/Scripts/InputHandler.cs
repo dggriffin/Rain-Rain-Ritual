@@ -28,13 +28,13 @@ public class InputHandler : MonoBehaviour {
 		if (Input.GetButtonDown("Fire") && VerifyBeat ()) {
 			ElementEvent (ElementType.Fire);
 			Instantiate (firePrefab, gameObject.transform.position, gameObject.transform.rotation);
-		} else if (Input.GetKeyDown ("Water") && VerifyBeat ()) {
+		} else if (Input.GetButtonDown ("Water") && VerifyBeat ()) {
 			ElementEvent (ElementType.Water);
 			Instantiate (waterPrefab, gameObject.transform.position, gameObject.transform.rotation);
-		} else if (Input.GetKeyDown("Wind") && VerifyBeat ()) {
+		} else if (Input.GetButtonDown("Wind") && VerifyBeat ()) {
 			ElementEvent (ElementType.Wind);
 			Instantiate (windPrefab, gameObject.transform.position, gameObject.transform.rotation);
-		} else if (Input.GetKeyDown ("Earth") && VerifyBeat ()) {
+		} else if (Input.GetButtonDown ("Earth") && VerifyBeat ()) {
 			ElementEvent (ElementType.Earth);
 			Instantiate (earthPrefab, gameObject.transform.position, gameObject.transform.rotation);
 		}

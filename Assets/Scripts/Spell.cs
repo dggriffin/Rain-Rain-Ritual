@@ -55,6 +55,7 @@ public class Spell {
 	private void Decay(){
 		foreach (var element in elements) {
 			element.Value.Decay ();
+            decrementElement(element.Value);
 		}
 		//Debug.Log ("Decaying");
 		//PrintElements ();
@@ -109,6 +110,40 @@ public class Spell {
 
     private void incrementElement(Element element)
     {
-        GameObject.Find("Fire").GetComponent<Pulse>().fadeIn();
+        if (element.Type.Equals(ElementType.Fire))
+        {
+            GameObject.Find("Fire").GetComponent<Pulse>().fadeIn(element);
+        }
+        else if (element.Type.Equals(ElementType.Earth))
+        {
+            GameObject.Find("Earth").GetComponent<Pulse>().fadeIn(element);
+        }
+        else if (element.Type.Equals(ElementType.Wind))
+        {
+            GameObject.Find("Wind").GetComponent<Pulse>().fadeIn(element);
+        }
+        else if (element.Type.Equals(ElementType.Water))
+        {
+            GameObject.Find("Water").GetComponent<Pulse>().fadeIn(element);
+        }
+    }
+    private void decrementElement(Element element)
+    {
+        if (element.Type.Equals(ElementType.Fire))
+        {
+            GameObject.Find("Fire").GetComponent<Pulse>().fadeOut(element);
+        }
+        else if (element.Type.Equals(ElementType.Earth))
+        {
+            GameObject.Find("Earth").GetComponent<Pulse>().fadeOut(element);
+        }
+        else if (element.Type.Equals(ElementType.Wind))
+        {    
+            GameObject.Find("Wind").GetComponent<Pulse>().fadeOut(element);
+        }
+        else if (element.Type.Equals(ElementType.Water))
+        {
+            GameObject.Find("Water").GetComponent<Pulse>().fadeOut(element);
+        }
     }
 }
