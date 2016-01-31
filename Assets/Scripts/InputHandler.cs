@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class InputHandler : MonoBehaviour {
 
@@ -18,6 +19,8 @@ public class InputHandler : MonoBehaviour {
 	public GameObject windPrefab;
 	public GameObject earthPrefab;
 
+	Button theCloseButton;
+
 	int offbeats = 1;
 
 	void Start () {
@@ -34,17 +37,17 @@ public class InputHandler : MonoBehaviour {
 				ElementEvent (ElementType.Fire);
 				StartCoroutine (GameObject.Find ("FireRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
-		} else if (Input.GetButtonDown ("Water")){ 
+		} else if (Input.GetButtonDown ("Water")) { 
 			Instantiate (waterPrefab, gameObject.transform.position, gameObject.transform.rotation);
 
-			if (VerifyBeat()){
-				ElementEvent(ElementType.Water);
+			if (VerifyBeat ()) {
+				ElementEvent (ElementType.Water);
 				StartCoroutine (GameObject.Find ("WaterRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
-		} else if (Input.GetButtonDown("Wind")) {
+		} else if (Input.GetButtonDown ("Wind")) {
 			Instantiate (windPrefab, gameObject.transform.position, gameObject.transform.rotation);
 			
-			if (VerifyBeat()){
+			if (VerifyBeat ()) {
 				ElementEvent (ElementType.Wind);
 				StartCoroutine (GameObject.Find ("WindRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
@@ -54,6 +57,11 @@ public class InputHandler : MonoBehaviour {
 			if (VerifyBeat ()) {
 				ElementEvent (ElementType.Earth);
 				StartCoroutine (GameObject.Find ("EarthRipple").GetComponent<RippleEffect> ().Ripple ());
+			}
+		} else if (Input.GetButton ("HideBox")) {
+			theCloseButton = GameObject.FindObjectOfType<Button> (); //assumes only 1 close button will be active at a time
+			if (theCloseButton != null) {
+				theCloseButton.onClick.Invoke ();
 			}
 		}
 	}

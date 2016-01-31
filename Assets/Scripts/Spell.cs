@@ -24,6 +24,9 @@ public class Spell {
 
 	private GameObject theme = null;
 
+	private GameObject winBox = null;
+	private GameObject loseBox = null;
+
 	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell,
 		AudioSource winSound = null, AudioSource loseSound = null){
 		this.name = name;
@@ -39,7 +42,7 @@ public class Spell {
 
 		this.rain = GameObject.Find("VFX_Rain");
 		if (rain != null) {
-			rain.SetActive (false); // no rain at the beginning of the spell
+			//rain.SetActive (false); // no rain at the beginning of the spell
 		}
 
 		this.dryGround = GameObject.Find ("DryGround");
@@ -55,6 +58,15 @@ public class Spell {
 		this.cloud = GameObject.Find ("Cloud");
 
 		this.theme = GameObject.Find ("ThemeSource");
+
+//		this.winBox = GameObject.Find ("Canvas").GetCom("RainWinBox");
+
+//		foreach (Transform t in GameObject.Find("Canvas").transform) {
+//			if (t.name == "RainWinBox") {
+//				t.GetComponent<CanvasRenderer>().
+//			}
+//		}
+		this.loseBox = GameObject.Find ("RainLoseBox");
 
 		ListenToEvents ();
 	}
@@ -122,7 +134,10 @@ public class Spell {
 			winSound.Play ();
 		}
 		if (rain != null) {
-			rain.SetActive (true);
+			//rain.SetActive (true);
+			foreach (Transform t in rain.transform) {
+				t.GetComponent<MeshRenderer> ().enabled = true;
+			}
 		}
 
 		if (dryGround != null) {
@@ -134,6 +149,9 @@ public class Spell {
 		}
 
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
+		//winBox.SetActive (true);
+		winBox.GetComponent<Renderer>().enabled = true;
+
 		endGame ();
 	}
 
@@ -156,7 +174,7 @@ public class Spell {
 		}
 
 		//theme.SendMessage ("StopMusic");
-
+		loseBox.SetActive(true);
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
 		endGame ();
 	}
