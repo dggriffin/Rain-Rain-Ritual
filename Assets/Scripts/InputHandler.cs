@@ -18,6 +18,8 @@ public class InputHandler : MonoBehaviour {
 	public GameObject windPrefab;
 	public GameObject earthPrefab;
 
+	int offbeats = 1;
+
 	void Start () {
 		metronome = GameObject.Find ("Metronome").GetComponent<Metronome> ();
 		metronome.OnTick += Store;
@@ -27,29 +29,31 @@ public class InputHandler : MonoBehaviour {
 	void Update () {
 		if (Input.GetButtonDown ("Fire")) {
 			Instantiate (firePrefab, gameObject.transform.position, gameObject.transform.rotation);
-			StartCoroutine (GameObject.Find ("FireRipple").GetComponent<RippleEffect> ().Ripple ());
+
 			if (VerifyBeat ()) {
 				ElementEvent (ElementType.Fire);
+				StartCoroutine (GameObject.Find ("FireRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
 		} else if (Input.GetButtonDown ("Water")){ 
 			Instantiate (waterPrefab, gameObject.transform.position, gameObject.transform.rotation);
-			StartCoroutine (GameObject.Find ("WaterRipple").GetComponent<RippleEffect> ().Ripple ());
 
 			if (VerifyBeat()){
 				ElementEvent(ElementType.Water);
+				StartCoroutine (GameObject.Find ("WaterRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
 		} else if (Input.GetButtonDown("Wind")) {
 			Instantiate (windPrefab, gameObject.transform.position, gameObject.transform.rotation);
-			 StartCoroutine (GameObject.Find ("WindRipple").GetComponent<RippleEffect> ().Ripple ());
+			
 			if (VerifyBeat()){
 				ElementEvent (ElementType.Wind);
+				StartCoroutine (GameObject.Find ("WindRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
 		} else if (Input.GetButtonDown ("Earth")) {
 			Instantiate (earthPrefab, gameObject.transform.position, gameObject.transform.rotation);
-			StartCoroutine (GameObject.Find ("EarthRipple").GetComponent<RippleEffect> ().Ripple ());
 
 			if (VerifyBeat ()) {
 				ElementEvent (ElementType.Earth);
+				StartCoroutine (GameObject.Find ("EarthRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
 		}
 	}
@@ -66,7 +70,8 @@ public class InputHandler : MonoBehaviour {
 			//print ("onBeat" + System.Math.Round((inputTime - lastBeat).TotalMilliseconds));
 			return true;
 		} else {
-			print("offBeat");
+			print("offBeat" + offbeats);
+			offbeats += 1;
 			ElementEvent (ElementType.OffBeat);
 
 			return false;
