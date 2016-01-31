@@ -9,7 +9,7 @@ public class CloudBehavior : MonoBehaviour {
 
 	public void growResult (float r)
 	{
-		var ratio = r;
+		r=r*10;
 		print (r);
 		
 		if (r >= 1) {
@@ -17,12 +17,12 @@ public class CloudBehavior : MonoBehaviour {
 		}
 
 		print (r);
-		r = (r > 1f) ? 1f : r;
+		r = (r > 0.5f) ? 0.5f : r;
 		Vector3 scale = transform.localScale;
 		scale.x = r;
 		scale.y = r;
 		scale.z = r;
-		transform.localScale = Vector3.Lerp(transform.localScale, scale, Time.deltaTime);
+		transform.localScale = Vector3.Lerp(transform.localScale, scale, 4f*Time.deltaTime);
 	}
 
 	void Update(){
