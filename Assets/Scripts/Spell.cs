@@ -86,14 +86,7 @@ public class Spell {
 		growResult ();
 
 		if (numTicksInRange == numTicksToWin) {
-			Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
-			if (winSound != null) {
-				winSound.Play ();
-//				GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
-				if (rain != null) {
-					rain.SetActive (true);
-				}
-			}
+			win ();
 		}
 
 //		// TODO: CLEAN THIS UP:::
@@ -105,14 +98,29 @@ public class Spell {
 //		}
 
 		if (numTicksElapsed > maxTicksForSpell) {
-			Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
-			if (loseSound != null) {
-				loseSound.Play ();
-			}
-				
+			lose ();
+		}
+	}
+
+	private void win() {
+		Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
+		if (winSound != null) {
+			winSound.Play ();
+			//				GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
 			if (rain != null) {
-				rain.SetActive (false);
+				rain.SetActive (true);
 			}
+		}
+	}
+
+	private void lose() {
+		Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
+		if (loseSound != null) {
+			loseSound.Play ();
+		}
+
+		if (rain != null) {
+			rain.SetActive (false);
 		}
 	}
 
