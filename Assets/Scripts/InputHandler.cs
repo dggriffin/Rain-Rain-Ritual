@@ -13,6 +13,11 @@ public class InputHandler : MonoBehaviour {
 
 	public event InputEvent ElementEvent;
 
+	public GameObject firePrefab;
+	public GameObject waterPrefab;
+	public GameObject windPrefab;
+	public GameObject earthPrefab;
+
 	void Start () {
 		metronome = GameObject.Find ("Metronome").GetComponent<Metronome> ();
 		metronome.OnTick += Store;
@@ -20,14 +25,18 @@ public class InputHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown("w") && VerifyBeat ()) {
+		if (Input.GetButtonDown("Fire") && VerifyBeat ()) {
 			ElementEvent (ElementType.Fire);
-		} else if (Input.GetKeyDown ("s") && VerifyBeat ()) {
+			Instantiate (firePrefab, gameObject.transform.position, gameObject.transform.rotation);
+		} else if (Input.GetKeyDown ("Water") && VerifyBeat ()) {
 			ElementEvent (ElementType.Water);
-		} else if (Input.GetKeyDown("a") && VerifyBeat ()) {
+			Instantiate (waterPrefab, gameObject.transform.position, gameObject.transform.rotation);
+		} else if (Input.GetKeyDown("Wind") && VerifyBeat ()) {
 			ElementEvent (ElementType.Wind);
-		} else if (Input.GetKeyDown ("d") && VerifyBeat ()) {
+			Instantiate (windPrefab, gameObject.transform.position, gameObject.transform.rotation);
+		} else if (Input.GetKeyDown ("Earth") && VerifyBeat ()) {
 			ElementEvent (ElementType.Earth);
+			Instantiate (earthPrefab, gameObject.transform.position, gameObject.transform.rotation);
 		}
 	}
 
