@@ -43,6 +43,11 @@ public class Pulse : MonoBehaviour {
         float elementCount = element.count;
         float elementMinCount = element.minCount;
 
-        alpha = elementCount / elementMinCount;      
+        if (element.minCount < 1)
+        {
+            elementMinCount = 1;
+        }
+
+        alpha = elementCount / elementMinCount;
     }
 }

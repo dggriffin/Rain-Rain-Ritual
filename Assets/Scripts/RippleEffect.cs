@@ -31,6 +31,9 @@ public class RippleEffect : MonoBehaviour {
 				}
 			}
 			if (t.GetComponent<MeshRenderer> ()) {
+				Color oldColor = t.GetComponent<MeshRenderer> ().material.color;
+				Color newColor = new Color(oldColor.r, oldColor.g, oldColor.b, 0.5f);
+				t.GetComponent<MeshRenderer> ().material.color = newColor;
 				t.GetComponent<MeshRenderer> ().enabled = true;
 			}
 			lastChild = t;
