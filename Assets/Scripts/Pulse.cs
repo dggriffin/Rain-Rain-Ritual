@@ -29,12 +29,34 @@ public class Pulse : MonoBehaviour {
        // mat.SetColor("_Color", newColor);
     }
 
-    public void fadeIn()
+    public void fadeIn(Element element)
     {
-        alpha += .1f;
-        Material mat = gameObject.GetComponent<Renderer>().material;
-        Color oldColor = mat.color;        
-        Color newColor = new Color(oldColor.r, oldColor.b, oldColor.g, alpha);
-        mat.SetColor("_Color", newColor);
+        float elementCount = element.count;
+        float elementMinCount = element.minCount;
+
+        alpha = elementCount / elementMinCount;
+
+        if (alpha >= 0)
+        {
+            Material mat = gameObject.GetComponent<Renderer>().material;
+            Color oldColor = mat.color;
+            Color newColor = new Color(oldColor.r, oldColor.b, oldColor.g, alpha);
+            mat.SetColor("_Color", newColor);
+        }
+    }
+
+    public void fadeOut(Element element)
+    {
+        float elementCount = element.count;
+        float elementMinCount = element.minCount;
+
+        alpha = elementCount / elementMinCount;
+        if (alpha <= 1)
+        {
+            Material mat = gameObject.GetComponent<Renderer>().material;
+            Color oldColor = mat.color;
+            Color newColor = new Color(oldColor.r, oldColor.b, oldColor.g, alpha);
+            mat.SetColor("_Color", newColor);
+        }
     }
 }
