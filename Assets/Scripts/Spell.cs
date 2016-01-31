@@ -149,7 +149,7 @@ public class Spell {
 			wetGround.SetActive (false);
 		}
 
-		theme.SendMessage ("StopMusic");
+//		theme.SendMessage ("StopMusic");
 		
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
 		resetGame ();
