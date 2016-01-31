@@ -40,9 +40,20 @@ public class Spell {
 		if (rain != null) {
 			rain.SetActive (false); // no rain at the beginning of the spell
 		}
-		this.dryGround = GameObject.Find ("Circle002");
-		this.wetGround = GameObject.Find ("Circle001");
+
+		this.dryGround = GameObject.Find ("DryGround");
+		if (dryGround != null) {
+			dryGround.SetActive (true);
+		}
+
+		this.wetGround = GameObject.Find ("WetGround");
+		if (wetGround != null) {
+			wetGround.SetActive (false);
+		}
+
+
 		this.theme = GameObject.Find ("ThemeSource");
+
 		ListenToEvents ();
 	}
 
@@ -118,8 +129,14 @@ public class Spell {
 		if (rain != null) {
 			rain.SetActive (true);
 		}
-		dryGround.SetActive (false);
-		dryGround.SetActive (true);
+
+		if (dryGround != null) {
+			dryGround.SetActive (false);
+		}
+
+		if (wetGround != null) {
+			wetGround.SetActive (true);
+		}
 	}
 
 	private void lose() {
@@ -131,6 +148,15 @@ public class Spell {
 		if (rain != null) {
 			rain.SetActive (false);
 		}
+
+		if (dryGround != null) {
+			dryGround.SetActive (true);
+		}
+
+		if (wetGround != null) {
+			wetGround.SetActive (false);
+		}
+
 		theme.SendMessage ("StopMusic");
 	}
 
