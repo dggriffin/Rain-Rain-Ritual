@@ -6,12 +6,14 @@ public class Element {
 	private ElementType type;
     public int minCount;
     public int maxCount;
-	public int count = 0;
+	public float count = 0;
+	public float decayRate;
 
-	public Element(ElementType type, int minCount, int maxCount){
+	public Element(ElementType type, int minCount, int maxCount, float decayRate){
 		this.type = type;
 		this.minCount = minCount;
 		this.maxCount = maxCount;
+		this.decayRate = decayRate;
 	}
 
 	public ElementType Type {
@@ -24,7 +26,7 @@ public class Element {
 
 	public void Decay(){
 		if (this.count > 0) {
-			this.count--;
+			this.count = this.count - this.decayRate;
 		}
 	}
 

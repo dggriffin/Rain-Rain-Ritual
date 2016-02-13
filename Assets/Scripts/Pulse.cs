@@ -34,7 +34,7 @@ public class Pulse : MonoBehaviour {
 
     public void fadeIn(Element element)
     {
-        float elementCount = element.count;
+		float elementCount = element.count;
         float elementMinCount = element.minCount;   
         
         if(element.minCount < 1)
@@ -51,7 +51,7 @@ public class Pulse : MonoBehaviour {
 
     public void fadeOut(Element element)
     {
-        float elementCount = element.count - 1f;
+		float elementCount = element.count - 1f;
         float elementMinCount = element.minCount;
 
         if (element.minCount < 1)

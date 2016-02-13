@@ -77,7 +77,7 @@ public class Spell {
 
 		metronome = GameObject.Find ("Metronome");
 		metronome.GetComponent<Metronome>().OnTick += RangeCheck;
-		metronome.GetComponent<Metronome>().OnTick += Decay;
+		metronome.GetComponent<Metronome>().OnNewMeasure += Decay;
 	}
 
 	private void Increment(ElementType elementType){
@@ -150,7 +150,7 @@ public class Spell {
 
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
 		//winBox.SetActive (true);
-		winBox.GetComponent<Renderer>().enabled = true;
+		//winBox.GetComponent<Renderer>().enabled = true;
 
 		endGame ();
 	}
