@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Spell {
 	private string name;
@@ -23,6 +24,8 @@ public class Spell {
 	private GameObject cloud = null;
 
 	private GameObject theme = null;
+
+	private Text earthText = null;
 
 	private GameObject winBox = null;
 	private GameObject loseBox = null;
@@ -68,7 +71,14 @@ public class Spell {
 //		}
 		this.loseBox = GameObject.Find ("RainLoseBox");
 
+		InitializeText ();
+
 		ListenToEvents ();
+	}
+
+	private void InitializeText() {
+		this.earthText = GameObject.Find ("EarthText").GetComponent<Text>();
+		earthText.text = "";
 	}
 
 	private void ListenToEvents() {
@@ -80,7 +90,23 @@ public class Spell {
 		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
 
-	private void Increment(ElementType elementType){
+	private void Increment(ElementType elementType, bool isOffbeat){
+		if (isOffbeat) {
+			Debug.Log ("OFFBEAT!");
+
+			switch (elementType) {
+				case ElementType.Earth:
+					//cwkTODO position text programmatically
+					earthText.text = "OFFBEAT!";
+						break;
+			}
+
+			return;
+		}
+
+		//cwkTODO refactor
+		earthText.text = "";
+
 		var element = getElement(elementType);
 		if (element == null) {
 			return;
