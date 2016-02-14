@@ -95,8 +95,14 @@ public class Spell {
 			Debug.Log ("OFFBEAT!");
 
 			switch (elementType) {
-				case ElementType.Earth:
+			case ElementType.Earth:
 					//cwkTODO position text programmatically
+					//http://answers.unity3d.com/questions/398153/gui-problem-1.html
+				//var earth = GameObject.Find ("EarthCircle");
+				var oldPosition = earthText.transform.position;
+				//earthText.transform.position = new Vector3 (oldPosition.x - 100, oldPosition.y, oldPosition.z);
+				earthText.transform.position = new Vector3 (100, oldPosition.y, oldPosition.z);
+				//earthText.transform.position = earth.transform.position;
 					earthText.text = "OFFBEAT!";
 						break;
 			}
