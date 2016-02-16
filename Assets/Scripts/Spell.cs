@@ -26,6 +26,7 @@ public class Spell {
 	private GameObject theme = null;
 
 	private Text earthText = null;
+	private Text windText = null;
 
 	private GameObject winBox = null;
 	private GameObject loseBox = null;
@@ -78,7 +79,10 @@ public class Spell {
 
 	private void InitializeText() {
 		this.earthText = GameObject.Find ("EarthText").GetComponent<Text>();
-		earthText.text = "";
+		this.earthText.text = "";
+
+		this.windText = GameObject.Find ("WindText").GetComponent<Text> ();
+		this.windText.text = "";
 	}
 
 	private void ListenToEvents() {
@@ -91,20 +95,29 @@ public class Spell {
 	}
 
 	private void Increment(ElementType elementType, bool isOffbeat){
-		if (isOffbeat) {
+		if (true) { //cwkTODO delete
+		//if (isOffbeat) {
+
 			Debug.Log ("OFFBEAT!");
+			var camera = (GameObject.Find ("Main Camera")).GetComponent<Camera>();
 
 			switch (elementType) {
 			case ElementType.Earth:
-					//cwkTODO position text programmatically
-					//http://answers.unity3d.com/questions/398153/gui-problem-1.html
-				//var earth = GameObject.Find ("EarthCircle");
-				var oldPosition = earthText.transform.position;
-				//earthText.transform.position = new Vector3 (oldPosition.x - 100, oldPosition.y, oldPosition.z);
-				earthText.transform.position = new Vector3 (100, oldPosition.y, oldPosition.z);
-				//earthText.transform.position = earth.transform.position;
-					earthText.text = "OFFBEAT!";
-						break;
+				var earthCircle = GameObject.Find ("EarthCircle");
+
+				var screenEarthCircle = camera.WorldToScreenPoint (earthCircle.transform.position);
+
+				this.earthText.transform.position = screenEarthCircle;
+				this.earthText.text = "OFFBEAT!";
+				break;
+
+			case ElementType.Wind:
+				var windCircle = GameObject.Find ("WindCircle");
+				var screenWindCircle = camera.WorldToScreenPoint (windCircle.transform.position);
+
+				this.windText.transform.position = screenWindCircle;
+				this.windText.text = "OFFBEAT2!";
+				break;
 			}
 
 			return;
