@@ -101,23 +101,28 @@ public class Spell {
 			Debug.Log ("OFFBEAT!");
 			var camera = (GameObject.Find ("Main Camera")).GetComponent<Camera>();
 
+			string elementCircleName = null;
+			GameObject elementCircle = null;
+			Vector3 elementCircleScreenPosition; //text position is relative to the screen since it is part of UI/canvas
+			Text elementText = null;
+
 			switch (elementType) {
+
 			case ElementType.Earth:
-				var earthCircle = GameObject.Find ("EarthCircle");
-
-				var screenEarthCircle = camera.WorldToScreenPoint (earthCircle.transform.position);
-
-				this.earthText.transform.position = screenEarthCircle;
-				this.earthText.text = "OFFBEAT!";
+				elementCircleName = "EarthCircle";
+				elementText = this.earthText;
 				break;
-
 			case ElementType.Wind:
-				var windCircle = GameObject.Find ("WindCircle");
-				var screenWindCircle = camera.WorldToScreenPoint (windCircle.transform.position);
-
-				this.windText.transform.position = screenWindCircle;
-				this.windText.text = "OFFBEAT2!";
+				elementCircleName = "WindCircle";
+				elementText = this.windText;
 				break;
+			}
+
+			if (elementCircleName != null) {
+				elementCircle = GameObject.Find (elementCircleName);
+				elementCircleScreenPosition = camera.WorldToScreenPoint (elementCircle.transform.position);
+				elementText.transform.position = elementCircleScreenPosition;
+				elementText.text = "OFFBEAT!";
 			}
 
 			return;
