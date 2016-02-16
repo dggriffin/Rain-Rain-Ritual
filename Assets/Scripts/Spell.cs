@@ -128,6 +128,7 @@ public class Spell {
 		string elementCircleName = null;
 		GameObject elementCircle = null;
 		Vector3 elementCircleScreenPosition;
+		Vector3 textPositionOffset = new Vector3 (0, 0, 0); // moving the text so it centers on the element
 		Text elementText = null;
 
 		switch (elementType) {
@@ -135,18 +136,22 @@ public class Spell {
 		case ElementType.Earth:
 			elementCircleName = "EarthCircle";
 			elementText = this.earthText;
+			textPositionOffset = new Vector3 (30, -20, 0);
 			break;
 		case ElementType.Fire:
 			elementCircleName = "FireCircle";
 			elementText = this.fireText;
+			textPositionOffset = new Vector3 (10, -10, 0);
 			break;
 		case ElementType.Water:
 			elementCircleName = "WaterCircle";
 			elementText = this.waterText;
+			textPositionOffset = new Vector3 (-20, 0, 0);
 			break;
 		case ElementType.Wind:
 			elementCircleName = "WindCircle";
 			elementText = this.windText;
+			textPositionOffset = new Vector3 (-10, 0, 0);
 			break;
 		}
 
@@ -158,6 +163,7 @@ public class Spell {
 			elementCircleScreenPosition = camera.WorldToScreenPoint (elementCircle.transform.position);
 
 			elementText.transform.position = elementCircleScreenPosition;
+			elementText.transform.Translate (textPositionOffset);
 			elementText.text = "OFFBEAT!";
 		}
 	}
