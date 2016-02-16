@@ -105,46 +105,7 @@ public class Spell {
 	private void Increment(ElementType elementType, bool isOffbeat){
 		if (true) { //cwkTODO delete
 		//if (isOffbeat) {
-
-			Debug.Log ("OFFBEAT!");
-			var camera = (GameObject.Find ("Main Camera")).GetComponent<Camera>();
-
-			string elementCircleName = null;
-			GameObject elementCircle = null;
-			Vector3 elementCircleScreenPosition;
-			Text elementText = null;
-
-			switch (elementType) {
-
-			case ElementType.Earth:
-				elementCircleName = "EarthCircle";
-				elementText = this.earthText;
-				break;
-			case ElementType.Fire:
-				elementCircleName = "FireCircle";
-				elementText = this.fireText;
-				break;
-			case ElementType.Water:
-				elementCircleName = "WaterCircle";
-				elementText = this.waterText;
-				break;
-			case ElementType.Wind:
-				elementCircleName = "WindCircle";
-				elementText = this.windText;
-				break;
-			}
-
-			if (elementCircleName != null) {
-				elementCircle = GameObject.Find (elementCircleName);
-
-				// convert element's position to a screen position
-				// since text position is relative to the screen (since it is part of UI/canvas)
-				elementCircleScreenPosition = camera.WorldToScreenPoint (elementCircle.transform.position);
-
-				elementText.transform.position = elementCircleScreenPosition;
-				elementText.text = "OFFBEAT!";
-			}
-
+			ShowOffbeatText (elementType);
 			return;
 		}
 
@@ -158,6 +119,47 @@ public class Spell {
 		element.Increment();
 		incrementElement(element);
 		//		PrintElements ();
+	}
+
+	private void ShowOffbeatText(ElementType elementType) {
+		Debug.Log ("OFFBEAT!");
+		var camera = (GameObject.Find ("Main Camera")).GetComponent<Camera>();
+
+		string elementCircleName = null;
+		GameObject elementCircle = null;
+		Vector3 elementCircleScreenPosition;
+		Text elementText = null;
+
+		switch (elementType) {
+
+		case ElementType.Earth:
+			elementCircleName = "EarthCircle";
+			elementText = this.earthText;
+			break;
+		case ElementType.Fire:
+			elementCircleName = "FireCircle";
+			elementText = this.fireText;
+			break;
+		case ElementType.Water:
+			elementCircleName = "WaterCircle";
+			elementText = this.waterText;
+			break;
+		case ElementType.Wind:
+			elementCircleName = "WindCircle";
+			elementText = this.windText;
+			break;
+		}
+
+		if (elementCircleName != null) {
+			elementCircle = GameObject.Find (elementCircleName);
+
+			// convert element's position to a screen position
+			// since text position is relative to the screen (since it is part of UI/canvas)
+			elementCircleScreenPosition = camera.WorldToScreenPoint (elementCircle.transform.position);
+
+			elementText.transform.position = elementCircleScreenPosition;
+			elementText.text = "OFFBEAT!";
+		}
 	}
 
 	private void Decay(){
