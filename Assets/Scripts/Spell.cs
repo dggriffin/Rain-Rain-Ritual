@@ -103,14 +103,12 @@ public class Spell {
 	}
 
 	private void Increment(ElementType elementType, bool isOffbeat){
-		if (true) { //cwkTODO delete
-		//if (isOffbeat) {
+		if (isOffbeat) {
 			ShowOffbeatText (elementType);
 			return;
 		}
 
-		//cwkTODO refactor
-		earthText.text = "";
+		HideOffbeatText ();
 
 		var element = getElement(elementType);
 		if (element == null) {
@@ -166,6 +164,13 @@ public class Spell {
 			elementText.transform.Translate (textPositionOffset);
 			elementText.text = "OFFBEAT!";
 		}
+	}
+
+	private void HideOffbeatText() {
+		this.earthText.text = "";
+		this.fireText.text = "";
+		this.waterText.text = "";
+		this.windText.text = "";
 	}
 
 	private void Decay(){
