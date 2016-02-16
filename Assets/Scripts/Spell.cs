@@ -26,6 +26,8 @@ public class Spell {
 	private GameObject theme = null;
 
 	private Text earthText = null;
+	private Text fireText = null;
+	private Text waterText = null;
 	private Text windText = null;
 
 	private GameObject winBox = null;
@@ -81,6 +83,12 @@ public class Spell {
 		this.earthText = GameObject.Find ("EarthText").GetComponent<Text>();
 		this.earthText.text = "";
 
+		this.fireText = GameObject.Find ("FireText").GetComponent<Text> ();
+		this.fireText.text = "";
+
+		this.waterText = GameObject.Find ("WaterText").GetComponent<Text> ();
+		this.waterText.text = "";
+
 		this.windText = GameObject.Find ("WindText").GetComponent<Text> ();
 		this.windText.text = "";
 	}
@@ -103,7 +111,7 @@ public class Spell {
 
 			string elementCircleName = null;
 			GameObject elementCircle = null;
-			Vector3 elementCircleScreenPosition; //text position is relative to the screen since it is part of UI/canvas
+			Vector3 elementCircleScreenPosition;
 			Text elementText = null;
 
 			switch (elementType) {
@@ -111,6 +119,14 @@ public class Spell {
 			case ElementType.Earth:
 				elementCircleName = "EarthCircle";
 				elementText = this.earthText;
+				break;
+			case ElementType.Fire:
+				elementCircleName = "FireCircle";
+				elementText = this.fireText;
+				break;
+			case ElementType.Water:
+				elementCircleName = "WaterCircle";
+				elementText = this.waterText;
 				break;
 			case ElementType.Wind:
 				elementCircleName = "WindCircle";
@@ -120,7 +136,11 @@ public class Spell {
 
 			if (elementCircleName != null) {
 				elementCircle = GameObject.Find (elementCircleName);
+
+				// convert element's position to a screen position
+				// since text position is relative to the screen (since it is part of UI/canvas)
 				elementCircleScreenPosition = camera.WorldToScreenPoint (elementCircle.transform.position);
+
 				elementText.transform.position = elementCircleScreenPosition;
 				elementText.text = "OFFBEAT!";
 			}
