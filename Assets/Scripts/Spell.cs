@@ -18,7 +18,6 @@ public class Spell {
 	private AudioSource winSound = null;
 	private AudioSource loseSound = null;
 
-	private GameObject rain = null;
 	private MeshRenderer dryGroundMeshRenderer = null;
 	private MeshRenderer wetGroundMeshRenderer = null;
 	private GameObject cloud = null;
@@ -45,11 +44,6 @@ public class Spell {
 
 		this.winSound = winSound;
 		this.loseSound = loseSound;
-
-		this.rain = GameObject.Find("VFX_Rain");
-		if (rain != null) {
-			//rain.SetActive (false); // no rain at the beginning of the spell
-		}
 
 		var dryGround = GameObject.Find ("DryGround");
 		this.dryGroundMeshRenderer = dryGround.GetComponent<MeshRenderer> ();
@@ -215,11 +209,13 @@ public class Spell {
 
 	private void win() {
 		Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
+
 		if (winSound != null) {
 			winSound.Play ();
 		}
+
+		var rain = GameObject.Find("VFX_Rain");
 		if (rain != null) {
-			//rain.SetActive (true);
 			foreach (Transform t in rain.transform) {
 				t.GetComponent<MeshRenderer> ().enabled = true;
 			}
@@ -244,10 +240,6 @@ public class Spell {
 		Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
 		if (loseSound != null) {
 			loseSound.Play ();
-		}
-
-		if (rain != null) {
-			rain.SetActive (false);
 		}
 
 		if (this.dryGroundMeshRenderer != null) {
