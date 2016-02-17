@@ -19,7 +19,7 @@ public class Spell {
 	private AudioSource loseSound = null;
 
 	private GameObject rain = null;
-	private GameObject dryGround = null;
+	private MeshRenderer dryGroundMeshRenderer = null;
 	private MeshRenderer wetGroundMeshRenderer = null;
 	private GameObject cloud = null;
 
@@ -51,9 +51,10 @@ public class Spell {
 			//rain.SetActive (false); // no rain at the beginning of the spell
 		}
 
-		this.dryGround = GameObject.Find ("DryGround");
-		if (dryGround != null) {
-			dryGround.SetActive (true);
+		var dryGround = GameObject.Find ("DryGround");
+		this.dryGroundMeshRenderer = dryGround.GetComponent<MeshRenderer> ();
+		if (this.dryGroundMeshRenderer != null) {
+			this.dryGroundMeshRenderer.enabled = true;
 		}
 
 		var wetGround = GameObject.Find ("WetGround");
@@ -224,8 +225,8 @@ public class Spell {
 			}
 		}
 
-		if (dryGround != null) {
-			dryGround.SetActive (false);
+		if (this.dryGroundMeshRenderer != null) {
+			this.dryGroundMeshRenderer.enabled = false;
 		}
 			
 		if (this.wetGroundMeshRenderer != null) {
@@ -249,8 +250,8 @@ public class Spell {
 			rain.SetActive (false);
 		}
 
-		if (dryGround != null) {
-			dryGround.SetActive (true);
+		if (this.dryGroundMeshRenderer != null) {
+			this.dryGroundMeshRenderer.enabled = true;
 		}
 
 		if (this.wetGroundMeshRenderer != null) {
