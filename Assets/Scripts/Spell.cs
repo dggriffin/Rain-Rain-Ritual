@@ -20,7 +20,7 @@ public class Spell {
 
 	private GameObject rain = null;
 	private GameObject dryGround = null;
-	private GameObject wetGround = null;
+	private MeshRenderer wetGroundMeshRenderer = null;
 	private GameObject cloud = null;
 
 	private GameObject theme = null;
@@ -56,9 +56,10 @@ public class Spell {
 			dryGround.SetActive (true);
 		}
 
-		this.wetGround = GameObject.Find ("WetGround");
-		if (wetGround != null) {
-			wetGround.SetActive (false);
+		var wetGround = GameObject.Find ("WetGround");
+		this.wetGroundMeshRenderer = wetGround.GetComponent<MeshRenderer> ();
+		if (this.wetGroundMeshRenderer != null) {
+			this.wetGroundMeshRenderer.enabled = false;
 		}
 
 		this.cloud = GameObject.Find ("Cloud");
@@ -226,9 +227,9 @@ public class Spell {
 		if (dryGround != null) {
 			dryGround.SetActive (false);
 		}
-
-		if (wetGround != null) {
-			wetGround.SetActive (true);
+			
+		if (this.wetGroundMeshRenderer != null) {
+			this.wetGroundMeshRenderer.enabled = true;
 		}
 
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
@@ -252,8 +253,8 @@ public class Spell {
 			dryGround.SetActive (true);
 		}
 
-		if (wetGround != null) {
-			wetGround.SetActive (false);
+		if (this.wetGroundMeshRenderer != null) {
+			this.wetGroundMeshRenderer.enabled = false;
 		}
 
 		//theme.SendMessage ("StopMusic");
