@@ -46,15 +46,19 @@ public class Spell {
 		this.loseSound = loseSound;
 
 		var dryGround = GameObject.Find ("DryGround");
-		this.dryGroundMeshRenderer = dryGround.GetComponent<MeshRenderer> ();
-		if (this.dryGroundMeshRenderer != null) {
-			this.dryGroundMeshRenderer.enabled = true;
+		if (dryGround != null) {
+			this.dryGroundMeshRenderer = dryGround.GetComponent<MeshRenderer> ();
+			if (this.dryGroundMeshRenderer != null) {
+				this.dryGroundMeshRenderer.enabled = true;
+			}
 		}
 
 		var wetGround = GameObject.Find ("WetGround");
-		this.wetGroundMeshRenderer = wetGround.GetComponent<MeshRenderer> ();
-		if (this.wetGroundMeshRenderer != null) {
-			this.wetGroundMeshRenderer.enabled = false;
+		if (wetGround != null) {
+			this.wetGroundMeshRenderer = wetGround.GetComponent<MeshRenderer> ();
+			if (this.wetGroundMeshRenderer != null) {
+				this.wetGroundMeshRenderer.enabled = false;
+			}
 		}
 
 		this.cloud = GameObject.Find ("Cloud");
