@@ -78,7 +78,7 @@ public class InputHandler : MonoBehaviour {
 			//print ("onBeat" + System.Math.Round((inputTime - lastBeat).TotalMilliseconds));
 			return true;
 		} else {
-			print("offBeat" + offbeats);
+			//print("offBeat" + offbeats);
 			offbeats += 1;
 			ElementEvent (type, true);
 
