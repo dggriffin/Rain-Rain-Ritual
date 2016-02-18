@@ -101,6 +101,7 @@ public class Spell {
 
 	private void RangeCheck() {
 		if (numTicksElapsed > maxTicksForSpell) {
+			lose ();
 			return;
 		}
 
@@ -108,7 +109,6 @@ public class Spell {
 		if (allElementsInRange ()) {
 			Debug.Log ("*************************");
 			numTicksInRange++;
-
 		} else {
 			numTicksInRange = 0;
 		}
@@ -119,11 +119,6 @@ public class Spell {
 
 		if (numTicksInRange == numTicksToWin) {
 			win ();
-			return;
-		}
-
-		if (numTicksElapsed > maxTicksForSpell) {
-			lose ();
 			return;
 		}
 	}
