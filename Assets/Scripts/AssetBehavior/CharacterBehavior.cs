@@ -19,7 +19,7 @@ public class CharacterBehavior : MonoBehaviour {
 		
 	}
 
-	void ToeCurl (ElementType element) {
+	void ToeCurl (ElementType element, bool isOffbeat) {
 		animator.Play ("ToeCurl");
 	}
 }

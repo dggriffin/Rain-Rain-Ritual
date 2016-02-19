@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Spell {
 	private string name;
@@ -23,6 +24,11 @@ public class Spell {
 	private GameObject cloud = null;
 
 	private GameObject theme = null;
+
+    private Text earthText = null;
+    private Text fireText = null;
+	private Text waterText = null;
+	private Text windText = null;
 
 	private GameObject winBox = null;
 	private GameObject loseBox = null;
@@ -68,7 +74,23 @@ public class Spell {
 //		}
 		this.loseBox = GameObject.Find ("RainLoseBox");
 
+		InitializeText ();
+
 		ListenToEvents ();
+	}
+
+	private void InitializeText() {
+		this.earthText = GameObject.Find ("EarthText").GetComponent<Text>();
+		this.earthText.text = "";
+
+		this.fireText = GameObject.Find ("FireText").GetComponent<Text> ();
+		this.fireText.text = "";
+
+		this.waterText = GameObject.Find ("WaterText").GetComponent<Text> ();
+		this.waterText.text = "";
+
+		this.windText = GameObject.Find ("WindText").GetComponent<Text> ();
+		this.windText.text = "";
 	}
 
 	private void ListenToEvents() {
@@ -80,7 +102,15 @@ public class Spell {
 		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
 
-	private void Increment(ElementType elementType){
+	private void Increment(ElementType elementType, bool isOffbeat){
+
+		if (isOffbeat) {
+			ShowOffbeatText (elementType);
+			return;
+		}
+
+		HideOffbeatText ();
+
 		var element = getElement(elementType);
 		if (element == null) {
 			return;
@@ -89,6 +119,61 @@ public class Spell {
 		updateElementUI(element);
 		//		PrintElements ();
 	}
+
+	private void ShowOffbeatText(ElementType elementType) {
+		Debug.Log ("OFFBEAT!");
+		var camera = (GameObject.Find ("Main Camera")).GetComponent<Camera>();
+
+		string elementCircleName = null;
+		GameObject elementCircle = null;
+		Vector3 elementCircleScreenPosition;
+		Vector3 textPositionOffset = new Vector3 (0, 0, 0); // moving the text so it centers on the element
+		Text elementText = null;
+
+		switch (elementType) {
+
+		case ElementType.Earth:
+			elementCircleName = "EarthCircle";
+			elementText = this.earthText;
+			textPositionOffset = new Vector3 (30, -20, 0);
+			break;
+		case ElementType.Fire:
+			elementCircleName = "FireCircle";
+			elementText = this.fireText;
+			textPositionOffset = new Vector3 (10, -10, 0);
+			break;
+		case ElementType.Water:
+			elementCircleName = "WaterCircle";
+			elementText = this.waterText;
+			textPositionOffset = new Vector3 (-20, 0, 0);
+			break;
+		case ElementType.Wind:
+			elementCircleName = "WindCircle";
+			elementText = this.windText;
+			textPositionOffset = new Vector3 (-10, 0, 0);
+			break;
+		}
+
+		if (elementCircleName != null) {
+			elementCircle = GameObject.Find (elementCircleName);
+
+			// convert element's position to a screen position
+			// since text position is relative to the screen (since it is part of UI/canvas)
+			elementCircleScreenPosition = camera.WorldToScreenPoint (elementCircle.transform.position);
+
+			elementText.transform.position = elementCircleScreenPosition;
+			elementText.transform.Translate (textPositionOffset);
+			elementText.text = "OFFBEAT!";
+		}
+	}
+
+	private void HideOffbeatText() {
+		this.earthText.text = "";
+		this.fireText.text = "";
+		this.waterText.text = "";
+		this.windText.text = "";
+	}
+
 
 	private void Decay(){
 		foreach (var element in elements) {

@@ -16,7 +16,7 @@ public class InputHandler : MonoBehaviour {
 
 	public Metronome metronome;
 
-	public delegate void InputEvent(ElementType element);
+	public delegate void InputEvent(ElementType element, bool isOffbeat = false);
 
 	public event InputEvent ElementEvent;
 
@@ -39,28 +39,28 @@ public class InputHandler : MonoBehaviour {
 		if (Input.GetButtonDown ("Fire")) {
 			Instantiate (firePrefab, gameObject.transform.position, gameObject.transform.rotation);
 
-			if (VerifyBeat ()) {
+			if (VerifyBeat (ElementType.Fire)) {
 				ElementEvent (ElementType.Fire);
 				StartCoroutine (GameObject.Find ("FireRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
 		} else if (Input.GetButtonDown ("Water")) { 
 			Instantiate (waterPrefab, gameObject.transform.position, gameObject.transform.rotation);
 
-			if (VerifyBeat ()) {
+			if (VerifyBeat (ElementType.Water)) {
 				ElementEvent (ElementType.Water);
 				StartCoroutine (GameObject.Find ("WaterRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
 		} else if (Input.GetButtonDown ("Wind")) {
 			Instantiate (windPrefab, gameObject.transform.position, gameObject.transform.rotation);
 			
-			if (VerifyBeat ()) {
+			if (VerifyBeat (ElementType.Wind)) {
 				ElementEvent (ElementType.Wind);
 				StartCoroutine (GameObject.Find ("WindRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
 		} else if (Input.GetButtonDown ("Earth")) {
 			Instantiate (earthPrefab, gameObject.transform.position, gameObject.transform.rotation);
 
-			if (VerifyBeat ()) {
+			if (VerifyBeat (ElementType.Earth)) {
 				ElementEvent (ElementType.Earth);
 				StartCoroutine (GameObject.Find ("EarthRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
@@ -76,7 +76,7 @@ public class InputHandler : MonoBehaviour {
 		lastMeasure = System.DateTime.Now;
 	}
 
-	bool VerifyBeat() {
+	bool VerifyBeat(ElementType type) {
 		System.DateTime inputTime = System.DateTime.Now;
  
 		float noteOfSignificanceLengthInSeconds = (float) (60 / metronome.BPM) * (float) (this.noteOfSignificance * 4);
@@ -87,7 +87,7 @@ public class InputHandler : MonoBehaviour {
 			this.lastInput = inputTime;
 			print("offBeat" + offbeats);
 			offbeats += 1;
-			ElementEvent (ElementType.OffBeat);
+			ElementEvent (type, true);
 			return false;
 		}
 
@@ -101,7 +101,7 @@ public class InputHandler : MonoBehaviour {
 		} else {
 			print("offBeat" + offbeats);
 			offbeats += 1;
-			ElementEvent (ElementType.OffBeat);
+			ElementEvent (type, true);
 			return false;
 		}
 	}
