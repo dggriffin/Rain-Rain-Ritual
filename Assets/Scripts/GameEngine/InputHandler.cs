@@ -4,9 +4,15 @@ using UnityEngine.UI;
 
 public class InputHandler : MonoBehaviour {
 
-	private System.DateTime lastBeat;
+	private System.DateTime lastMeasure;
+	private System.DateTime lastInput;
 
+	//Distance a user's input can be from falling on a noteOfSignificance, in SECONDS
 	public double inputThreshold = .11;
+
+	//Smallest length note we care to track, (1/8 -> eighth note, 1/16 -> sixteenth, etc.)
+	//We throw away any note below this length
+	public double noteOfSignificance = 1/16;
 
 	public Metronome metronome;
 
@@ -67,21 +73,35 @@ public class InputHandler : MonoBehaviour {
 	}
 
 	void Store () {
-		lastBeat = System.DateTime.Now;
-		//print (lastBeat);
+		lastMeasure = System.DateTime.Now;
 	}
 
 	bool VerifyBeat() {
 		System.DateTime inputTime = System.DateTime.Now;
-		float sixteenthNote = (60 / metronome.BPM) / 4;
-		float secondSpan = (float)(inputTime - lastBeat).TotalSeconds;
-		if ((Mathf.Abs((float) (secondSpan % 1) - sixteenthNote)) % sixteenthNote <= inputThreshold ) {
+ 
+		float noteOfSignificanceLengthInSeconds = (float) (60 / metronome.BPM) * (float) (this.noteOfSignificance * 4);
+		float secondsSinceLastMeasure = (float)(inputTime - this.lastMeasure).TotalSeconds;
+
+		// ANTI-SPAM: If the user is spamming notes quicker than our "note of measure", return offbeat
+		if ((inputTime - this.lastInput).TotalSeconds < noteOfSignificanceLengthInSeconds) {
+			this.lastInput = inputTime;
+			print("offBeat" + offbeats);
+			offbeats += 1;
+			ElementEvent (ElementType.OffBeat);
+			return false;
+		}
+
+		this.lastInput = inputTime;
+
+		//How far the user's input was from falling on a noteOfSignificance, in seconds
+		float distanceOfUserInputFromNote = (Mathf.Abs ((float)(secondsSinceLastMeasure % 1) - noteOfSignificanceLengthInSeconds)) % noteOfSignificanceLengthInSeconds;
+
+		if (distanceOfUserInputFromNote <= inputThreshold ) {
 			return true;
 		} else {
 			print("offBeat" + offbeats);
 			offbeats += 1;
 			ElementEvent (ElementType.OffBeat);
-
 			return false;
 		}
 	}

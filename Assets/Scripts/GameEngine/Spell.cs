@@ -77,7 +77,7 @@ public class Spell {
 
 		metronome = GameObject.Find ("Metronome");
 		metronome.GetComponent<Metronome>().OnTick += RangeCheck;
-		metronome.GetComponent<Metronome>().OnNewMeasure += Decay;
+		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
 
 	private void Increment(ElementType elementType){
@@ -86,14 +86,14 @@ public class Spell {
 			return;
 		}
 		element.Increment();
-		incrementElement(element);
+		updateElementUI(element);
 		//		PrintElements ();
 	}
 
 	private void Decay(){
 		foreach (var element in elements) {
-			decrementElement(element.Value);
-			element.Value.Decay ();            
+			element.Value.Decay ();
+			updateElementUI(element.Value);
 		}
 		//Debug.Log ("Decaying");
 		//PrintElements ();
@@ -195,86 +195,29 @@ public class Spell {
 		}
 	}
 
-	private void incrementElement(Element element)
+	private void updateElementUI(Element element)
 	{
-		if (element.Type.Equals(ElementType.Fire))
-		{
-			GameObject.Find("Fire").GetComponent<Pulse>().fadeIn(element);
-			Transform transform = GameObject.Find("FireCircle").GetComponent<Transform>();
-			Vector3 scale = scaleElement(element, transform.localScale, false);
-			transform.localScale = scale;
-		}
-		else if (element.Type.Equals(ElementType.Earth))
-		{
-			GameObject.Find("Earth").GetComponent<Pulse>().fadeIn(element);
-			Transform transform = GameObject.Find("EarthCircle").GetComponent<Transform>();
-			Vector3 scale = scaleElement(element, transform.localScale, false);
-			transform.localScale = scale;
-		}
-		else if (element.Type.Equals(ElementType.Wind))
-		{
-			GameObject.Find("Wind").GetComponent<Pulse>().fadeIn(element);
-			Transform transform = GameObject.Find("WindCircle").GetComponent<Transform>();
-			Vector3 scale = scaleElement(element, transform.localScale, false);
-			transform.localScale = scale;
-		}
-		else if (element.Type.Equals(ElementType.Water))
-		{
-			GameObject.Find("Water").GetComponent<Pulse>().fadeIn(element);
-			Transform transform = GameObject.Find("WaterCircle").GetComponent<Transform>();
-			Vector3 scale = scaleElement(element, transform.localScale, false);
-			transform.localScale = scale;
-		}
-	}
-	private void decrementElement(Element element)
-	{
-		if (element.Type.Equals(ElementType.Fire) && element.count != 0)
-		{
-			GameObject.Find("Fire").GetComponent<Pulse>().fadeOut(element);
-			Transform transform = GameObject.Find("FireCircle").GetComponent<Transform>();
-			Vector3 scale = scaleElement(element, transform.localScale, true);
-			transform.localScale = scale;
-		}
-		else if (element.Type.Equals(ElementType.Earth) && element.count != 0)
-		{
-			GameObject.Find("Earth").GetComponent<Pulse>().fadeOut(element);          
-			Transform transform = GameObject.Find("EarthCircle").GetComponent<Transform>();
-			Vector3 scale = scaleElement(element, transform.localScale, true);
-			transform.localScale = scale;
-		}
-		else if (element.Type.Equals(ElementType.Wind) && element.count != 0)
-		{    
-			GameObject.Find("Wind").GetComponent<Pulse>().fadeOut(element);
-			Transform transform = GameObject.Find("WindCircle").GetComponent<Transform>();
-			Vector3 scale = scaleElement(element, transform.localScale, true);
-			transform.localScale = scale;
-		}
-		else if (element.Type.Equals(ElementType.Water) && element.count != 0)
-		{
-			GameObject.Find("Water").GetComponent<Pulse>().fadeOut(element);
-			Transform transform = GameObject.Find("WaterCircle").GetComponent<Transform>();
-			Vector3 scale = scaleElement(element, transform.localScale, true);
-			transform.localScale = scale;
-		}
+		//Fade-In element Graphic
+		GameObject.Find(element.Type.ToString()).GetComponent<Pulse>().fadeElement(element);
+
+		//Scale Element Circle
+		Transform transform = GameObject.Find(element.Type.ToString() + "Circle").GetComponent<Transform>();
+		Vector3 scale = scaleElement(element, transform.localScale);
+		transform.localScale = scale;
+
+		//Scale Element LightSource (for the glow effect)
+		var test = element.elementGoal.getIntensityCoefficientBasedOffGoalUI();
+		GameObject.Find (element.Type.ToString()).GetComponent<Light> ().range = element.elementGoal.getIntensityCoefficientBasedOffGoalUI() * (element.count / element.minCount);
+
 	}
 
-	private Vector3 scaleElement(Element element, Vector3 scale, bool shrink)
+	private Vector3 scaleElement(Element element, Vector3 scale)
 	{
 		Vector3 newScale = scale;
-
-
 		float minCount = element.minCount;
-		float changeFactor = (.035f / minCount);
-
-		if (!shrink)
-		{
-			newScale.Set(scale.x + changeFactor, scale.y, scale.z + changeFactor);
-		}
-		else
-		{
-			newScale.Set(scale.x - changeFactor, scale.y, scale.z - changeFactor);
-		}
-
+		var test = element.elementGoal.getScaleCoefficientBasedOffGoalUI ();
+		float changeFactor = element.elementGoal.getScaleCoefficientBasedOffGoalUI() * ( element.count / minCount);
+		newScale.Set(changeFactor, scale.y, changeFactor);
 		return newScale;       
 	}
 

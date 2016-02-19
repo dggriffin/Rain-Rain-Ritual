@@ -32,7 +32,7 @@ public class Pulse : MonoBehaviour {
         }        
     }
 
-    public void fadeIn(Element element)
+    public void fadeElement(Element element)
     {
 		float elementCount = element.count;
         float elementMinCount = element.minCount;   
@@ -45,24 +45,6 @@ public class Pulse : MonoBehaviour {
         alpha = elementCount / elementMinCount;
         if (alpha > .5f) {
             string test = element.ToString();
-         }
-             
-    }
-
-    public void fadeOut(Element element)
-    {
-		float elementCount = element.count - 1f;
-        float elementMinCount = element.minCount;
-
-        if (element.minCount < 1)
-        {
-            elementMinCount = 1;
-        }
-
-        alpha = elementCount / elementMinCount;
-        if (alpha == 0f) {
-            string test = element.ToString();
-        }
-        
-    }
+         }           
+    }		
 }
