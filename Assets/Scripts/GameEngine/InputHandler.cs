@@ -85,7 +85,7 @@ public class InputHandler : MonoBehaviour {
 		// ANTI-SPAM: If the user is spamming notes quicker than our "note of measure", return offbeat
 		if ((inputTime - this.lastInput).TotalSeconds < noteOfSignificanceLengthInSeconds) {
 			this.lastInput = inputTime;
-			print("offBeat" + offbeats);
+			//print("offBeat" + offbeats);
 			offbeats += 1;
 			ElementEvent (type, true);
 			return false;

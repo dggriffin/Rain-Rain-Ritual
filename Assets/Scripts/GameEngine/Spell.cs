@@ -128,7 +128,7 @@ public class Spell {
 	}
 
 	private void ShowOffbeatText(ElementType elementType) {
-		Debug.Log ("OFFBEAT!");
+		//Debug.Log ("OFFBEAT!");
 		var camera = (GameObject.Find ("Main Camera")).GetComponent<Camera>();
 
 		string elementCircleName = null;
