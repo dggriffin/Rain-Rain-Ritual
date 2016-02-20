@@ -42,8 +42,13 @@ public class Element {
 	}
 
 	private void setupElementGoal() {
+		float percentIncrease;
+		if (minCount != 0) {
+			percentIncrease = (float) maxCount / minCount;
+		} else {
+			percentIncrease = 0;
+		}
 		elementGoal.elementType = type;
-		float percentIncrease = (float) maxCount / minCount;
 		elementGoal.updateMaxScale (elementGoal.minScale * percentIncrease);
 	}
 }

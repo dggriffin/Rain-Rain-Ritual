@@ -10,12 +10,18 @@ public class ElementGoal : MonoBehaviour {
 	//X and Z scale for maximum count "ring"
 	public float maxScale;
 
+	// These numbers were purely based off observation:
+	// a minScale ring of 0.05f was "filled" by light intensity at a value of 0.39f
+	// We use this information to generate a percentage based off the current actual minScale
 	private float goalScaleToIntensity {
 		get {
 			return 0.39f / 0.05f * (minScale / 0.05f);
 		}
 	}
 
+	// These numbers were purely based off observation:
+	// a minScale ring of 0.05f was "filled" by an element circle with a scale of 0.035f
+	// We use this information to generate a percentage based off the current actual minScale
 	private float goalScaleToCircle {
 		get {
 			return (0.035f / 0.05f) * (minScale / 0.05f);
