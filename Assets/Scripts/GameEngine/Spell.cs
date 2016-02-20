@@ -19,8 +19,8 @@ public class Spell {
 	private AudioSource loseSound = null;
 
 	private GameObject rain = null;
-	private GameObject dryGround = null;
-	private GameObject wetGround = null;
+	private MeshRenderer dryGroundMeshRenderer = null;
+	private MeshRenderer wetGroundMeshRenderer = null;
 	private GameObject cloud = null;
 
 	private GameObject theme = null;
@@ -47,19 +47,8 @@ public class Spell {
 		this.loseSound = loseSound;
 
 		this.rain = GameObject.Find("VFX_Rain");
-		if (rain != null) {
-			//rain.SetActive (false); // no rain at the beginning of the spell
-		}
 
-		this.dryGround = GameObject.Find ("DryGround");
-		if (dryGround != null) {
-			dryGround.SetActive (true);
-		}
-
-		this.wetGround = GameObject.Find ("WetGround");
-		if (wetGround != null) {
-			wetGround.SetActive (false);
-		}
+		InitializeGround ();
 
 		this.cloud = GameObject.Find ("Cloud");
 
@@ -77,6 +66,24 @@ public class Spell {
 		InitializeText ();
 
 		ListenToEvents ();
+	}
+
+	private void InitializeGround() {
+		var dryGround = GameObject.Find ("DryGround");
+		if (dryGround != null) {
+			this.dryGroundMeshRenderer = dryGround.GetComponent<MeshRenderer> ();
+			if (this.dryGroundMeshRenderer != null) {
+				this.dryGroundMeshRenderer.enabled = true;
+			}
+		}
+
+		var wetGround = GameObject.Find ("WetGround");
+		if (wetGround != null) {
+			this.wetGroundMeshRenderer = wetGround.GetComponent<MeshRenderer> ();
+			if (this.wetGroundMeshRenderer != null) {
+				this.wetGroundMeshRenderer.enabled = false;
+			}
+		}
 	}
 
 	private void InitializeText() {
@@ -214,19 +221,12 @@ public class Spell {
 			winSound.Play ();
 		}
 		if (rain != null) {
-			//rain.SetActive (true);
 			foreach (Transform t in rain.transform) {
 				t.GetComponent<MeshRenderer> ().enabled = true;
 			}
 		}
 
-		if (dryGround != null) {
-			dryGround.SetActive (false);
-		}
-
-		if (wetGround != null) {
-			wetGround.SetActive (true);
-		}
+		ShowWetGround (true);
 
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
 		//winBox.SetActive (true);
@@ -245,13 +245,7 @@ public class Spell {
 			rain.SetActive (false);
 		}
 
-		if (dryGround != null) {
-			dryGround.SetActive (true);
-		}
-
-		if (wetGround != null) {
-			wetGround.SetActive (false);
-		}
+		ShowWetGround (false);
 
 		//theme.SendMessage ("StopMusic");
 		if (loseBox != null) {
@@ -259,6 +253,16 @@ public class Spell {
 		}
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
 		endGame ();
+	}
+
+	private void ShowWetGround (bool showWetGround){
+		if (this.dryGroundMeshRenderer != null) {
+			this.dryGroundMeshRenderer.enabled = !showWetGround;
+		}
+
+		if (this.wetGroundMeshRenderer != null) {
+			this.wetGroundMeshRenderer.enabled = showWetGround;
+		}
 	}
 
 	private bool allElementsInRange() {
