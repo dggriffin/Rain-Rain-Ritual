@@ -21,5 +21,14 @@ public class SpellBuilder : MonoBehaviour {
 
 		var rain = new Spell ("rain", elements, 20, 120,
 			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
+
+		//cwkTODO notes for SpellList / Level / SpellBook
+		//initialize a list of spells
+		//for each spell
+		//create a spell and wait until it is won or lost -cwkTODO how to wait?
+		//when that spell finishes (win or lose) - keep track
+		//start the next spell
+		//when all spells are done, report number of spells completed, e.g. 1/3
+
 	}
 }

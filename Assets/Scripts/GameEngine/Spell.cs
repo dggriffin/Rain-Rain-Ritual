@@ -229,7 +229,7 @@ public class Spell {
 		//winBox.SetActive (true);
 		//winBox.GetComponent<Renderer>().enabled = true;
 
-		endGame ();
+		endSpell ();
 	}
 
 	private void lose() {
@@ -249,7 +249,7 @@ public class Spell {
 			loseBox.SetActive (true);
 		}
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
-		endGame ();
+		endSpell ();
 	}
 
 	private void ShowWetGround (bool showWetGround){
@@ -305,7 +305,7 @@ public class Spell {
 		return newScale;       
 	}
 
-	private void endGame(){
+	private void endSpell(){
 		//for when we were reseting the game:
 		//numTicksInRange = 0;
 		//numTicksElapsed = 0;
@@ -320,6 +320,8 @@ public class Spell {
 		if (this.cloud != null) {
 			this.cloud.SetActive (false);
 		}
+
+		//cwkTODO send message that this spell is over
 	}
 
 }
