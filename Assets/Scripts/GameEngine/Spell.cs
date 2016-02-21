@@ -292,7 +292,6 @@ public class Spell {
 		transform.localScale = scale;
 
 		//Scale Element LightSource (for the glow effect)
-		var test = element.elementGoal.getIntensityCoefficientBasedOffGoalUI();
 		GameObject.Find (element.Type.ToString()).GetComponent<Light> ().range = element.elementGoal.getIntensityCoefficientBasedOffGoalUI() * (element.count / element.minCount);
 
 	}
@@ -301,7 +300,6 @@ public class Spell {
 	{
 		Vector3 newScale = scale;
 		float minCount = element.minCount;
-		var test = element.elementGoal.getScaleCoefficientBasedOffGoalUI ();
 		float changeFactor = element.elementGoal.getScaleCoefficientBasedOffGoalUI() * ( element.count / minCount);
 		newScale.Set(changeFactor, scale.y, changeFactor);
 		return newScale;       
