@@ -30,5 +30,13 @@ public class SpellBuilder : MonoBehaviour {
 		//start the next spell
 		//when all spells are done, report number of spells completed, e.g. 1/3
 
+		//cwkTODO
+		//create a separate initialize/start method from the spell constructor
+		//so that we can make spells and put them in the list, but not start them yet
+		//create SpellState class with Win, Lose, InProgress
+		//while true, get spell state, if InProgress, sleep for 1 second
+		//if spell state is win or lose, update the appropriate counter
+		//start next spell
+
 	}
 }
