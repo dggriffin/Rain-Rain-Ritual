@@ -7,9 +7,6 @@ public class Spell {
 	private string name;
 	private IDictionary<ElementType, Element> elements =  new Dictionary<ElementType, Element>();
 
-	private GameObject inputHandler;
-	private GameObject metronome;
-
 	private int numTicksToWin;
 	private int maxTicksForSpell;
 	private int numTicksInRange = 0;
@@ -101,10 +98,10 @@ public class Spell {
 	}
 
 	private void ListenToEvents() {
-		inputHandler = GameObject.Find ("InputHandler");
+		var inputHandler = GameObject.Find ("InputHandler");
 		inputHandler.GetComponent<InputHandler> ().ElementEvent += Increment;
 
-		metronome = GameObject.Find ("Metronome");
+		var metronome = GameObject.Find ("Metronome");
 		metronome.GetComponent<Metronome>().OnTick += RangeCheck;
 		metronome.GetComponent<Metronome>().OnTick += Decay;
 	}
