@@ -7,6 +7,8 @@ public class Spell {
 	private string name;
 	private IDictionary<ElementType, Element> elements =  new Dictionary<ElementType, Element>();
 
+	private SpellState state = SpellState.NotStarted;
+
 	private int numTicksToWin;
 	private int maxTicksForSpell;
 	private int numTicksInRange = 0;
@@ -63,6 +65,14 @@ public class Spell {
 		InitializeText ();
 
 		ListenToEvents ();
+
+		state = SpellState.InProgress;
+	}
+
+	public SpellState State { 
+		get { 
+			return state;
+		}
 	}
 
 	private void InitializeGround() {
@@ -229,6 +239,7 @@ public class Spell {
 		//winBox.SetActive (true);
 		//winBox.GetComponent<Renderer>().enabled = true;
 
+		state = SpellState.Win;
 		endSpell ();
 	}
 
@@ -249,6 +260,8 @@ public class Spell {
 			loseBox.SetActive (true);
 		}
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
+
+		state = SpellState.Lose;
 		endSpell ();
 	}
 
