@@ -38,5 +38,16 @@ public class SpellBuilder : MonoBehaviour {
 		//if spell state is win or lose, update the appropriate counter
 		//start next spell
 
+		//cwkTODO
+		//fill array with spells
+		//if array has at least one spell
+		//take the first spell
+		//start it pass it a callback for when it is "done"
+		//callback is back here
+		//callback increments stats, takes next spell from array
+		//start the spell and pass it the same callback
+		//if the list does not have any more spells, call the compute score method
+		//which prints out the tally of all the spells
+
 	}
 }
