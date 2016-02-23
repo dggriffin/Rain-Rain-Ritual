@@ -63,8 +63,6 @@ public class SpellBuilder : MonoBehaviour {
 		if (state == SpellState.Win || state == SpellState.Lose) {
 			spell.StopSpell ();
 
-			//cwkTODO keep track of how many wins
-
 			// Ref: http://answers.unity3d.com/questions/350721/c-yield-waitforseconds.html
 			StartCoroutine (WaitThenStartNextSpell (spell));
 		}
@@ -75,7 +73,7 @@ public class SpellBuilder : MonoBehaviour {
 
 		// Wait to let the last spell's animation play a little bit
 		// cwkTODO show UI here
-		yield return new WaitForSeconds (1.0f);
+		yield return new WaitForSeconds (2.0f);
 
 		Debug.Log ("Done waiting: " + Time.time);
 
