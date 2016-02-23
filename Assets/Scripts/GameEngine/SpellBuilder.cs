@@ -29,7 +29,7 @@ public class SpellBuilder : MonoBehaviour {
 		//cwkTODO put back spell
 //		var rain = new Spell ("rain", elements, 20, 120,
 //			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
-		var rain = new Spell ("rain", elements, 10, 20,
+		var rain = new Spell ("rain", elements, 5, 20,
 			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
 
 		spellList.Add (rain);
@@ -40,7 +40,7 @@ public class SpellBuilder : MonoBehaviour {
 
 		curSpellIndex++;
 
-		var rain2 = new Spell ("rain2", elements, 10, 20,
+		var rain2 = new Spell ("rain2", elements, 5, 20,
 			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
 
 		spellList.Add (rain2);
