@@ -62,18 +62,26 @@ public class Spell {
 //			}
 //		}
 		this.loseBox = GameObject.Find ("RainLoseBox");
-
-		InitializeText ();
 	}
 
-	public void StartSpell() {
+	public void StartSpell () {
+		Debug.Log (this.name + " START");
+
 		InitializeGround ();
+
+		InitializeText ();
+
+		ShowRain (false);
 
 		// listening to events really "starts" the spell
 		ListenToEvents ();
 
 		state = SpellState.InProgress;
 		NotifyStateChange ();
+	}
+
+	public void StopSpell () {
+		Debug.Log (this.name + " STOP");
 	}
 
 	public SpellState State { 
@@ -85,6 +93,14 @@ public class Spell {
 	public string Name {
 		get {
 			return name;
+		}
+	}
+
+	private void ShowRain(bool showRain) {
+		if (rain != null) {
+			foreach (Transform t in rain.transform) {
+				t.GetComponent<MeshRenderer> ().enabled = showRain;
+			}
 		}
 	}
 
@@ -255,11 +271,8 @@ public class Spell {
 		if (winSound != null) {
 			winSound.Play ();
 		}
-		if (rain != null) {
-			foreach (Transform t in rain.transform) {
-				t.GetComponent<MeshRenderer> ().enabled = true;
-			}
-		}
+
+		ShowRain (true);
 
 		ShowWetGround (true);
 
@@ -278,9 +291,7 @@ public class Spell {
 			loseSound.Play ();
 		}
 
-		if (rain != null) {
-			rain.SetActive (false);
-		}
+		ShowRain (false);
 
 		ShowWetGround (false);
 

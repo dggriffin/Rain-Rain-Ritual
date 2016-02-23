@@ -79,12 +79,25 @@ public class SpellBuilder : MonoBehaviour {
 	private void StartNextSpell (SpellState state, Spell spell) {
 		Debug.Log (spell.Name + ": state is " + state);
 		if (state == SpellState.Win || state == SpellState.Lose) {
-			var nextSpell = GetNextSpell ();
+			spell.StopSpell ();
 
-			if (nextSpell == null) {
-				return;
-			}
+			// Ref: http://answers.unity3d.com/questions/350721/c-yield-waitforseconds.html
+			StartCoroutine (WaitThenStartNextSpell (spell));
+		}
+	}
 
+	private IEnumerator WaitThenStartNextSpell (Spell spell) {
+		Debug.Log ("Starting to wait: " + Time.time);
+
+		// Wait to let the last spell's animation play a little bit
+		// cwkTODO show UI here
+		yield return new WaitForSeconds (1.0f);
+
+		Debug.Log ("Done waiting: " + Time.time);
+
+		var nextSpell = GetNextSpell ();
+
+		if (nextSpell != null) {
 			nextSpell.OnStateChange += StartNextSpell;
 
 			nextSpell.StartSpell ();
