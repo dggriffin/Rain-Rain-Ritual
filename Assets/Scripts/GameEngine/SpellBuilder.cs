@@ -1,25 +1,40 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class SpellBuilder : MonoBehaviour {
 
 	private int curSpellIndex = 0;
 	private List<Spell> spellList = new List<Spell> ();
+	private Spell curSpell = null;
+
+	private bool isStarted = false;
 
 	public AudioDictionary audioDict; //set in the UI
 
 	// Use this for initialization
 	void Start () {
-		//StartSpell ();
+		//StartSpell (); //StartSpell is started on the instruction button click/keypress
 	}
 
 	public void StartSpell(){
-		spellList.Add (CreateRainSpell("rain1"));
-		spellList.Add (CreateRainSpell("rain2"));
-		spellList.Add (CreateRainSpell("rain3"));
+		if (!isStarted) {
+			isStarted = true;
 
-		StartFirstSpell ();
+			spellList.Add (CreateRainSpell ("rain1"));
+			spellList.Add (CreateRainSpell ("rain2"));
+			spellList.Add (CreateRainSpell ("rain3"));
+
+			StartFirstSpell ();
+		} else {
+			if (curSpell != null && curSpell.State == SpellState.Win || curSpell.State == SpellState.Lose) {
+				GetNextSpellOrEndGame ();
+			} else {
+				Debug.Log ("somebody called start spell when the current spell is in progress");
+			}
+		}
+
 	}
 
 	private Spell CreateRainSpell (string name = "rain") {
@@ -56,6 +71,7 @@ public class SpellBuilder : MonoBehaviour {
 		firstSpell.OnStateChange += StartNextSpell;
 		firstSpell.StartSpell ();
 		curSpellIndex++;
+		curSpell = firstSpell;
 	}
 
 	private void StartNextSpell (SpellState state, Spell spell) {
@@ -78,10 +94,25 @@ public class SpellBuilder : MonoBehaviour {
 
 		// Wait to let the last spell's animation play a little bit
 		// cwkTODO show UI here
-		yield return new WaitForSeconds (2.0f);
+		yield return new WaitForSeconds (1.0f);
 
 		Debug.Log ("Done waiting: " + Time.time);
 
+//		if (curSpellIndex >= spellList.Count) {
+//			EndGame ();
+//		} else {
+//			ShowInstructions ();
+//		}
+		ShowInstructions ();
+	}
+
+	private void ShowInstructions () {
+		var instructions = GameObject.Find ("RainInstructionBox");
+		instructions.GetComponent<Image> ().canvas.enabled = true;
+		//cwkTODO InputHandler is still handling the instructions button press, is that ok?
+	}
+
+	private void GetNextSpellOrEndGame () {
 		var nextSpell = GetNextSpell ();
 
 		if (nextSpell != null) {
@@ -100,6 +131,7 @@ public class SpellBuilder : MonoBehaviour {
 		var nextSpell = spellList [curSpellIndex];
 
 		curSpellIndex++;
+		curSpell = nextSpell;
 
 		return nextSpell;
 	}
