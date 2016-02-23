@@ -80,6 +80,7 @@ public class Spell {
 		NotifyStateChange ();
 	}
 
+	//cwkTODO not sure if this is necessary
 	public void StopSpell () {
 		Debug.Log (this.name + " STOP");
 	}
@@ -389,7 +390,6 @@ public class Spell {
 		}
 
 		NotifyStateChange ();
-		OnStateChange = null; //cwkTODO should we do this or do -= in SpellBuilder?
 
 		StopListeningToEvents ();
 	}

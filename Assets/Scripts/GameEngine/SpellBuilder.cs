@@ -52,20 +52,25 @@ public class SpellBuilder : MonoBehaviour {
 			return;
 		}
 
-		var rain = spellList [0];
-		rain.OnStateChange += StartNextSpell;
-		rain.StartSpell ();
+		var firstSpell = spellList [0];
+		firstSpell.OnStateChange += StartNextSpell;
+		firstSpell.StartSpell ();
 		curSpellIndex++;
 	}
 
 	private void StartNextSpell (SpellState state, Spell spell) {
 		Debug.Log (spell.Name + ": state is " + state);
 		if (state == SpellState.Win || state == SpellState.Lose) {
-			spell.StopSpell ();
+			StopSpell (spell);
 
 			// Ref: http://answers.unity3d.com/questions/350721/c-yield-waitforseconds.html
 			StartCoroutine (WaitThenStartNextSpell (spell));
 		}
+	}
+
+	private void StopSpell (Spell spell) {
+		spell.OnStateChange -= StartNextSpell;
+		spell.StopSpell ();
 	}
 
 	private IEnumerator WaitThenStartNextSpell (Spell spell) {
