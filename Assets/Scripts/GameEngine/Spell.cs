@@ -50,8 +50,6 @@ public class Spell {
 
 		this.rain = GameObject.Find("VFX_Rain");
 
-		InitializeGround ();
-
 		this.cloud = GameObject.Find ("Cloud");
 
 		this.theme = GameObject.Find ("ThemeSource");
@@ -69,6 +67,8 @@ public class Spell {
 	}
 
 	public void StartSpell() {
+		InitializeGround ();
+
 		// listening to events really "starts" the spell
 		ListenToEvents ();
 
@@ -263,6 +263,7 @@ public class Spell {
 
 		ShowWetGround (true);
 
+		//cwkTODO sometimes this is null on second spell
 		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
 		//winBox.SetActive (true);
 		//winBox.GetComponent<Renderer>().enabled = true;
