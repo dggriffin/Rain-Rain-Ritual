@@ -32,7 +32,7 @@ public class Spell {
 	private GameObject winBox = null;
 	private GameObject loseBox = null;
 
-	public delegate void StateChangeEvent(SpellState state);
+	public delegate void StateChangeEvent(SpellState state, Spell spell);
 	public event StateChangeEvent OnStateChange;
 
 	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell,
@@ -82,9 +82,15 @@ public class Spell {
 		}
 	}
 
+	public string Name {
+		get {
+			return name;
+		}
+	}
+
 	private void NotifyStateChange() {
 		if (OnStateChange != null) {
-			OnStateChange (this.state);
+			OnStateChange (this.state, this);
 		}
 	}
 
@@ -127,6 +133,15 @@ public class Spell {
 		var metronome = GameObject.Find ("Metronome");
 		metronome.GetComponent<Metronome>().OnTick += RangeCheck;
 		metronome.GetComponent<Metronome>().OnTick += Decay;
+	}
+
+	private void StopListeningToEvents() {
+		var inputHandler = GameObject.Find ("InputHandler");
+		inputHandler.GetComponent<InputHandler> ().ElementEvent -= Increment;
+
+		var metronome = GameObject.Find ("Metronome");
+		metronome.GetComponent<Metronome>().OnTick -= RangeCheck;
+		metronome.GetComponent<Metronome>().OnTick -= Decay;
 	}
 
 	private void Increment(ElementType elementType, bool isOffbeat){
@@ -236,7 +251,7 @@ public class Spell {
 	}
 
 	private void win() {
-		Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
+		Debug.Log (this.name + ": YOU WIN!" + "Elapsed: " + numTicksElapsed);
 		if (winSound != null) {
 			winSound.Play ();
 		}
@@ -257,7 +272,7 @@ public class Spell {
 	}
 
 	private void lose() {
-		Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
+		Debug.Log (this.name + ": YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
 		if (loseSound != null) {
 			loseSound.Play ();
 		}
@@ -350,6 +365,9 @@ public class Spell {
 		}
 
 		NotifyStateChange ();
+		OnStateChange = null; //cwkTODO should we do this or do -= in SpellBuilder?
+
+		StopListeningToEvents ();
 	}
 
 }

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class SpellBuilder : MonoBehaviour {
 
+	private int curSpellIndex = 0;
+	private List<Spell> spellList = new List<Spell> ();
+
 	public AudioDictionary audioDict; //set in the UI
 
 	// Use this for initialization
@@ -29,9 +32,18 @@ public class SpellBuilder : MonoBehaviour {
 		var rain = new Spell ("rain", elements, 10, 20,
 			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
 
-		rain.OnStateChange += SayHello;
+		spellList.Add (rain);
+
+		rain.OnStateChange += StartNextSpell;
 
 		rain.StartSpell ();
+
+		curSpellIndex++;
+
+		var rain2 = new Spell ("rain2", elements, 10, 20,
+			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
+
+		spellList.Add (rain2);
 
 		//cwkTODO notes for SpellList / Level / SpellBook
 		//initialize a list of spells
@@ -64,7 +76,35 @@ public class SpellBuilder : MonoBehaviour {
 		//figure out how game talks to canvas
 	}
 
-	private void SayHello(SpellState state) {
-		Debug.Log ("state is " + state);
+	private void StartNextSpell (SpellState state, Spell spell) {
+		Debug.Log (spell.Name + ": state is " + state);
+		if (state == SpellState.Win || state == SpellState.Lose) {
+			var nextSpell = GetNextSpell ();
+
+			if (nextSpell == null) {
+				return;
+			}
+
+			nextSpell.OnStateChange += StartNextSpell;
+
+			nextSpell.StartSpell ();
+		}
+	}
+
+	private Spell GetNextSpell () {
+		if (spellList == null || spellList.Count < 1) {
+			return null;
+		}
+
+		if (curSpellIndex >= spellList.Count) {
+			Debug.Log ("GAME OVER");
+			return null;
+		}
+
+		var nextSpell = spellList [curSpellIndex];
+
+		curSpellIndex++;
+
+		return nextSpell;
 	}
 }
