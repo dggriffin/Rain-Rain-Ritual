@@ -50,12 +50,6 @@ public class Spell {
 
 		this.rain = GameObject.Find("VFX_Rain");
 
-		this.cloud = GameObject.Find ("Cloud");
-		//		if (this.cloud != null) {
-		//			this.cloud.GetComponent<CloudBehavior> ().loseResult ();
-		//		}
-		//cwkTODO add reset cloud to origin method
-
 		this.theme = GameObject.Find ("ThemeSource");
 
 //		this.winBox = GameObject.Find ("Canvas").GetCom("RainWinBox");
@@ -74,6 +68,8 @@ public class Spell {
 		InitializeGround ();
 
 		InitializeText ();
+
+		InitializeCloud ();
 
 		ShowRain (false);
 
@@ -97,6 +93,15 @@ public class Spell {
 	public string Name {
 		get {
 			return name;
+		}
+	}
+
+	private void InitializeCloud () {
+		this.cloud = GameObject.Find ("Cloud");
+		//cwkTODO ask Christina why cloud is warping initially
+		if (this.cloud != null) {
+			this.cloud.GetComponent<CloudBehavior> ().reset ();
+			this.cloud.GetComponent<CloudBehavior> ().growResult (0);
 		}
 	}
 
