@@ -103,12 +103,11 @@ public class SpellBuilder : MonoBehaviour {
 
 		Debug.Log ("Done waiting: " + Time.time);
 
-//		if (curSpellIndex >= spellList.Count) {
-//			EndGame ();
-//		} else {
-//			ShowInstructions ();
-//		}
-		ShowInstructions ();
+		if (curSpellIndex >= spellList.Count) {
+			EndGame ();
+		} else {
+			ShowInstructions ();
+		}
 	}
 
 	private void ShowInstructions () {
