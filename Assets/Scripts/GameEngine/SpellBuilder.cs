@@ -15,8 +15,10 @@ public class SpellBuilder : MonoBehaviour {
 		var elements = new List<Element> () {
 			//new Element (ElementType.Fire, 0, 5, 5),
 			//new Element (ElementType.Earth, 0, 5, 5),
-			new Element (ElementType.Water, 25, 32, 1.0f),
-			new Element (ElementType.Wind, 25, 32, 0.5f)
+//			new Element (ElementType.Water, 25, 32, 1.0f),
+//			new Element (ElementType.Wind, 25, 32, 0.5f)
+			new Element (ElementType.Water, 5, 10, 1.0f),
+			new Element (ElementType.Wind, 5, 10, 0.5f)
 		};
 
 		var rain = new Spell ("rain", elements, 20, 120,
@@ -48,6 +50,10 @@ public class SpellBuilder : MonoBehaviour {
 		//start the spell and pass it the same callback
 		//if the list does not have any more spells, call the compute score method
 		//which prints out the tally of all the spells
+
+		//cwkTODO after talking with greyson
+		//figure out how game talks to canvas
+
 
 	}
 }
