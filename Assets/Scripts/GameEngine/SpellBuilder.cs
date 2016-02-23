@@ -31,19 +31,24 @@ public class SpellBuilder : MonoBehaviour {
 //			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
 		var rain = new Spell ("rain", elements, 5, 20,
 			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
-
 		spellList.Add (rain);
-
-		rain.OnStateChange += StartNextSpell;
-
-		rain.StartSpell ();
-
-		curSpellIndex++;
 
 		var rain2 = new Spell ("rain2", elements, 5, 20,
 			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
-
 		spellList.Add (rain2);
+
+		StartFirstSpell ();
+	}
+
+	private void StartFirstSpell () {
+		if (spellList == null || spellList.Count < 1) {
+			return;
+		}
+
+		var rain = spellList [0];
+		rain.OnStateChange += StartNextSpell;
+		rain.StartSpell ();
+		curSpellIndex++;
 	}
 
 	private void StartNextSpell (SpellState state, Spell spell) {
