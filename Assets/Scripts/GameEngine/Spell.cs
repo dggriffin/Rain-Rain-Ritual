@@ -51,6 +51,10 @@ public class Spell {
 		this.rain = GameObject.Find("VFX_Rain");
 
 		this.cloud = GameObject.Find ("Cloud");
+		//		if (this.cloud != null) {
+		//			this.cloud.GetComponent<CloudBehavior> ().loseResult ();
+		//		}
+		//cwkTODO add reset cloud to origin method
 
 		this.theme = GameObject.Find ("ThemeSource");
 
@@ -276,8 +280,12 @@ public class Spell {
 
 		ShowWetGround (true);
 
-		//cwkTODO sometimes this is null on second spell
-		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
+		if (this.cloud != null) {
+			this.cloud.GetComponent<CloudBehavior> ().winResult ();
+		} else {
+			Debug.Log ("cloud is null in win");
+		}
+
 		//winBox.SetActive (true);
 		//winBox.GetComponent<Renderer>().enabled = true;
 
@@ -300,8 +308,11 @@ public class Spell {
 			loseBox.SetActive (true);
 		}
 
-		//cwkTODO this was throwing null exception on lose
-		//GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
+		if (this.cloud != null) {
+			this.cloud.GetComponent<CloudBehavior> ().loseResult ();
+		} else {
+			Debug.Log ("cloud is null is lose");
+		}
 
 		state = SpellState.Lose;
 		endSpell ();
@@ -370,10 +381,6 @@ public class Spell {
 
 		foreach (var element in elements) {
 			element.Value.count = 0;
-		}
-
-		if (this.cloud != null) {
-			this.cloud.SetActive (false);
 		}
 
 		NotifyStateChange ();
