@@ -23,7 +23,10 @@ public class SpellBuilder : MonoBehaviour {
 			new Element (ElementType.Wind, 5, 10, 0.5f)
 		};
 
-		var rain = new Spell ("rain", elements, 20, 120,
+		//cwkTODO put back spell
+//		var rain = new Spell ("rain", elements, 20, 120,
+//			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
+		var rain = new Spell ("rain", elements, 10, 20,
 			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
 
 		rain.OnStateChange += SayHello;
