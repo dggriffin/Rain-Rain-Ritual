@@ -15,29 +15,32 @@ public class SpellBuilder : MonoBehaviour {
 	}
 
 	public void StartSpell(){
+		spellList.Add (CreateRainSpell("rain1"));
+		spellList.Add (CreateRainSpell("rain2"));
+		spellList.Add (CreateRainSpell("rain3"));
+
+		StartFirstSpell ();
+	}
+
+	private Spell CreateRainSpell (string name = "rain") {
 		var elements = new List<Element> () {
 			//new Element (ElementType.Fire, 0, 5, 5),
 			//new Element (ElementType.Earth, 0, 5, 5),
 
 			//cwkTODO put back water and wind settings
-//			new Element (ElementType.Water, 25, 32, 1.0f),
-//			new Element (ElementType.Wind, 25, 32, 0.5f)
+			//			new Element (ElementType.Water, 25, 32, 1.0f),
+			//			new Element (ElementType.Wind, 25, 32, 0.5f)
 			new Element (ElementType.Water, 5, 10, 1.0f),
 			new Element (ElementType.Wind, 5, 10, 0.5f)
 		};
 
 		//cwkTODO put back spell
-//		var rain = new Spell ("rain", elements, 20, 120,
-//			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
-		var rain = new Spell ("rain", elements, 5, 20,
+		//		var rain = new Spell ("rain", elements, 20, 120,
+		//			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
+		var rain = new Spell (name, elements, 5, 20,
 			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
-		spellList.Add (rain);
 
-		var rain2 = new Spell ("rain2", elements, 5, 20,
-			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
-		spellList.Add (rain2);
-
-		StartFirstSpell ();
+		return rain;
 	}
 
 	private void StartFirstSpell () {
