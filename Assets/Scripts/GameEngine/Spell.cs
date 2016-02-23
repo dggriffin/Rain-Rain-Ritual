@@ -32,6 +32,9 @@ public class Spell {
 	private GameObject winBox = null;
 	private GameObject loseBox = null;
 
+	public delegate void StateChangeEvent(SpellState state);
+	public event StateChangeEvent OnStateChange;
+
 	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell,
 		AudioSource winSound = null, AudioSource loseSound = null){
 		this.name = name;
@@ -63,15 +66,25 @@ public class Spell {
 		this.loseBox = GameObject.Find ("RainLoseBox");
 
 		InitializeText ();
+	}
 
+	public void StartSpell() {
+		// listening to events really "starts" the spell
 		ListenToEvents ();
 
 		state = SpellState.InProgress;
+		NotifyStateChange ();
 	}
 
 	public SpellState State { 
 		get { 
 			return state;
+		}
+	}
+
+	private void NotifyStateChange() {
+		if (OnStateChange != null) {
+			OnStateChange (this.state);
 		}
 	}
 
@@ -334,7 +347,7 @@ public class Spell {
 			this.cloud.SetActive (false);
 		}
 
-		//cwkTODO send message that this spell is over
+		NotifyStateChange ();
 	}
 
 }

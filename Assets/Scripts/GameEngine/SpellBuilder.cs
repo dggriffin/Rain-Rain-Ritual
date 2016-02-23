@@ -15,6 +15,8 @@ public class SpellBuilder : MonoBehaviour {
 		var elements = new List<Element> () {
 			//new Element (ElementType.Fire, 0, 5, 5),
 			//new Element (ElementType.Earth, 0, 5, 5),
+
+			//cwkTODO put back water and wind settings
 //			new Element (ElementType.Water, 25, 32, 1.0f),
 //			new Element (ElementType.Wind, 25, 32, 0.5f)
 			new Element (ElementType.Water, 5, 10, 1.0f),
@@ -23,6 +25,10 @@ public class SpellBuilder : MonoBehaviour {
 
 		var rain = new Spell ("rain", elements, 20, 120,
 			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
+
+		rain.OnStateChange += SayHello;
+
+		rain.StartSpell ();
 
 		//cwkTODO notes for SpellList / Level / SpellBook
 		//initialize a list of spells
@@ -53,7 +59,9 @@ public class SpellBuilder : MonoBehaviour {
 
 		//cwkTODO after talking with greyson
 		//figure out how game talks to canvas
+	}
 
-
+	private void SayHello(SpellState state) {
+		Debug.Log ("state is " + state);
 	}
 }
