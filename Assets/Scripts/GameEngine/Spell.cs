@@ -206,7 +206,7 @@ public class Spell {
 
 		numTicksElapsed++;
 		if (allElementsInRange ()) {
-			Debug.Log ("*************************");
+			//Debug.Log ("*************************");
 			numTicksInRange++;
 		} else {
 			numTicksInRange = 0;
