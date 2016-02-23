@@ -7,8 +7,7 @@ public class Spell {
 	private string name;
 	private IDictionary<ElementType, Element> elements =  new Dictionary<ElementType, Element>();
 
-	private GameObject inputHandler;
-	private GameObject metronome;
+	private SpellState state = SpellState.NotStarted;
 
 	private int numTicksToWin;
 	private int maxTicksForSpell;
@@ -33,6 +32,9 @@ public class Spell {
 	private GameObject winBox = null;
 	private GameObject loseBox = null;
 
+	public delegate void StateChangeEvent(SpellState state, Spell spell);
+	public event StateChangeEvent OnStateChange;
+
 	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell,
 		AudioSource winSound = null, AudioSource loseSound = null){
 		this.name = name;
@@ -48,10 +50,6 @@ public class Spell {
 
 		this.rain = GameObject.Find("VFX_Rain");
 
-		InitializeGround ();
-
-		this.cloud = GameObject.Find ("Cloud");
-
 		this.theme = GameObject.Find ("ThemeSource");
 
 //		this.winBox = GameObject.Find ("Canvas").GetCom("RainWinBox");
@@ -62,10 +60,64 @@ public class Spell {
 //			}
 //		}
 		this.loseBox = GameObject.Find ("RainLoseBox");
+	}
+
+	public void StartSpell () {
+		Debug.Log (this.name + " START");
+
+		InitializeGround ();
 
 		InitializeText ();
 
+		InitializeCloud ();
+
+		ShowRain (false);
+
+		// listening to events really "starts" the spell
 		ListenToEvents ();
+
+		state = SpellState.InProgress;
+		NotifyStateChange ();
+	}
+
+	//cwkTODO not sure if this is necessary
+	public void StopSpell () {
+		Debug.Log (this.name + " STOP");
+	}
+
+	public SpellState State { 
+		get { 
+			return state;
+		}
+	}
+
+	public string Name {
+		get {
+			return name;
+		}
+	}
+
+	private void InitializeCloud () {
+		this.cloud = GameObject.Find ("Cloud");
+		//cwkTODO ask Christina why cloud is warping initially
+		if (this.cloud != null) {
+			this.cloud.GetComponent<CloudBehavior> ().reset ();
+			this.cloud.GetComponent<CloudBehavior> ().growResult (0);
+		}
+	}
+
+	private void ShowRain(bool showRain) {
+		if (rain != null) {
+			foreach (Transform t in rain.transform) {
+				t.GetComponent<MeshRenderer> ().enabled = showRain;
+			}
+		}
+	}
+
+	private void NotifyStateChange() {
+		if (OnStateChange != null) {
+			OnStateChange (this.state, this);
+		}
 	}
 
 	private void InitializeGround() {
@@ -101,12 +153,21 @@ public class Spell {
 	}
 
 	private void ListenToEvents() {
-		inputHandler = GameObject.Find ("InputHandler");
+		var inputHandler = GameObject.Find ("InputHandler");
 		inputHandler.GetComponent<InputHandler> ().ElementEvent += Increment;
 
-		metronome = GameObject.Find ("Metronome");
+		var metronome = GameObject.Find ("Metronome");
 		metronome.GetComponent<Metronome>().OnTick += RangeCheck;
 		metronome.GetComponent<Metronome>().OnTick += Decay;
+	}
+
+	private void StopListeningToEvents() {
+		var inputHandler = GameObject.Find ("InputHandler");
+		inputHandler.GetComponent<InputHandler> ().ElementEvent -= Increment;
+
+		var metronome = GameObject.Find ("Metronome");
+		metronome.GetComponent<Metronome>().OnTick -= RangeCheck;
+		metronome.GetComponent<Metronome>().OnTick -= Decay;
 	}
 
 	private void Increment(ElementType elementType, bool isOffbeat){
@@ -199,7 +260,7 @@ public class Spell {
 
 		numTicksElapsed++;
 		if (allElementsInRange ()) {
-			Debug.Log ("*************************");
+			//Debug.Log ("*************************");
 			numTicksInRange++;
 		} else {
 			numTicksInRange = 0;
@@ -216,34 +277,35 @@ public class Spell {
 	}
 
 	private void win() {
-		Debug.Log ("YOU WIN!" + "Elapsed: " + numTicksElapsed);
+		Debug.Log (this.name + ": YOU WIN!" + "Elapsed: " + numTicksElapsed);
 		if (winSound != null) {
 			winSound.Play ();
 		}
-		if (rain != null) {
-			foreach (Transform t in rain.transform) {
-				t.GetComponent<MeshRenderer> ().enabled = true;
-			}
-		}
+
+		ShowRain (true);
 
 		ShowWetGround (true);
 
-		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().winResult ();
+		if (this.cloud != null) {
+			this.cloud.GetComponent<CloudBehavior> ().winResult ();
+		} else {
+			Debug.Log ("cloud is null in win");
+		}
+
 		//winBox.SetActive (true);
 		//winBox.GetComponent<Renderer>().enabled = true;
 
-		endGame ();
+		state = SpellState.Win;
+		endSpell ();
 	}
 
 	private void lose() {
-		Debug.Log ("YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
+		Debug.Log (this.name + ": YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
 		if (loseSound != null) {
 			loseSound.Play ();
 		}
 
-		if (rain != null) {
-			rain.SetActive (false);
-		}
+		ShowRain (false);
 
 		ShowWetGround (false);
 
@@ -251,8 +313,15 @@ public class Spell {
 		if (loseBox != null) {
 			loseBox.SetActive (true);
 		}
-		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
-		endGame ();
+
+		if (this.cloud != null) {
+			this.cloud.GetComponent<CloudBehavior> ().loseResult ();
+		} else {
+			Debug.Log ("cloud is null is lose");
+		}
+
+		state = SpellState.Lose;
+		endSpell ();
 	}
 
 	private void ShowWetGround (bool showWetGround){
@@ -295,7 +364,6 @@ public class Spell {
 		transform.localScale = scale;
 
 		//Scale Element LightSource (for the glow effect)
-		var test = element.elementGoal.getIntensityCoefficientBasedOffGoalUI();
 		GameObject.Find (element.Type.ToString()).GetComponent<Light> ().range = element.elementGoal.getIntensityCoefficientBasedOffGoalUI() * (element.count / element.minCount);
 
 	}
@@ -304,13 +372,12 @@ public class Spell {
 	{
 		Vector3 newScale = scale;
 		float minCount = element.minCount;
-		var test = element.elementGoal.getScaleCoefficientBasedOffGoalUI ();
 		float changeFactor = element.elementGoal.getScaleCoefficientBasedOffGoalUI() * ( element.count / minCount);
 		newScale.Set(changeFactor, scale.y, changeFactor);
 		return newScale;       
 	}
 
-	private void endGame(){
+	private void endSpell(){
 		//for when we were reseting the game:
 		//numTicksInRange = 0;
 		//numTicksElapsed = 0;
@@ -322,9 +389,9 @@ public class Spell {
 			element.Value.count = 0;
 		}
 
-		if (this.cloud != null) {
-			this.cloud.SetActive (false);
-		}
+		NotifyStateChange ();
+
+		StopListeningToEvents ();
 	}
 
 }

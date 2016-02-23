@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class HideThisBox : MonoBehaviour {
 
@@ -11,6 +12,10 @@ public class HideThisBox : MonoBehaviour {
 	}
 	
 	public void HideBox(){
-		go.SetActive (false);
+		//Don't use setActive because we can't access the object again later
+		//go.SetActive (false);
+
+		var image = go.GetComponent<Image> ();
+		image.canvas.enabled = false;
 	}
 }

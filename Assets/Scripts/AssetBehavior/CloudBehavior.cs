@@ -14,6 +14,13 @@ public class CloudBehavior : MonoBehaviour {
 		this.r = r;
 	}
 
+	public void reset ()
+	{
+		growStarted = false;
+		count = 0;
+		r = 0;
+	}
+
 	void Update(){
 		transform.Rotate (Random.Range(0,8),2,50 * Time.deltaTime);
 		if (growStarted) {
