@@ -28,10 +28,13 @@ public class SpellBuilder : MonoBehaviour {
 
 			StartFirstSpell ();
 		} else {
+			// Only get the next spell if the current spell is done
+			// (i.e. in case this gets called when a spell is in progress, don't get the next spell yet)
 			if (curSpell != null && IsSpellOver (curSpell)) {
 				GetNextSpellOrEndGame ();
 			} else {
 				//cwkTODO figure out why this happens!
+				//for some reason button click is called multiple times after spacebara is pressed on the instructions
 				Debug.Log ("somebody called start spell when the current spell is in progress");
 			}
 		}
