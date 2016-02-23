@@ -272,7 +272,9 @@ public class Spell {
 		if (loseBox != null) {
 			loseBox.SetActive (true);
 		}
-		GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
+
+		//cwkTODO this was throwing null exception on lose
+		//GameObject.Find ("Cloud").GetComponent<CloudBehavior> ().loseResult ();
 
 		state = SpellState.Lose;
 		endSpell ();
