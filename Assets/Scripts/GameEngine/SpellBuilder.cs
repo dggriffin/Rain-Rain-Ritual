@@ -28,9 +28,10 @@ public class SpellBuilder : MonoBehaviour {
 
 			StartFirstSpell ();
 		} else {
-			if (curSpell != null && curSpell.State == SpellState.Win || curSpell.State == SpellState.Lose) {
+			if (curSpell != null && IsSpellOver (curSpell)) {
 				GetNextSpellOrEndGame ();
 			} else {
+				//cwkTODO figure out why this happens!
 				Debug.Log ("somebody called start spell when the current spell is in progress");
 			}
 		}
@@ -76,12 +77,16 @@ public class SpellBuilder : MonoBehaviour {
 
 	private void StartNextSpell (SpellState state, Spell spell) {
 		Debug.Log (spell.Name + ": state is " + state);
-		if (state == SpellState.Win || state == SpellState.Lose) {
+		if (IsSpellOver (spell)) {
 			StopSpell (spell);
 
 			// Ref: http://answers.unity3d.com/questions/350721/c-yield-waitforseconds.html
 			StartCoroutine (WaitThenStartNextSpell (spell));
 		}
+	}
+
+	private bool IsSpellOver (Spell spell) {
+		return spell.State == SpellState.Win || spell.State == SpellState.Lose;
 	}
 
 	private void StopSpell (Spell spell) {
