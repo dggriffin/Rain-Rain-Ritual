@@ -9,6 +9,9 @@ public class SpellBuilder : MonoBehaviour {
 	private SpellList spellList = null;
 	private Spell curSpell = null;
 
+	public delegate void SpellCompleteEvent (Spell spell);
+	public event SpellCompleteEvent OnSpellComplete;
+
 	// Use this for initialization
 	void Start () {
 		//StartSpell (); //StartSpell is started on the instruction button click/keypress
@@ -20,7 +23,7 @@ public class SpellBuilder : MonoBehaviour {
 
 			spellList = GameObject.Find ("SpellList").GetComponent<SpellList> ();
 
-			StartFirstSpell ();
+			GetNextSpellOrEndGame ();
 		} else {
 			// Only get the next spell if the current spell is done
 			// (i.e. in case this gets called when a spell is in progress, don't get the next spell yet)
@@ -34,22 +37,15 @@ public class SpellBuilder : MonoBehaviour {
 		}
 
 	}
-		
-	private void StartFirstSpell () {
-		var firstSpell = GetNextSpell ();
-
-		if (firstSpell == null) {
-			return;
-		}
-
-		firstSpell.OnStateChange += OnSpellOver;
-		firstSpell.StartSpell ();
-	}
 
 	private void OnSpellOver (SpellState state, Spell spell) {
 		Debug.Log (spell.Name + ": state is " + state);
 		if (IsSpellOver (spell)) {
 			StopSpell (spell);
+
+			if (OnSpellComplete != null) {
+				OnSpellComplete (spell);
+			}
 
 			// Ref: http://answers.unity3d.com/questions/350721/c-yield-waitforseconds.html
 			StartCoroutine (WaitThenShowNextInstructions (spell));
@@ -87,7 +83,8 @@ public class SpellBuilder : MonoBehaviour {
 	}
 
 	private void GetNextSpellOrEndGame () {
-		var nextSpell = GetNextSpell ();
+		var nextSpell = spellList.GetNextSpell ();
+		curSpell = nextSpell;
 
 		if (nextSpell != null) {
 			nextSpell.OnStateChange += OnSpellOver;
@@ -95,12 +92,6 @@ public class SpellBuilder : MonoBehaviour {
 		} else {
 			EndGame ();
 		}
-	}
-
-	private Spell GetNextSpell () {
-		var nextSpell = spellList.GetNextSpell ();
-		curSpell = nextSpell;
-		return nextSpell;
 	}
 
 	private void EndGame () {
