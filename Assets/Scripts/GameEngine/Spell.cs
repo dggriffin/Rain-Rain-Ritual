@@ -69,9 +69,9 @@ public class Spell {
 
 		InitializeText ();
 
-		InitializeCloud ();
+		InitializeCenterObject ();
 
-		ShowRain (false);
+		ShowWinAnimation (false);
 
 		// listening to events really "starts" the spell
 		ListenToEvents ();
@@ -97,7 +97,7 @@ public class Spell {
 		}
 	}
 
-	private void InitializeCloud () {
+	protected void InitializeCenterObject () {
 		this.cloud = GameObject.Find ("Cloud");
 		//cwkTODO ask Christina why cloud is warping initially
 		if (this.cloud != null) {
@@ -106,10 +106,10 @@ public class Spell {
 		}
 	}
 
-	private void ShowRain(bool showRain) {
+	protected void ShowWinAnimation(bool show) {
 		if (rain != null) {
 			foreach (Transform t in rain.transform) {
-				t.GetComponent<MeshRenderer> ().enabled = showRain;
+				t.GetComponent<MeshRenderer> ().enabled = show;
 			}
 		}
 	}
@@ -282,7 +282,7 @@ public class Spell {
 			winSound.Play ();
 		}
 
-		ShowRain (true);
+		ShowWinAnimation (true);
 
 		ShowWetGround (true);
 
@@ -305,7 +305,7 @@ public class Spell {
 			loseSound.Play ();
 		}
 
-		ShowRain (false);
+		ShowWinAnimation (false);
 
 		ShowWetGround (false);
 
