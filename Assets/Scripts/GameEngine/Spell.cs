@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Spell {
 	private string name;
-	private IDictionary<ElementType, Element> elements =  new Dictionary<ElementType, Element>();
+	private IDictionary<ElementType, Element> elements = null;
 
 	private SpellState state = SpellState.NotStarted;
 
@@ -34,12 +34,9 @@ public class Spell {
 	public delegate void StateChangeEvent(SpellState state, Spell spell);
 	public event StateChangeEvent OnStateChange;
 
-	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell) {
+	public Spell(string name, int numTicksToWin, int maxTicksForSpell) {
 		this.name = name;
-		this.elements = new Dictionary<ElementType, Element>();
-		foreach (var element in elements) {
-			this.elements.Add (element.Type, element);
-		}
+
 		this.numTicksToWin = numTicksToWin;
 		this.maxTicksForSpell = maxTicksForSpell;
 
@@ -91,6 +88,24 @@ public class Spell {
 	public string Name {
 		get {
 			return name;
+		}
+	}
+
+	protected virtual List<Element> ElementList {
+		get { 
+			return new List<Element> ();
+		}
+	}
+
+	protected IDictionary<ElementType, Element> Elements {
+		get {
+			if (this.elements == null) {
+				this.elements = new Dictionary<ElementType, Element>();
+				foreach (var element in ElementList) {
+					this.elements.Add (element.Type, element);
+				}
+			}
+			return this.elements;
 		}
 	}
 
@@ -250,7 +265,7 @@ public class Spell {
 
 
 	private void Decay(){
-		foreach (var element in elements) {
+		foreach (var element in Elements) {
 			element.Value.Decay ();
 			updateElementUI(element.Value);
 		}
@@ -332,19 +347,19 @@ public class Spell {
 
 	private bool allElementsInRange() {
 		bool allInRange = true;
-		foreach (var element in elements) {
+		foreach (var element in Elements) {
 			allInRange = allInRange && element.Value.IsInRange();
 		}
 		return allInRange;
 	}
 
 	private Element getElement(ElementType elementType){
-		return elements.ContainsKey(elementType) ? elements [elementType] : null;
+		return Elements.ContainsKey(elementType) ? Elements [elementType] : null;
 	}
 
 	public void PrintElements () {
 		Debug.Log(string.Format("Spell: {0}", this.name));
-		foreach (var element in elements) {
+		foreach (var element in Elements) {
 			element.Value.Print ();
 		}
 	}
@@ -381,7 +396,7 @@ public class Spell {
 		//TODO: stop dancing
 		//TODO: stop music
 
-		foreach (var element in elements) {
+		foreach (var element in Elements) {
 			element.Value.count = 0;
 		}
 
