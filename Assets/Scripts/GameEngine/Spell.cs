@@ -57,7 +57,7 @@ public class Spell {
 	}
 
 	public void StartSpell () {
-		Debug.Log (this.name + " START");
+		//Debug.Log (this.name + " START");
 
 		InitializeGround ();
 
@@ -76,7 +76,7 @@ public class Spell {
 
 	//cwkTODO not sure if this is necessary
 	public void StopSpell () {
-		Debug.Log (this.name + " STOP");
+		//Debug.Log (this.name + " STOP");
 	}
 
 	public SpellState State { 
@@ -253,6 +253,8 @@ public class Spell {
 			elementText.transform.position = elementCircleScreenPosition;
 			elementText.transform.Translate (textPositionOffset);
 			elementText.text = "OFFBEAT!";
+
+			//Debug.Log (elementCircleName + " is OFFBEAT!");
 		}
 	}
 
