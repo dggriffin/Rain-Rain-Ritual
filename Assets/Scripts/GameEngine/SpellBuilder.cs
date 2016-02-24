@@ -56,12 +56,10 @@ public class SpellBuilder : MonoBehaviour {
 		};
 
 		//cwkTODO put back spell
-		//		var rain = new RainSpell ("rain", elements, 20, 120,
-		//			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
+		//		var rain = new RainSpell ("rain", elements, 20, 120, audioDict);
 
 		//cwkTODO easier settings for testing
-		var rain = new RainSpell (name, elements, 5, 20,
-			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
+		var rain = new RainSpell (name, elements, 5, 20, audioDict);
 
 		return rain;
 	}

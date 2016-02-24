@@ -14,6 +14,7 @@ public class Spell {
 	protected int numTicksInRange = 0;
 	protected int numTicksElapsed = 0;
 
+	protected AudioDictionary audioDict;
 	private AudioSource winSound = null;
 	private AudioSource loseSound = null;
 
@@ -33,8 +34,7 @@ public class Spell {
 	public delegate void StateChangeEvent(SpellState state, Spell spell);
 	public event StateChangeEvent OnStateChange;
 
-	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell,
-		AudioSource winSound = null, AudioSource loseSound = null){
+	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell, AudioDictionary audioDict){
 		this.name = name;
 		this.elements = new Dictionary<ElementType, Element>();
 		foreach (var element in elements) {
@@ -43,8 +43,7 @@ public class Spell {
 		this.numTicksToWin = numTicksToWin;
 		this.maxTicksForSpell = maxTicksForSpell;
 
-		this.winSound = winSound;
-		this.loseSound = loseSound;
+		this.audioDict = audioDict;
 
 		WinAnimationInitialize ();
 
@@ -93,6 +92,14 @@ public class Spell {
 		get {
 			return name;
 		}
+	}
+
+	protected virtual AudioSource WinSound {
+		get { return this.winSound; }
+	}
+
+	protected virtual AudioSource LoseSound {
+		get { return this.loseSound; }
 	}
 
 	protected virtual void CenterObjectInitialize () {
@@ -275,8 +282,8 @@ public class Spell {
 
 	private void win() {
 		Debug.Log (this.name + ": YOU WIN!" + "Elapsed: " + numTicksElapsed);
-		if (winSound != null) {
-			winSound.Play ();
+		if (WinSound != null) {
+			WinSound.Play ();
 		}
 
 		ShowWinAnimation (true);
@@ -294,8 +301,8 @@ public class Spell {
 
 	private void lose() {
 		Debug.Log (this.name + ": YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
-		if (loseSound != null) {
-			loseSound.Play ();
+		if (LoseSound != null) {
+			LoseSound.Play ();
 		}
 
 		ShowWinAnimation (false);

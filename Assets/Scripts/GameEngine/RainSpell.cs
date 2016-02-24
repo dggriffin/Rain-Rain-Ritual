@@ -7,10 +7,16 @@ public class RainSpell : Spell
 	private GameObject cloud = null;
 	private GameObject rain = null;
 
-	public RainSpell (string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell,
-		AudioSource winSound = null, AudioSource loseSound = null) 
-		: base(name, elements, numTicksToWin, maxTicksForSpell,
-			winSound, loseSound) {
+	public RainSpell (string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell, AudioDictionary audioDict) 
+		: base(name, elements, numTicksToWin, maxTicksForSpell, audioDict) {
+	}
+
+	protected override AudioSource WinSound {
+		get { return audioDict.GetSound ("thunderclap"); }
+	}
+
+	protected override AudioSource LoseSound {
+		get { return audioDict.GetSound ("cloudfailure"); }
 	}
 
 	protected override void CenterObjectInitialize () {
