@@ -9,18 +9,16 @@ public class Spell {
 
 	private SpellState state = SpellState.NotStarted;
 
-	private int numTicksToWin;
-	private int maxTicksForSpell;
-	private int numTicksInRange = 0;
-	private int numTicksElapsed = 0;
+	protected int numTicksToWin;
+	protected int maxTicksForSpell;
+	protected int numTicksInRange = 0;
+	protected int numTicksElapsed = 0;
 
 	private AudioSource winSound = null;
 	private AudioSource loseSound = null;
 
-	private GameObject rain = null;
 	private MeshRenderer dryGroundMeshRenderer = null;
 	private MeshRenderer wetGroundMeshRenderer = null;
-	private GameObject cloud = null;
 
 	private GameObject theme = null;
 
@@ -48,7 +46,7 @@ public class Spell {
 		this.winSound = winSound;
 		this.loseSound = loseSound;
 
-		this.rain = GameObject.Find("VFX_Rain");
+		WinAnimationInitialize ();
 
 		this.theme = GameObject.Find ("ThemeSource");
 
@@ -69,7 +67,7 @@ public class Spell {
 
 		InitializeText ();
 
-		InitializeCenterObject ();
+		CenterObjectInitialize ();
 
 		ShowWinAnimation (false);
 
@@ -97,21 +95,22 @@ public class Spell {
 		}
 	}
 
-	protected void InitializeCenterObject () {
-		this.cloud = GameObject.Find ("Cloud");
-		//cwkTODO ask Christina why cloud is warping initially
-		if (this.cloud != null) {
-			this.cloud.GetComponent<CloudBehavior> ().reset ();
-			this.cloud.GetComponent<CloudBehavior> ().growResult (0);
-		}
+	protected virtual void CenterObjectInitialize () {
 	}
 
-	protected void ShowWinAnimation(bool show) {
-		if (rain != null) {
-			foreach (Transform t in rain.transform) {
-				t.GetComponent<MeshRenderer> ().enabled = show;
-			}
-		}
+	protected virtual void CenterObjectUpdate () {
+	}
+
+	protected virtual void CenterObjectWin () {
+	}
+
+	protected virtual void CenterObjectLose () {
+	}
+
+	protected virtual void WinAnimationInitialize () {
+	}
+
+	protected virtual void ShowWinAnimation(bool show) {
 	}
 
 	private void NotifyStateChange() {
@@ -266,9 +265,7 @@ public class Spell {
 			numTicksInRange = 0;
 		}
 
-		if (this.cloud != null) {
-			this.cloud.GetComponent<CloudBehavior> ().growResult (((float)numTicksInRange / (float)numTicksToWin) / 2f);
-		}
+		CenterObjectUpdate ();
 
 		if (numTicksInRange == numTicksToWin) {
 			win ();
@@ -286,11 +283,7 @@ public class Spell {
 
 		ShowWetGround (true);
 
-		if (this.cloud != null) {
-			this.cloud.GetComponent<CloudBehavior> ().winResult ();
-		} else {
-			Debug.Log ("cloud is null in win");
-		}
+		CenterObjectWin ();
 
 		//winBox.SetActive (true);
 		//winBox.GetComponent<Renderer>().enabled = true;
@@ -314,11 +307,7 @@ public class Spell {
 			loseBox.SetActive (true);
 		}
 
-		if (this.cloud != null) {
-			this.cloud.GetComponent<CloudBehavior> ().loseResult ();
-		} else {
-			Debug.Log ("cloud is null is lose");
-		}
+		CenterObjectLose ();
 
 		state = SpellState.Lose;
 		endSpell ();
