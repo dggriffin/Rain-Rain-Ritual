@@ -11,8 +11,6 @@ public class SpellBuilder : MonoBehaviour {
 
 	private bool isStarted = false;
 
-	public AudioDictionary audioDict; //set in the UI
-
 	// Use this for initialization
 	void Start () {
 		//StartSpell (); //StartSpell is started on the instruction button click/keypress
@@ -56,10 +54,10 @@ public class SpellBuilder : MonoBehaviour {
 		};
 
 		//cwkTODO put back spell
-		//		var rain = new RainSpell ("rain", elements, 20, 120, audioDict);
+		//		var rain = new RainSpell ("rain", elements, 20, 120);
 
 		//cwkTODO easier settings for testing
-		var rain = new RainSpell (name, elements, 5, 20, audioDict);
+		var rain = new RainSpell (name, elements, 5, 20);
 
 		return rain;
 	}

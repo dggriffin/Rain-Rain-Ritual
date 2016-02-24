@@ -7,8 +7,8 @@ public class RainSpell : Spell
 	private GameObject cloud = null;
 	private GameObject rain = null;
 
-	public RainSpell (string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell, AudioDictionary audioDict) 
-		: base(name, elements, numTicksToWin, maxTicksForSpell, audioDict) {
+	public RainSpell (string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell) 
+		: base(name, elements, numTicksToWin, maxTicksForSpell) {
 	}
 
 	protected override AudioSource WinSound {

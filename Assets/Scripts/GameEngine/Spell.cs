@@ -34,7 +34,7 @@ public class Spell {
 	public delegate void StateChangeEvent(SpellState state, Spell spell);
 	public event StateChangeEvent OnStateChange;
 
-	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell, AudioDictionary audioDict){
+	public Spell(string name, IList<Element> elements, int numTicksToWin, int maxTicksForSpell) {
 		this.name = name;
 		this.elements = new Dictionary<ElementType, Element>();
 		foreach (var element in elements) {
@@ -43,7 +43,7 @@ public class Spell {
 		this.numTicksToWin = numTicksToWin;
 		this.maxTicksForSpell = maxTicksForSpell;
 
-		this.audioDict = audioDict;
+		this.audioDict = GameObject.Find ("AudioDictionary").GetComponent<AudioDictionary> ();
 
 		WinAnimationInitialize ();
 
