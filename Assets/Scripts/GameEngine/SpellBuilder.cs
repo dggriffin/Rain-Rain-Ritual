@@ -11,8 +11,6 @@ public class SpellBuilder : MonoBehaviour {
 
 	private bool isStarted = false;
 
-	public AudioDictionary audioDict; //set in the UI
-
 	// Use this for initialization
 	void Start () {
 		//StartSpell (); //StartSpell is started on the instruction button click/keypress
@@ -42,26 +40,11 @@ public class SpellBuilder : MonoBehaviour {
 	}
 
 	private Spell CreateRainSpell (string name = "rain") {
-		var elements = new List<Element> () {
-			//new Element (ElementType.Fire, 0, 5, 5),
-			//new Element (ElementType.Earth, 0, 5, 5),
-
-			//cwkTODO put back water and wind settings
-			//			new Element (ElementType.Water, 25, 32, 1.0f),
-			//			new Element (ElementType.Wind, 25, 32, 0.5f)
-
-			//cwkTODO easier settings for testing
-			new Element (ElementType.Water, 5, 10, 1.0f),
-			new Element (ElementType.Wind, 5, 10, 0.5f)
-		};
-
 		//cwkTODO put back spell
-		//		var rain = new Spell ("rain", elements, 20, 120,
-		//			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
+		//		var rain = new RainSpell ("rain", 20, 120);
 
 		//cwkTODO easier settings for testing
-		var rain = new Spell (name, elements, 5, 20,
-			audioDict.GetSound("thunderclap"), audioDict.GetSound("cloudfailure"));
+		var rain = new RainSpell (name, 5, 20);
 
 		return rain;
 	}
@@ -72,19 +55,19 @@ public class SpellBuilder : MonoBehaviour {
 		}
 
 		var firstSpell = spellList [0];
-		firstSpell.OnStateChange += StartNextSpell;
+		firstSpell.OnStateChange += OnSpellOver;
 		firstSpell.StartSpell ();
 		curSpellIndex++;
 		curSpell = firstSpell;
 	}
 
-	private void StartNextSpell (SpellState state, Spell spell) {
+	private void OnSpellOver (SpellState state, Spell spell) {
 		Debug.Log (spell.Name + ": state is " + state);
 		if (IsSpellOver (spell)) {
 			StopSpell (spell);
 
 			// Ref: http://answers.unity3d.com/questions/350721/c-yield-waitforseconds.html
-			StartCoroutine (WaitThenStartNextSpell (spell));
+			StartCoroutine (WaitThenShowNextInstructions (spell));
 		}
 	}
 
@@ -93,15 +76,14 @@ public class SpellBuilder : MonoBehaviour {
 	}
 
 	private void StopSpell (Spell spell) {
-		spell.OnStateChange -= StartNextSpell;
+		spell.OnStateChange -= OnSpellOver;
 		spell.StopSpell ();
 	}
 
-	private IEnumerator WaitThenStartNextSpell (Spell spell) {
+	private IEnumerator WaitThenShowNextInstructions (Spell spell) {
 		Debug.Log ("Starting to wait: " + Time.time);
 
 		// Wait to let the last spell's animation play a little bit
-		// cwkTODO show UI here
 		yield return new WaitForSeconds (1.0f);
 
 		Debug.Log ("Done waiting: " + Time.time);
@@ -123,13 +105,14 @@ public class SpellBuilder : MonoBehaviour {
 		var nextSpell = GetNextSpell ();
 
 		if (nextSpell != null) {
-			nextSpell.OnStateChange += StartNextSpell;
+			nextSpell.OnStateChange += OnSpellOver;
 			nextSpell.StartSpell ();
 		} else {
 			EndGame ();
 		}
 	}
 
+	//cwkTODO this will call SpellList
 	private Spell GetNextSpell () {
 		if (spellList == null || spellList.Count < 1 || curSpellIndex >= spellList.Count) {
 			return null;
