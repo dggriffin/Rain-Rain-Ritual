@@ -32,14 +32,14 @@ public class SpellBuilder : MonoBehaviour {
 			} else {
 				//cwkTODO figure out why this happens!
 				//for some reason button click is called multiple times after spacebara is pressed on the instructions
-				Debug.Log ("somebody called start spell when the current spell is in progress");
+				//Debug.Log ("somebody called start spell when the current spell is in progress");
 			}
 		}
 
 	}
 
 	private void OnSpellOver (SpellState state, Spell spell) {
-		Debug.Log (spell.Name + ": state is " + state);
+		//Debug.Log (spell.Name + ": state is " + state);
 		if (IsSpellOver (spell)) {
 			StopSpell (spell);
 
@@ -62,12 +62,12 @@ public class SpellBuilder : MonoBehaviour {
 	}
 
 	private IEnumerator WaitThenShowNextInstructions (Spell spell) {
-		Debug.Log ("Starting to wait: " + Time.time);
+		//Debug.Log ("Starting to wait: " + Time.time);
 
 		// Wait to let the last spell's animation play a little bit
 		yield return new WaitForSeconds (1.0f);
 
-		Debug.Log ("Done waiting: " + Time.time);
+		//Debug.Log ("Done waiting: " + Time.time);
 
 		if (!spellList.HasNextSpell()) {
 			EndGame ();
