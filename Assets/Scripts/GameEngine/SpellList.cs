@@ -6,14 +6,14 @@ public class SpellList : MonoBehaviour {
 
 	private int curSpellIndex = 0;
 
-	private List<Spell> spellList = new List<Spell> (); //cwkTODO rename to spells
+	private List<Spell> spells = new List<Spell> ();
 
 	// Use this for initialization
 	void Start () {
 		//cwkTODO replace rain with other spells
-		spellList.Add (CreateRainSpell ("rain1"));
-		spellList.Add (CreateRainSpell ("rain2"));
-		spellList.Add (CreateRainSpell ("rain3"));
+		spells.Add (CreateRainSpell ("rain1"));
+		spells.Add (CreateRainSpell ("rain2"));
+		spells.Add (CreateRainSpell ("rain3"));
 	}
 	
 	// Update is called once per frame
@@ -22,19 +22,18 @@ public class SpellList : MonoBehaviour {
 	}
 
 	public bool HasNextSpell () {
-		return spellList != null && curSpellIndex < spellList.Count;
+		return spells != null && curSpellIndex < spells.Count;
 	}
 
 	//cwkTODO take into account user data
 	public Spell GetNextSpell () {
-		if (spellList == null || spellList.Count < 1 || curSpellIndex >= spellList.Count) {
+		if (spells == null || spells.Count < 1 || curSpellIndex >= spells.Count) {
 			return null;
 		}
 
-		var nextSpell = spellList [curSpellIndex];
+		var nextSpell = spells [curSpellIndex];
 
 		curSpellIndex++;
-
 
 		return nextSpell;
 	}
@@ -44,7 +43,7 @@ public class SpellList : MonoBehaviour {
 
 		List<string> states = new List<string>();
 
-		foreach (var spell in spellList) {
+		foreach (var spell in spells) {
 			states.Add (spell.State.ToString());
 			if (spell.State == SpellState.Win) {
 				wins++;
@@ -53,7 +52,7 @@ public class SpellList : MonoBehaviour {
 
 		var gameResults = string.Format("{0}/{1}: ({2})",
 			wins,
-			spellList.Count,
+			spells.Count,
 			string.Join(", ", states.ToArray())
 		);
 
