@@ -20,7 +20,7 @@ public class SpellBuilder : MonoBehaviour {
 
 			spellList = GameObject.Find ("SpellList").GetComponent<SpellList> ();
 
-			StartFirstSpell ();
+			GetNextSpellOrEndGame ();
 		} else {
 			// Only get the next spell if the current spell is done
 			// (i.e. in case this gets called when a spell is in progress, don't get the next spell yet)
@@ -33,17 +33,6 @@ public class SpellBuilder : MonoBehaviour {
 			}
 		}
 
-	}
-		
-	private void StartFirstSpell () {
-		var firstSpell = GetNextSpell ();
-
-		if (firstSpell == null) {
-			return;
-		}
-
-		firstSpell.OnStateChange += OnSpellOver;
-		firstSpell.StartSpell ();
 	}
 
 	private void OnSpellOver (SpellState state, Spell spell) {
@@ -87,7 +76,8 @@ public class SpellBuilder : MonoBehaviour {
 	}
 
 	private void GetNextSpellOrEndGame () {
-		var nextSpell = GetNextSpell ();
+		var nextSpell = spellList.GetNextSpell ();
+		curSpell = nextSpell;
 
 		if (nextSpell != null) {
 			nextSpell.OnStateChange += OnSpellOver;
@@ -95,12 +85,6 @@ public class SpellBuilder : MonoBehaviour {
 		} else {
 			EndGame ();
 		}
-	}
-
-	private Spell GetNextSpell () {
-		var nextSpell = spellList.GetNextSpell ();
-		curSpell = nextSpell;
-		return nextSpell;
 	}
 
 	private void EndGame () {
