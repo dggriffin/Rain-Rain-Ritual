@@ -9,6 +9,9 @@ public class SpellBuilder : MonoBehaviour {
 	private SpellList spellList = null;
 	private Spell curSpell = null;
 
+	public delegate void SpellCompleteEvent (Spell spell);
+	public event SpellCompleteEvent OnSpellComplete;
+
 	// Use this for initialization
 	void Start () {
 		//StartSpell (); //StartSpell is started on the instruction button click/keypress
@@ -39,6 +42,10 @@ public class SpellBuilder : MonoBehaviour {
 		Debug.Log (spell.Name + ": state is " + state);
 		if (IsSpellOver (spell)) {
 			StopSpell (spell);
+
+			if (OnSpellComplete != null) {
+				OnSpellComplete (spell);
+			}
 
 			// Ref: http://answers.unity3d.com/questions/350721/c-yield-waitforseconds.html
 			StartCoroutine (WaitThenShowNextInstructions (spell));
