@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class SpellBuilder : MonoBehaviour {
 
-	private int curSpellIndex = 0;
-	private List<Spell> spellList = new List<Spell> ();
-	private Spell curSpell = null;
-
 	private bool isStarted = false;
+	private SpellList spellList = null;
+	private Spell curSpell = null;
 
 	// Use this for initialization
 	void Start () {
@@ -20,9 +18,7 @@ public class SpellBuilder : MonoBehaviour {
 		if (!isStarted) {
 			isStarted = true;
 
-			spellList.Add (CreateRainSpell ("rain1"));
-			spellList.Add (CreateRainSpell ("rain2"));
-			spellList.Add (CreateRainSpell ("rain3"));
+			spellList = GameObject.Find ("SpellList").GetComponent<SpellList> ();
 
 			StartFirstSpell ();
 		} else {
@@ -38,27 +34,16 @@ public class SpellBuilder : MonoBehaviour {
 		}
 
 	}
-
-	private Spell CreateRainSpell (string name = "rain") {
-		//cwkTODO put back spell
-		//		var rain = new RainSpell ("rain", 20, 120);
-
-		//cwkTODO easier settings for testing
-		var rain = new RainSpell (name, 5, 20);
-
-		return rain;
-	}
-
+		
 	private void StartFirstSpell () {
-		if (spellList == null || spellList.Count < 1) {
+		var firstSpell = GetNextSpell ();
+
+		if (firstSpell == null) {
 			return;
 		}
 
-		var firstSpell = spellList [0];
 		firstSpell.OnStateChange += OnSpellOver;
 		firstSpell.StartSpell ();
-		curSpellIndex++;
-		curSpell = firstSpell;
 	}
 
 	private void OnSpellOver (SpellState state, Spell spell) {
@@ -88,7 +73,7 @@ public class SpellBuilder : MonoBehaviour {
 
 		Debug.Log ("Done waiting: " + Time.time);
 
-		if (curSpellIndex >= spellList.Count) {
+		if (!spellList.HasNextSpell()) {
 			EndGame ();
 		} else {
 			ShowInstructions ();
@@ -112,37 +97,14 @@ public class SpellBuilder : MonoBehaviour {
 		}
 	}
 
-	//cwkTODO this will call SpellList
 	private Spell GetNextSpell () {
-		if (spellList == null || spellList.Count < 1 || curSpellIndex >= spellList.Count) {
-			return null;
-		}
-
-		var nextSpell = spellList [curSpellIndex];
-
-		curSpellIndex++;
+		var nextSpell = spellList.GetNextSpell ();
 		curSpell = nextSpell;
-
 		return nextSpell;
 	}
 
 	private void EndGame () {
-		List<string> states = new List<string>();
-		int wins = 0;
-
-		foreach (var spell in spellList) {
-			states.Add (spell.State.ToString());
-			if (spell.State == SpellState.Win) {
-				wins++;
-			}
-		}
-
-		var gameResults = string.Format("{0}/{1}: ({2})",
-			wins,
-			spellList.Count,
-			string.Join(", ", states.ToArray())
-		);
-
+		var gameResults = spellList.GetGameResults ();
 		Debug.Log ("GAME OVER: " + gameResults);
 	}
 }
