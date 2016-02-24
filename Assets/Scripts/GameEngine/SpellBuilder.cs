@@ -77,9 +77,9 @@ public class SpellBuilder : MonoBehaviour {
 	}
 
 	private void ShowInstructions () {
-		var instructions = GameObject.Find ("RainInstructionBox");
-		instructions.GetComponent<Image> ().canvas.enabled = true;
 		//cwkTODO InputHandler is still handling the instructions button press, is that ok?
+		var instructionCanvas = GameObject.Find("InstructionCanvas").GetComponent<Canvas> ();
+		instructionCanvas.enabled = true;
 	}
 
 	private void GetNextSpellOrEndGame () {

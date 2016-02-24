@@ -254,7 +254,7 @@ public class Spell {
 			elementText.transform.Translate (textPositionOffset);
 			elementText.text = "OFFBEAT!";
 
-			Debug.Log (elementCircleName + " is OFFBEAT!");
+			//Debug.Log (elementCircleName + " is OFFBEAT!");
 		}
 	}
 
