@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class UserData : MonoBehaviour {
+public class UserDataManager : MonoBehaviour {
 
 	//cwkTODO short term solution
 	// just add the spell type to the list to show that the user beat it
@@ -37,7 +37,6 @@ public class UserData : MonoBehaviour {
 	}
 
 	private void SaveSpellResult (Spell spell) {
-		Debug.Log ("save spell result!");
 		var spellType = spell.GetType ().ToString ();
 
 		if (spell.State == SpellState.Win) {
