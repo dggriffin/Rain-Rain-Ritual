@@ -17,18 +17,18 @@ public class SpellBuilder : MonoBehaviour {
 		//StartSpell (); //StartSpell is started on the instruction button click/keypress
 	}
 
-	public void StartSpell(){
+	public void StartSpell(string spellType = null){
 		if (!isStarted) {
 			isStarted = true;
 
 			spellList = GameObject.Find ("SpellList").GetComponent<SpellList> ();
 
-			GetNextSpellOrEndGame ();
+			GetNextSpellOrEndGame (spellType);
 		} else {
 			// Only get the next spell if the current spell is done
 			// (i.e. in case this gets called when a spell is in progress, don't get the next spell yet)
 			if (curSpell != null && IsSpellOver (curSpell)) {
-				GetNextSpellOrEndGame ();
+				GetNextSpellOrEndGame (spellType);
 			} else {
 				//cwkTODO figure out why this happens!
 				//for some reason button click is called multiple times after spacebara is pressed on the instructions
@@ -82,8 +82,15 @@ public class SpellBuilder : MonoBehaviour {
 		instructionCanvas.enabled = true;
 	}
 
-	private void GetNextSpellOrEndGame () {
-		var nextSpell = spellList.GetNextSpell ();
+	private void GetNextSpellOrEndGame (string spellType = null) {
+		Spell nextSpell;
+
+		if (string.IsNullOrEmpty(spellType)) {
+			nextSpell = spellList.GetNextSpell ();
+		} else {
+			nextSpell = spellList.GetSpellOfType (spellType);
+		}
+
 		curSpell = nextSpell;
 
 		if (nextSpell != null) {
