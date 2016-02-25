@@ -13,15 +13,15 @@ public class RainSpell : Spell
 
 	protected override int NumTicksToWin {
 		get {
-			//return 20; // original
-			return 5; // easier setting for testing
+			return 20; // original
+			//return 5; // easier setting for testing
 		}
 	}
 
 	protected override int MaxTicksForSpell {
 		get {
-			//return 120; // original
-			return 120; // easier setting for testing
+			return 120; // original
+			//return 20; // easier setting for testing
 		}
 	}
 
