@@ -295,8 +295,10 @@ public class Spell {
 
 		numTicksElapsed++;
 		if (allElementsInRange ()) {
-			//Debug.Log ("*************************");
 			numTicksInRange++;
+			//Debug.Log ("Num Ticks in Range: " + numTicksInRange + "/" + NumTicksToWin);
+			var ticksLeft = NumTicksToWin - numTicksInRange;
+			Debug.Log ("Ticks left: " + ticksLeft);
 		} else {
 			numTicksInRange = 0;
 		}
