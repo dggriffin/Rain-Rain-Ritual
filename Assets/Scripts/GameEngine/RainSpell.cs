@@ -21,7 +21,7 @@ public class RainSpell : Spell
 	protected override int MaxTicksForSpell {
 		get {
 			//return 120; // original
-			return 20; // easier setting for testing
+			return 120; // easier setting for testing
 		}
 	}
 
@@ -36,8 +36,8 @@ public class RainSpell : Spell
 				//			new Element (ElementType.Wind, 25, 32, 0.5f)
 
 				//cwkTODO easier settings for testing
-				new Element (ElementType.Water, 5, 10, 1.0f),
-				new Element (ElementType.Wind, 5, 10, 0.5f)
+				new Element (ElementType.Water, 25, 32, 1.0f),
+				new Element (ElementType.Wind, 25, 32, 0.5f)
 			};
 			return elements;
 		}
