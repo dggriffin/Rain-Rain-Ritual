@@ -9,8 +9,8 @@ public class Spell {
 
 	private SpellState state = SpellState.NotStarted;
 
-	protected int numTicksToWin;
-	protected int maxTicksForSpell;
+	private int numTicksToWin;
+	private int maxTicksForSpell;
 	protected int numTicksInRange = 0;
 	protected int numTicksElapsed = 0;
 
@@ -34,11 +34,8 @@ public class Spell {
 	public delegate void StateChangeEvent(SpellState state, Spell spell);
 	public event StateChangeEvent OnStateChange;
 
-	public Spell(string name, int numTicksToWin, int maxTicksForSpell) {
+	public Spell(string name = null) {
 		this.name = name;
-
-		this.numTicksToWin = numTicksToWin;
-		this.maxTicksForSpell = maxTicksForSpell;
 
 		this.audioDict = GameObject.Find ("AudioDictionary").GetComponent<AudioDictionary> ();
 
@@ -57,7 +54,7 @@ public class Spell {
 	}
 
 	public void StartSpell () {
-		//Debug.Log (this.name + " START");
+		//Debug.Log (Name + " START");
 
 		InitializeGround ();
 
@@ -76,7 +73,7 @@ public class Spell {
 
 	//cwkTODO not sure if this is necessary
 	public void StopSpell () {
-		//Debug.Log (this.name + " STOP");
+		//Debug.Log (Name + " STOP");
 	}
 
 	public SpellState State { 
@@ -87,7 +84,22 @@ public class Spell {
 
 	public string Name {
 		get {
+			if (name == null) {
+				return this.GetType ().ToString ();
+			}
 			return name;
+		}
+	}
+
+	protected virtual int NumTicksToWin {
+		get {
+			return numTicksToWin;
+		}
+	}
+
+	protected virtual int MaxTicksForSpell {
+		get {
+			return maxTicksForSpell;
 		}
 	}
 
@@ -276,7 +288,7 @@ public class Spell {
 	}
 
 	private void RangeCheck() {
-		if (numTicksElapsed > maxTicksForSpell) {
+		if (numTicksElapsed > MaxTicksForSpell) {
 			lose ();
 			return;
 		}
@@ -291,14 +303,14 @@ public class Spell {
 
 		CenterObjectUpdate ();
 
-		if (numTicksInRange == numTicksToWin) {
+		if (numTicksInRange == NumTicksToWin) {
 			win ();
 			return;
 		}
 	}
 
 	private void win() {
-		Debug.Log (this.name + ": YOU WIN!" + "Elapsed: " + numTicksElapsed);
+		Debug.Log (Name + ": YOU WIN!" + "Elapsed: " + numTicksElapsed);
 		if (WinSound != null) {
 			WinSound.Play ();
 		}
@@ -317,7 +329,7 @@ public class Spell {
 	}
 
 	private void lose() {
-		Debug.Log (this.name + ": YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
+		Debug.Log (Name + ": YOU LOSE! (too many ticks) Elapsed: " + numTicksElapsed);
 		if (LoseSound != null) {
 			LoseSound.Play ();
 		}
@@ -360,7 +372,7 @@ public class Spell {
 	}
 
 	public void PrintElements () {
-		Debug.Log(string.Format("Spell: {0}", this.name));
+		Debug.Log(string.Format("Spell: {0}", Name));
 		foreach (var element in Elements) {
 			element.Value.Print ();
 		}

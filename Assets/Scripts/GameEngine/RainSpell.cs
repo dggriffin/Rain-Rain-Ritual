@@ -7,8 +7,22 @@ public class RainSpell : Spell
 	private GameObject cloud = null;
 	private GameObject rain = null;
 
-	public RainSpell (string name, int numTicksToWin, int maxTicksForSpell) 
-		: base(name, numTicksToWin, maxTicksForSpell) {
+	public RainSpell (string name = null) 
+		: base(name) {
+	}
+
+	protected override int NumTicksToWin {
+		get {
+			//return 20; // original
+			return 5; // easier setting for testing
+		}
+	}
+
+	protected override int MaxTicksForSpell {
+		get {
+			//return 120; // original
+			return 20; // easier setting for testing
+		}
 	}
 
 	protected override List<Element> ElementList {
@@ -48,7 +62,7 @@ public class RainSpell : Spell
 
 	protected override void CenterObjectUpdate () {
 		if (this.cloud != null) {
-			this.cloud.GetComponent<CloudBehavior> ().growResult (((float)numTicksInRange / (float)numTicksToWin) / 2f);
+			this.cloud.GetComponent<CloudBehavior> ().growResult (((float)numTicksInRange / (float)NumTicksToWin) / 2f);
 		}
 	}
 
