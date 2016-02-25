@@ -25,6 +25,20 @@ public class SpellList : MonoBehaviour {
 		return spells != null && curSpellIndex < spells.Count;
 	}
 
+	public Spell GetSpellOfType (string type) {
+		foreach (var spell in spells) {
+
+			curSpellIndex++;
+
+			var spellType = spell.GetType ().ToString ();
+			if (spellType == type) {
+				return spell;
+			}
+		}
+		return null;
+	}
+
+	//cwkTODO pass in a spell
 	//cwkTODO take into account user data
 	public Spell GetNextSpell () {
 		if (spells == null || spells.Count < 1 || curSpellIndex >= spells.Count) {
