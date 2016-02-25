@@ -14,6 +14,7 @@ public class SpellList : MonoBehaviour {
 		spells.Add (new DrizzleSpell ());
 		spells.Add (new ShowerSpell ());
 		spells.Add (new RainSpell ());
+		spells.Add (new RainbowSpell ());
 	}
 	
 	// Update is called once per frame
