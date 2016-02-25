@@ -27,6 +27,7 @@ public class Spell {
     private Text fireText = null;
 	private Text waterText = null;
 	private Text windText = null;
+	private Text tickCountText = null;
 
 	private GameObject winBox = null;
 	private GameObject loseBox = null;
@@ -183,6 +184,9 @@ public class Spell {
 
 		this.windText = GameObject.Find ("WindText").GetComponent<Text> ();
 		this.windText.text = "";
+
+		this.tickCountText = GameObject.Find ("TickCount").GetComponent<Text> ();
+		this.tickCountText.text = "";
 	}
 
 	private void ListenToEvents() {
@@ -295,12 +299,15 @@ public class Spell {
 
 		numTicksElapsed++;
 		if (allElementsInRange ()) {
-			numTicksInRange++;
-			//Debug.Log ("Num Ticks in Range: " + numTicksInRange + "/" + NumTicksToWin);
 			var ticksLeft = NumTicksToWin - numTicksInRange;
+			//Debug.Log ("Num Ticks in Range: " + numTicksInRange + "/" + NumTicksToWin);
 			Debug.Log ("Ticks left: " + ticksLeft);
+			this.tickCountText.text = ticksLeft.ToString();
+
+			numTicksInRange++;
 		} else {
 			numTicksInRange = 0;
+			this.tickCountText.text = "";
 		}
 
 		CenterObjectUpdate ();
@@ -415,6 +422,8 @@ public class Spell {
 		foreach (var element in Elements) {
 			element.Value.count = 0;
 		}
+
+		this.tickCountText.text = "";
 
 		NotifyStateChange ();
 
