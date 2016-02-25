@@ -11,9 +11,9 @@ public class SpellList : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//cwkTODO replace rain with other spells
-		spells.Add (CreateRainSpell ("rain1"));
-		spells.Add (CreateRainSpell ("rain2"));
-		spells.Add (CreateRainSpell ("rain3"));
+		spells.Add (new RainSpell ());
+		spells.Add (new RainSpell ());
+		spells.Add (new RainSpell ());
 	}
 	
 	// Update is called once per frame
@@ -71,15 +71,5 @@ public class SpellList : MonoBehaviour {
 		);
 
 		return gameResults;
-	}
-
-	private Spell CreateRainSpell (string name = "rain") {
-		//cwkTODO put back spell
-		//		var rain = new RainSpell ("rain", 20, 120);
-
-		//cwkTODO easier settings for testing
-		var rain = new RainSpell (name, 5, 20);
-
-		return rain;
 	}
 }
