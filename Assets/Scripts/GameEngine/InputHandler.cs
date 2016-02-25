@@ -64,12 +64,6 @@ public class InputHandler : MonoBehaviour {
 				ElementEvent (ElementType.Earth);
 				StartCoroutine (GameObject.Find ("EarthRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
-		} else if (Input.GetButton ("HideBox")) {
-//			//cwkTODO probably should support more than one button...
-//			theCloseButton = GameObject.FindObjectOfType<Button> (); //assumes only 1 close button will be active at a time
-//			if (theCloseButton != null) {
-//				theCloseButton.onClick.Invoke ();
-//			}
 		}
 	}
 
@@ -88,7 +82,7 @@ public class InputHandler : MonoBehaviour {
 			this.lastInput = inputTime;
 			//print("offBeat" + offbeats);
 			offbeats += 1;
-		ElementEvent (type, true);
+			ElementEvent (type, true);
 			return false;
 		}
 
