@@ -10,11 +10,9 @@ public class SpellList : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		spells.Add (new TutorialSpell ());
-		spells.Add (new DrizzleSpell ());
-		spells.Add (new ShowerSpell ());
 		spells.Add (new RainSpell ());
-		spells.Add (new RainbowSpell ());
+		spells.Add (new HealSpell ());
+		spells.Add (new WarSpell ());
 	}
 	
 	// Update is called once per frame

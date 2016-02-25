@@ -16,11 +16,11 @@ public class HideThisBox : MonoBehaviour {
 
     public void HideWinBox()
     {
-        var winCanvas = GameObject.Find("RainWinCanvas").GetComponent<Canvas>().enabled = false;
+        var winCanvas = GameObject.Find("WinCanvas").GetComponent<Canvas>().enabled = false;
     }
 
     public void HideLoseBox()
     {
-        var loseCanvas = GameObject.Find("RainLoseCanvas").GetComponent<Canvas>().enabled = false;
+        var loseCanvas = GameObject.Find("LoseCanvas").GetComponent<Canvas>().enabled = false;
     }
 }
