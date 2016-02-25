@@ -10,9 +10,9 @@ public class SpellList : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//cwkTODO replace rain with other spells
-		spells.Add (new RainSpell ());
-		spells.Add (new RainSpell ());
+		//cwkTODO add single element spells
+		spells.Add (new DrizzleSpell ());
+		spells.Add (new ShowerSpell ());
 		spells.Add (new RainSpell ());
 	}
 	
