@@ -6,8 +6,8 @@ public class LevelSelect : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//cwkTODO HACK remove this
-		var instructionCanvas = GameObject.Find("InstructionCanvas").GetComponent<Canvas> ();
-		instructionCanvas.enabled = false;
+//		var instructionCanvas = GameObject.Find("InstructionCanvas").GetComponent<Canvas> ();
+//		instructionCanvas.enabled = false;
 	}
 	
 	// Update is called once per frame

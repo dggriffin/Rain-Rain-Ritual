@@ -24,8 +24,8 @@ public class DrizzleSpell : RainSpell
 	protected override List<Element> ElementList {
 		get {
 			var elements = new List<Element> () {
-				new Element (ElementType.Water, 5, 15, 1.0f),
-				new Element (ElementType.Wind, 5, 15, 0.5f)
+				new Element (ElementType.Water, 5, 10, 1.0f),
+				new Element (ElementType.Wind, 5, 10, 0.5f)
 			};
 			return elements;
 		}
