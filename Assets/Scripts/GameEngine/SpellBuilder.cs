@@ -9,6 +9,9 @@ public class SpellBuilder : MonoBehaviour {
 	private SpellList spellList = null;
 	private Spell curSpell = null;
 
+    public GameObject winBox;
+    public GameObject loseBox;
+
 	public delegate void SpellCompleteEvent (Spell spell);
 	public event SpellCompleteEvent OnSpellComplete;
 
@@ -46,6 +49,17 @@ public class SpellBuilder : MonoBehaviour {
 			if (OnSpellComplete != null) {
 				OnSpellComplete (spell);
 			}
+
+            if(state == SpellState.Win)
+            {
+                winBox.SetActive(true);
+                winBox.GetComponent<Canvas>().enabled = true;
+            }
+            else if(state == SpellState.Lose)
+            {
+                loseBox.SetActive(true);
+                loseBox.GetComponent<Canvas>().enabled = true;
+            }
 
 			// Ref: http://answers.unity3d.com/questions/350721/c-yield-waitforseconds.html
 			StartCoroutine (WaitThenShowNextInstructions (spell));
