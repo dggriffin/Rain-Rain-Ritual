@@ -301,7 +301,7 @@ public class Spell {
 		if (allElementsInRange ()) {
 			var ticksLeft = NumTicksToWin - numTicksInRange;
 			//Debug.Log ("Num Ticks in Range: " + numTicksInRange + "/" + NumTicksToWin);
-			Debug.Log ("Ticks left: " + ticksLeft);
+			//Debug.Log ("Ticks left: " + ticksLeft);
 			this.tickCountText.text = ticksLeft.ToString();
 
 			numTicksInRange++;
