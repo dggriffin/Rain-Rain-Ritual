@@ -17,7 +17,7 @@ public class HideThisBox : MonoBehaviour {
     public void HideWinBox()
     {
 		var winCanvas = GameObject.Find ("WinCanvas").GetComponent<Canvas> ();
-		loseCanvas.enabled = false;
+		winCanvas.enabled = false;
     }
 
     public void HideLoseBox()
