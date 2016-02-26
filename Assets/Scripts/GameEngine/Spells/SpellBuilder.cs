@@ -18,6 +18,9 @@ public class SpellBuilder : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//StartSpell (); //StartSpell is started on the instruction button click/keypress
+
+		winBox.GetComponent<Canvas>().enabled = false;
+		loseBox.GetComponent<Canvas>().enabled = false;
 	}
 
 	public void StartSpell(string spellType = null){
@@ -52,12 +55,10 @@ public class SpellBuilder : MonoBehaviour {
 
             if(state == SpellState.Win)
             {
-                winBox.SetActive(true);
                 winBox.GetComponent<Canvas>().enabled = true;
             }
             else if(state == SpellState.Lose)
             {
-                loseBox.SetActive(true);
                 loseBox.GetComponent<Canvas>().enabled = true;
             }
 
