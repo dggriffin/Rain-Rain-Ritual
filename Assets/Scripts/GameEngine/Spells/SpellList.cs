@@ -6,18 +6,30 @@ public class SpellList : MonoBehaviour {
 
 	private int curSpellIndex = 0;
 
-	private List<Spell> spells = new List<Spell> ();
+	private List<Spell> spells;
 
 	// Use this for initialization
 	void Start () {
-		spells.Add (new RainSpell ());
-		spells.Add (new HealSpell ());
-		spells.Add (new WarSpell ());
+		InitializeSpells ();
 	}
-	
+
+	private void InitializeSpells () {
+		spells = null;
+		spells = new List<Spell> ();
+
+		spells.Add (new RainSpell ());
+		//spells.Add (new HealSpell ());
+		//spells.Add (new WarSpell ());
+	}
+
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void Reset () {
+		curSpellIndex = 0;
+		InitializeSpells ();
 	}
 
 	public bool HasNextSpell () {

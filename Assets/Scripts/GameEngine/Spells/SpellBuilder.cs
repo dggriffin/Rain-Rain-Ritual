@@ -23,8 +23,22 @@ public class SpellBuilder : MonoBehaviour {
 		loseBox.GetComponent<Canvas>().enabled = false;
 	}
 
-	public void StartSpell(string spellType = null){
-		if (!isStarted) {
+	// Re-initialize everything!
+	public void StartNewSpell (string spellType = null) {
+		winBox.GetComponent<Canvas>().enabled = false;
+		loseBox.GetComponent<Canvas>().enabled = false;
+
+		isStarted = false;
+		curSpell = null;
+
+		spellList = GameObject.Find ("SpellList").GetComponent<SpellList> ();
+		spellList.Reset ();
+
+		ShowInstructions ();
+	}
+
+	public void StartSpell (string spellType = null){
+  		if (!isStarted) {
 			isStarted = true;
 
 			spellList = GameObject.Find ("SpellList").GetComponent<SpellList> ();
@@ -41,7 +55,6 @@ public class SpellBuilder : MonoBehaviour {
 				//Debug.Log ("somebody called start spell when the current spell is in progress");
 			}
 		}
-
 	}
 
 	private void OnSpellOver (SpellState state, Spell spell) {
@@ -53,11 +66,11 @@ public class SpellBuilder : MonoBehaviour {
 				OnSpellComplete (spell);
 			}
 
-            if(state == SpellState.Win)
+            if (state == SpellState.Win)
             {
                 winBox.GetComponent<Canvas>().enabled = true;
             }
-            else if(state == SpellState.Lose)
+            else if (state == SpellState.Lose)
             {
                 loseBox.GetComponent<Canvas>().enabled = true;
             }
