@@ -64,6 +64,12 @@ public class InputHandler : MonoBehaviour {
 				ElementEvent (ElementType.Earth);
 				StartCoroutine (GameObject.Find ("EarthRipple").GetComponent<RippleEffect> ().Ripple ());
 			}
+		} else if (Input.GetKeyDown("space")) { //cwkTODO figure out how to just listen on the canvas
+			var instructionCanvas = GameObject.Find("InstructionCanvas").GetComponent<Canvas> ();
+			if (instructionCanvas.enabled) {
+				var instructionBox = GameObject.Find ("RainInstructionBox"); //cwkTODO hard coded to rain :(
+				instructionBox.GetComponent<Button> ().onClick.Invoke ();
+			}
 		}
 	}
 
